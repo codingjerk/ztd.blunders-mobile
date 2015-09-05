@@ -20,7 +20,9 @@
         <script type="text/javascript" src="third-party/chessboard-js/js/chessboard.min.js"></script>
 
         <script type="text/javascript">
-            var board = new Chessboard('board');
+            document.addEventListener("DOMContentLoaded", function(event) { 
+                var board = new Chessboard('board');
+            });
         </script>
     </body>
 </html>
