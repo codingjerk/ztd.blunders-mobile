@@ -62,17 +62,11 @@ div.title {
 }
 
 #game-status {
-    color: #dedede;
-    border-color: #555555;
-    border-radius: 2px;
-    background-color: #333333;
-    padding: 0.7em 1.5em;
-
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-
-    text-align: center;
+    border: 1px solid #555;
+    width: 1.7em;
+    height: 1.7em;
+    border-radius: 50%;
+    background-color: #333;
 }
 
 #control-buttons {
