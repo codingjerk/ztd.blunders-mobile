@@ -7,7 +7,7 @@
     <author email="support@blunders.ztd.io" href="http://blunders.ztd.io">
         Ztd Team
     </author>
-    <content src="index.html" />
+    <content src="training.html" />
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
     <preference name="target-device" value="universal" />
