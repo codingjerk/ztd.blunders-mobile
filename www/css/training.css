@@ -6,12 +6,16 @@ html, body {
 }
 
 header {
-    color: #dedede;
-    font-size: 1.1em;
-    padding: 1.0em 0.8em;
+    font-size: 1.2em;
+
+    padding: 0 0.8em;
     width: inherit;
-    background-color: #0f6bb4;
+    line-height: 70px;
     margin-bottom: 2px;
+
+    color: #dedede;
+    background-color: #0f6bb4;
+    white-space: nowrap;
 }
 
 header > i.fa-bars {
