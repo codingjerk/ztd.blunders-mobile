@@ -1,3 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", function(event) {
+    $("#pages").dragend();
     var board = new Chessboard('board');
 });
