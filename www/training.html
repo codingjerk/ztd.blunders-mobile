@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="third-party/chessboard-js/css/chessboard.min.css">
         <link rel="stylesheet" type="text/css" href="css/training.css">
+        <link rel="stylesheet" type="text/css" href="css/grid.css">
 
         <title>Ztd.Blunders Mobile</title>
     </head>
@@ -20,7 +21,7 @@
             <div class="dragend-page">
                 <div id="game-header">
                     <a id="favorite-button"><i id="favorite-icon" class="fa fa-star-o"></i></a>
-                    <b>Grzincic, Tihana</b> - <b>Zecevic, Nada</b>
+                    <b id="white-player">???</b> - <b id="black-player">???</b>
                 </div>
 
                 <div id="board-container"> 
@@ -29,28 +30,31 @@
 
                 <table id="game-status-container">
                     <tr id="game-status-container-row">
-                        <td><div id="game-status"></div></td>
-                        <td id="control-buttons">
-                            <a id="dislike-button"><i class="fa fa-thumbs-down"></i></a>
-                            <a id="like-button"><i class="fa fa-thumbs-up"></i></a>
+                        <td class="social-button-container">
+                            <a><i class="fa fa-thumbs-down"></i></a>
+                        </td>
+                        <td>
+                            <div id="game-status">Failed. Next <i class="fa fa-angle-double-right"></i></div>
+                        </td>
+                        <td class="social-button-container">
+                            <a><i class="fa fa-thumbs-up"></i></a>
                         </td>
                     </tr>
                 </table>
             </div>
 
             <div class="dragend-page">
-                <h1>INFO HERE</h1>
-                <h1>INFO HERE</h1>
-                <h1>INFO HERE</h1>
-                <h1>INFO HERE</h1>
-                <h1>INFO HERE</h1>
-                <h1>INFO HERE</h1>
+                <div id="info-page">
+                </div>
             </div>
         </div>
 
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <script type="text/javascript" src="third-party/dragend/dist/dragend.min.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/grid.js"></script>
         <script type="text/javascript" src="third-party/chessboard-js/js/chessboard.min.js"></script>
+        <script type="text/javascript" src="third-party/chess.js/chess.min.js"></script>
         <script type="text/javascript" src="js/training.js"></script>
     </body>
 </html>

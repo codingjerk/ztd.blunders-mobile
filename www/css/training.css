@@ -62,11 +62,31 @@ div.title {
 }
 
 #game-status {
-    border: 1px solid #555;
-    width: 1.7em;
-    height: 1.7em;
-    border-radius: 50%;
-    background-color: #333;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+
+    padding-top: 7px;
+    padding-bottom: 7px;
+
+    padding-left: 30px;
+    padding-right: 30px;
+
+    color: #ffffff;
+
+    border-color: rgb(212, 63, 58);
+    background-color: rgb(217, 83, 79);
+
+    text-align: center;
+
+    margin-left: 1.5em;
+    margin-right: 1.5em; 
+}
+
+.social-button-container {
+    text-align: center;
+    font-size: 1.6em; 
+    color: #333;
 }
 
 #control-buttons {
@@ -77,6 +97,10 @@ div.title {
     font-size: 1.7em;
     color: #333;
     margin-left: 0.5em;
+}
+
+#info-page {
+    margin: 0.5em;
 }
 
 /* =========================== board part =========================== */
