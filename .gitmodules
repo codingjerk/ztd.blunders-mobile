@@ -1,3 +1,9 @@
 [submodule "www/third-party/chessboard-js"]
 	path = www/third-party/chessboard-js
 	url = https://github.com/caustique/chessboard-js.git
+[submodule "www/third-party/dragend"]
+	path = www/third-party/dragend
+	url = https://github.com/Stereobit/dragend.git
+[submodule "www/third-party/chess.js"]
+	path = www/third-party/chess.js
+	url = https://github.com/jhlywa/chess.js.git
