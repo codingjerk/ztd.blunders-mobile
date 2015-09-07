@@ -1,4 +1,6 @@
 (function() {
+    'use strict';
+
     (function prepareLibs() {
         $("#pages").dragend();
         $.support.cors = true;
@@ -76,24 +78,28 @@
         }
 
         function startGame(blunder) {
-            // @TODO: move to makeMove
             var game = new Chess(blunder.fenBefore);
-            move = game.move(blunder.blunderMove);
-
-            var turnStatus = (game.turn() === 'w')? 'white-move': 'black-move';
-            updateStatus(turnStatus);
-            // @TODO: highlightMove(move)
-
             var board = new Chessboard(
                 'board', 
                 {
-                    position: game.fen(),
+                    position: blunder.fenBefore,
                     eventHandlers: {
                         onPieceSelected: pieceSelected,
                         onMove: pieceMove
                     }
                 }
             );
+
+            makeAiMove(blunder.blunderMove);
+
+            function makeAiMove(move) {
+                var chessMove = game.move(move);
+                board.setPosition(game.fen());
+                var turnStatus = (game.turn() === 'w')? 'white-move': 'black-move';
+                updateStatus(turnStatus);
+
+                // @TODO: highlightMove(chessMove);
+            }
 
             function checkLines() {
                 var rightLine = [blunder.blunderMove].concat(blunder.forcedLine);
@@ -119,8 +125,8 @@
                 return game.fen();
             }
 
-            function pieceSelected(notationSquare) {
-                return game.moves({square: notationSquare, verbose: true}).map(function(e) {
+            function pieceSelected(square) {
+                return game.moves({square: square, verbose: true}).map(function(e) {
                     return ChessUtils.convertNotationSquareToIndex(e.to);
                 });
             }
