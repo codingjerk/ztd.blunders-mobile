@@ -120,16 +120,9 @@
             }
 
             function pieceSelected(notationSquare) {
-                var i,
-                    movesNotation,
-                    movesPosition = [];
-
-                movesNotation = game.moves({square: notationSquare, verbose: true});
-                for (i = 0; i < movesNotation.length; i++) {
-                    movesPosition.push(ChessUtils.convertNotationSquareToIndex(movesNotation[i].to));
-                }
-
-                return movesPosition;
+                return game.moves({square: notationSquare, verbose: true}).map(function(e) {
+                    return ChessUtils.convertNotationSquareToIndex(e.to);
+                });
             }
         }
 
