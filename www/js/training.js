@@ -58,10 +58,30 @@
             });
         }
 
+        function updateStatus(status) {
+            var gs = $('#game-status');
+            if (status === 'fail') {
+                gs.removeClass().addClass("failed-status");
+                gs.html('Fail. Next <i class="fa fa-angle-double-right"></i>');
+            } else if (status === 'success') {
+                gs.removeClass().addClass('success-status');
+                gs.html('Success. Next <i class="fa fa-angle-double-right"></i>');
+            } else if (status === 'white-move') {
+                gs.removeClass().addClass('white-to-move-status');
+                gs.html('White to move');
+            } else if (status === 'black-move') {
+                gs.removeClass().addClass('black-to-move-status');
+                gs.html('Black to move');
+            }
+        }
+
         function startGame(blunder) {
             // @TODO: move to makeMove
             var game = new Chess(blunder.fenBefore);
             move = game.move(blunder.blunderMove);
+
+            var turnStatus = (game.turn() === 'w')? 'white-move': 'black-move';
+            updateStatus(turnStatus);
             // @TODO: highlightMove(move)
 
             var board = new Chessboard(
@@ -75,6 +95,18 @@
                 }
             );
 
+            function checkLines() {
+                var rightLine = [blunder.blunderMove].concat(blunder.forcedLine);
+                var userLine = game.history();
+                var rightLineTruncated = rightLine.slice(0, userLine.length);
+
+                if (userLine.toString() !== rightLineTruncated.toString()) {
+                    updateStatus('fail');
+                } else if (userLine.toString() === rightLine.toString()) {
+                    updateStatus('success');
+                }
+            }
+
             function pieceMove(move) {
                 game.move({
                     from: move.from,
@@ -82,8 +114,7 @@
                     promotion: 'q'
                 });
 
-                console.log(game.history());
-                console.log([blunder.blunderMove].concat(blunder.forcedLine));
+                checkLines();
 
                 return game.fen();
             }

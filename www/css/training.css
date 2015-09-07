@@ -66,21 +66,49 @@ div.title {
     border-style: solid;
     border-width: 1px;
 
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-top: 9px;
+    padding-bottom: 9px;
 
     padding-left: 30px;
     padding-right: 30px;
 
-    color: #ffffff;
-
-    border-color: rgb(212, 63, 58);
-    background-color: rgb(217, 83, 79);
-
     text-align: center;
 
     margin-left: 1.5em;
-    margin-right: 1.5em; 
+    margin-right: 1.5em;
+
+    color: #fff;
+
+    border-color: #0f4ba4;
+    background-color: #0f6bb4;
+}
+
+.failed-status {
+    color: #ffffff !important;
+
+    border-color: rgb(212, 63, 58) !important;
+    background-color: rgb(217, 83, 79) !important;
+}
+
+.success-status {
+    color: #ffffff !important;
+
+    border-color: #1b926c !important;
+    background-color: #1fa67a !important;
+}
+
+.black-to-move-status {
+    color: #fff !important;
+
+    border-color: #555 !important;
+    background-color: #444 !important;
+}
+
+.white-to-move-status {
+    color: #333 !important;
+
+    border-color: #ddd !important;
+    background-color: #f0f0f0 !important;
 }
 
 .social-button-container {
