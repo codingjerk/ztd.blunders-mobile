@@ -60,24 +60,14 @@
             });
         }
 
-        function updateStatus(status) {
-            var gs = $('#game-status');
-            if (status === 'fail') {
-                gs.removeClass().addClass("failed-status");
-                gs.html('Fail. Next <i class="fa fa-angle-double-right"></i>');
-            } else if (status === 'success') {
-                gs.removeClass().addClass('success-status');
-                gs.html('Success. Next <i class="fa fa-angle-double-right"></i>');
-            } else if (status === 'white-move') {
-                gs.removeClass().addClass('white-to-move-status');
-                gs.html('White to move');
-            } else if (status === 'black-move') {
-                gs.removeClass().addClass('black-to-move-status');
-                gs.html('Black to move');
-            }
-        }
-
         function startGame(blunder) {
+            var highlightClasses = [
+                'ai-move-hightlight',
+                'player-move-hightlight',
+                'success-move-hightlight',
+                'fail-move-hightlight'
+            ];
+
             var game = new Chess(blunder.fenBefore);
             var board = new Chessboard(
                 'board', 
@@ -92,13 +82,49 @@
 
             makeAiMove(blunder.blunderMove);
 
+            function updateStatus(status) {
+                var gs = $('#game-status');
+                if (status === 'fail') {
+                    gs.removeClass().addClass("failed-status");
+                    gs.html('Fail. Next <i class="fa fa-angle-double-right"></i>');
+                } else if (status === 'success') {
+                    gs.removeClass().addClass('success-status');
+                    gs.html('Success. Next <i class="fa fa-angle-double-right"></i>');
+                } else if (status === 'white-move') {
+                    gs.removeClass().addClass('white-to-move-status');
+                    gs.html('White to move');
+                } else if (status === 'black-move') {
+                    gs.removeClass().addClass('black-to-move-status');
+                    gs.html('Black to move');
+                }
+            }
+
+            function removeAllHightlints() {
+                highlightClasses.forEach(function(c) {
+                    $('.' + c).removeClass(c);
+                })
+            }
+
+            function highlightSquare(square, highlightClass) {
+                var squareToId = ChessUtils.convertNotationSquareToIndex
+                var squareId = 'board_chess_square_' + squareToId(square);
+                $('#' + squareId).addClass(highlightClass);
+            }
+
+            function highlightMove(move, highlightClass) {
+                removeAllHightlints();
+
+                highlightSquare(move.from, highlightClass);
+                highlightSquare(move.to, highlightClass);
+            }
+
             function makeAiMove(move) {
                 var chessMove = game.move(move);
                 board.setPosition(game.fen());
                 var turnStatus = (game.turn() === 'w')? 'white-move': 'black-move';
                 updateStatus(turnStatus);
 
-                // @TODO: highlightMove(chessMove);
+                highlightMove(chessMove, 'ai-move-hightlight');
             }
 
             function checkLines() {
@@ -108,19 +134,30 @@
 
                 if (userLine.toString() !== rightLineTruncated.toString()) {
                     updateStatus('fail');
+                    return 'fail';
                 } else if (userLine.toString() === rightLine.toString()) {
                     updateStatus('success');
+                    return 'success';
                 }
+
+                return 'in-progress';
             }
 
             function pieceMove(move) {
-                game.move({
+                var chessMove = game.move({
                     from: move.from,
                     to: move.to,
                     promotion: 'q'
                 });
 
-                checkLines();
+                var gameStatus = checkLines();
+                if (gameStatus === 'fail') {
+                    highlightMove(chessMove, 'fail-move-hightlight');
+                } else if (gameStatus === 'success') {
+                    highlightMove(chessMove, 'success-move-hightlight');
+                } else {
+                    highlightMove(chessMove, 'player-move-hightlight');
+                }
 
                 return game.fen();
             }
