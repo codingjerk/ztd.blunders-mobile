@@ -104,7 +104,6 @@
             );
 
             makeAiMove(blunder.blunderMove);
-            board.enableUserInput(true);
 
             function updateStatus(statusName) {
                 var status = gameStatusList[statusName];
