@@ -200,7 +200,7 @@ div.chess_board div.chess_player_white.chess_piece_pawn:after {
 }
 
 div.chess_board div.chess_player_white.chess_piece_pawn {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/wP.png');
+    background-image: url('../img/wP.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_knight:after {
@@ -208,7 +208,7 @@ div.chess_board div.chess_player_white.chess_piece_knight:after {
 }
 
 div.chess_board div.chess_player_white.chess_piece_knight {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/wN.png');
+    background-image: url('../img/wN.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_bishop:after {
@@ -216,7 +216,7 @@ div.chess_board div.chess_player_white.chess_piece_bishop:after {
 }
 
 div.chess_board div.chess_player_white.chess_piece_bishop {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/wB.png');
+    background-image: url('../img/wB.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_rook:after {
@@ -224,7 +224,7 @@ div.chess_board div.chess_player_white.chess_piece_rook:after {
 }
 
 div.chess_board div.chess_player_white.chess_piece_rook {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/wR.png');
+    background-image: url('../img/wR.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_queen:after {
@@ -232,7 +232,7 @@ div.chess_board div.chess_player_white.chess_piece_queen:after {
 }
 
 div.chess_board div.chess_player_white.chess_piece_queen {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/wQ.png');
+    background-image: url('../img/wQ.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_king:after {
@@ -240,7 +240,7 @@ div.chess_board div.chess_player_white.chess_piece_king:after {
 }
 
 div.chess_board div.chess_player_white.chess_piece_king {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/wK.png');
+    background-image: url('../img/wK.svg');
 }
 
 /* black pieces */
@@ -249,7 +249,7 @@ div.chess_board div.chess_player_black.chess_piece_pawn:after {
 }
 
 div.chess_board div.chess_player_black.chess_piece_pawn {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/bP.png');
+    background-image: url('../img/bP.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_knight:after {
@@ -257,7 +257,7 @@ div.chess_board div.chess_player_black.chess_piece_knight:after {
 }
 
 div.chess_board div.chess_player_black.chess_piece_knight {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/bN.png');
+    background-image: url('../img/bN.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_bishop:after {
@@ -265,7 +265,7 @@ div.chess_board div.chess_player_black.chess_piece_bishop:after {
 }
 
 div.chess_board div.chess_player_black.chess_piece_bishop {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/bB.png');
+    background-image: url('../img/bB.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_rook:after {
@@ -273,7 +273,7 @@ div.chess_board div.chess_player_black.chess_piece_rook:after {
 }
 
 div.chess_board div.chess_player_black.chess_piece_rook {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/bR.png');
+    background-image: url('../img/bR.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_queen:after {
@@ -281,7 +281,7 @@ div.chess_board div.chess_player_black.chess_piece_queen:after {
 }
 
 div.chess_board div.chess_player_black.chess_piece_queen {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/bQ.png');
+    background-image: url('../img/bQ.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_king:after {
@@ -289,5 +289,5 @@ div.chess_board div.chess_player_black.chess_piece_king:after {
 }
 
 div.chess_board div.chess_player_black.chess_piece_king {
-    background-image: url('http://ztd.io/static/third-party/chessboardjs/img/chesspieces/alpha/bK.png');
+    background-image: url('../img/bK.svg');
 }
