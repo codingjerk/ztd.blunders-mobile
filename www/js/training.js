@@ -112,6 +112,10 @@
                 board.enableUserInput(!status.terminate);
                 statusView.removeClass().addClass(status.viewClass);
                 statusView.html(status.viewText);
+
+                if (status.terminate) {
+                    addNextBlunderListener(statusView);
+                }
             }
 
             function removeAllHightlints() {
@@ -185,6 +189,13 @@
                 return game.moves({square: square, verbose: true}).map(function(e) {
                     return ChessUtils.convertNotationSquareToIndex(e.to);
                 });
+            }
+
+            function addNextBlunderListener(view) {
+                view.on('click', function() {
+                    getBlunder(startGame);
+                    view.off('click');
+                })
             }
         }
 
