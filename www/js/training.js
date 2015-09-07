@@ -80,6 +80,7 @@
                 }
             );
 
+            console.log(blunder.forcedLine);
             makeAiMove(blunder.blunderMove);
 
             function updateStatus(status) {
@@ -157,6 +158,10 @@
                     highlightMove(chessMove, 'success-move-hightlight');
                 } else {
                     highlightMove(chessMove, 'player-move-hightlight');
+
+                    setTimeout(function() {
+                        makeAiMove(blunder.forcedLine[game.history().length - 1]);
+                    }, 100);
                 }
 
                 return game.fen();

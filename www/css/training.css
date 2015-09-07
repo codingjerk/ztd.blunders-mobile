@@ -124,7 +124,7 @@ div.title {
 }
 
 .success-move-hightlight {
-    box-shadow: 0 0 100em 100em rgba(10,235,50,0.6); inset;
+    box-shadow: 0 0 100em 100em rgba(10,235,50,0.6) inset;
 }
 
 .social-button-container {
