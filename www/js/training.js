@@ -68,6 +68,29 @@
                 'fail-move-hightlight'
             ];
 
+            var gameStatusList = {
+                'fail': {
+                    terminate: true,
+                    viewClass: 'failed-status',
+                    viewText:  'Fail. Next <i class="fa fa-angle-double-right"></i>'
+                },
+                'success': {
+                    terminate: true,
+                    viewClass: 'success-status',
+                    viewText:  'Success. Next <i class="fa fa-angle-double-right"></i>'
+                },
+                'white-move': {
+                    terminate: false,
+                    viewClass: 'white-to-move-status',
+                    viewText:  'White to move'
+                },
+                'black-move': {
+                    terminate: false,
+                    viewClass: 'black-to-move-status',
+                    viewText:  'Black to move'
+                }
+            }
+
             var game = new Chess(blunder.fenBefore);
             var board = new Chessboard(
                 'board', 
@@ -80,24 +103,16 @@
                 }
             );
 
-            console.log(blunder.forcedLine);
             makeAiMove(blunder.blunderMove);
+            board.enableUserInput(true);
 
-            function updateStatus(status) {
-                var gs = $('#game-status');
-                if (status === 'fail') {
-                    gs.removeClass().addClass("failed-status");
-                    gs.html('Fail. Next <i class="fa fa-angle-double-right"></i>');
-                } else if (status === 'success') {
-                    gs.removeClass().addClass('success-status');
-                    gs.html('Success. Next <i class="fa fa-angle-double-right"></i>');
-                } else if (status === 'white-move') {
-                    gs.removeClass().addClass('white-to-move-status');
-                    gs.html('White to move');
-                } else if (status === 'black-move') {
-                    gs.removeClass().addClass('black-to-move-status');
-                    gs.html('Black to move');
-                }
+            function updateStatus(statusName) {
+                var status = gameStatusList[statusName];
+                var statusView = $('#game-status');
+
+                board.enableUserInput(!status.terminate);
+                statusView.removeClass().addClass(status.viewClass);
+                statusView.html(status.viewText);
             }
 
             function removeAllHightlints() {
@@ -161,7 +176,7 @@
 
                     setTimeout(function() {
                         makeAiMove(blunder.forcedLine[game.history().length - 1]);
-                    }, 100);
+                    }, 500);
                 }
 
                 return game.fen();
