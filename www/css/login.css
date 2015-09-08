@@ -1,0 +1,64 @@
+body {
+    background-color: #0f6bb4;
+}
+
+header {
+    border-bottom: 1px solid #0f4b94;
+}
+
+#login-page, #signup-page {
+    margin: 1em;
+
+    margin-top: 3em;
+
+    text-align: center;
+}
+
+#new-user-greeting {
+    font-size: 1.0em;
+    color: #eee;
+    margin-top: 1em;
+}
+
+#login-username, #login-password, #signup-username, #signup-password, #signup-email {
+    font-size: 1.05em;
+    padding: 0.4em;
+    margin: 0.3em;
+
+    border: 1px solid #dedede;
+    border-radius: 3px;
+
+    color: #555;
+}
+
+#login-button, #signup-button, #go-to-signup-button {
+    display: inline-block;
+
+    padding: 0.5em 2.2em;
+    margin: 0.9em 0;
+
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+#login-button:hover, #signup-button:hover, #go-to-signup-button:hover {
+    background-color: #eee;
+    border-color: #efefef;
+
+    color: rgb(37,172,77);
+}
+
+#login-button, #signup-button {
+    color: #eee;
+    font-size: 1.1em;
+
+    background-color: rgb(37,172,77);
+    border-color: rgb(57,172,37);
+}
+
+#go-to-signup-button {
+    color: #ddd;
+    font-size: 1.05em;
+
+    border-color: #ddd;
+}
