@@ -12,7 +12,7 @@
     (function initGame() {
         function getBlunder(next) {
             $.ajax({
-                url: "http://blunders.ztd.io/api/blunder/get",
+                url: 'http://{0}/api/blunder/get'.format(app.settings.server),
                 method: 'POST',
                 crossDomain: true,
                 contentType: 'application/json',
@@ -21,7 +21,7 @@
                     var data = result.data;
 
                     $.ajax({
-                        url: "http://blunders.ztd.io/api/blunder/info",
+                        url: ('http://{0}/api/blunder/info').format(app.settings.server),
                         method: 'POST',
                         crossDomain: true,
                         contentType: 'application/json',
@@ -56,6 +56,24 @@
                     });
 
                     next(data);
+                }
+            });
+        }
+
+        function validateBlunder(pv, blunder, next) {
+            $.ajax({
+                url: ('http://{0}/api/blunder/validate').format(app.settings.server),
+                method: 'POST',
+                crossDomain: true,
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: blunder.id,
+                    line: pv,
+                    spentTime: 0,
+                    type: 'rated'
+                }),
+                success: function(result) {
+                    next();
                 }
             });
         }
@@ -114,7 +132,9 @@
                 statusView.html(status.viewText);
 
                 if (status.terminate) {
-                    addNextBlunderListener(statusView);
+                    validateBlunder(game.history(), blunder, function() {
+                        addNextBlunderListener(statusView);
+                    });
                 }
             }
 
