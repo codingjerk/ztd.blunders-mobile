@@ -21,9 +21,11 @@ header {
 }
 
 #login-username, #login-password, #signup-username, #signup-password, #signup-email {
+    display: block;
+
     font-size: 1.05em;
     padding: 0.4em;
-    margin: 0.3em;
+    margin: 0.3em auto;
 
     border: 1px solid #dedede;
     border-radius: 3px;
