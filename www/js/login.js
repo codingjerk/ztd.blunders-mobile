@@ -1,6 +1,10 @@
 (function() {
     'use strict';
 
+    if (localStorage.getItem('api-token')) {
+        location.replace('training.html');
+    }
+
     (function prepareLibs() {
         $("#pages").dragend();
 
@@ -16,18 +20,17 @@
 
         $('#login-button').on('click', function() {
             $.ajax({
-                url: 'http://{0}/api/session/login'.format(app.settings.server),
+                url: 'http://{0}/{1}/session/login'.format(app.settings.server, app.settings.pathToApi),
                 method: 'POST',
                 crossDomain: true,
                 contentType: 'application/json',
                 data: JSON.stringify({
                     username: $('#login-username').val(),
-                    password: $('#login-password').val()
+                    password: $('#login-password').val(),
                 }),
                 success: function(result) {
-                    // @TODO: Do something with cookies
-                    console.log(result);
                     if (result.status === 'ok') {
+                        localStorage.setItem('api-token', result.token);
                         location.replace('training.html');
                     }
                 }

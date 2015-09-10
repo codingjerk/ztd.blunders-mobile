@@ -16,7 +16,7 @@ header {
     white-space: nowrap;
 }
 
-header > i.fa-bars {
+#menu-button {
     margin-right: 1.5em;
 }
 

@@ -1,5 +1,52 @@
 /* =========================== training part =========================== */
 
+header {
+    border-bottom: 1px solid #0f4b94;
+    margin-bottom: 0;
+}
+
+.menu-page-hand-setted-class {
+    height: calc(100vh - 70px);
+    background-color: #0f6bb4;
+
+    width: 70%;
+    margin-right: 30%;
+
+    border-right: 1px solid #0f4b94;
+    
+    box-shadow: 5px 5px 100px 0px #333;
+}
+
+#menu-page {
+    height: 100%;
+    text-align: center;
+}
+
+#logout-button {
+    display: inline-block;
+
+    padding: 0.5em 2.2em;
+
+    margin: 0.9em 0;
+    margin-top: 5em;
+
+    border: 1px solid;
+    border-radius: 3px;
+
+    color: #eee;
+    font-size: 1.1em;
+
+    background-color: rgb(37,172,77);
+    border-color: rgb(57,172,37);
+}
+
+#logout-button:hover {
+    background-color: #eee;
+    border-color: #efefef;
+
+    color: rgb(37,172,77);
+}
+
 #game-header {
     text-align: center;
     padding: 0.8em 1.2em;

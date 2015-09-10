@@ -2,30 +2,65 @@
     'use strict';
 
     (function prepareLibs() {
-        $("#pages").dragend();
+        $("#pages").dragend({
+            page: 2,
+            afterInitialize: function() {
+                $('#menu-page').addClass('menu-page-hand-setted-class');
+            }
+        });
+
         $.support.cors = true;
 
         // @TODO: reserve space instead creating dummy board
         new Chessboard('board', ChessUtils.FEN.emptyId);
     })();
 
+    function getTokenAndRedirectIfNotExist() {
+        var result = localStorage.getItem('api-token');
+
+        if (!result) {
+            location.replace('login.html');
+        }
+
+        return result;
+    }
+
+    (function setupListeners() {
+        $('#menu-button').on('click', function() {
+            $('#pages').dragend({
+                scrollToPage: 1
+            });
+        });
+
+        $('#logout-button').on('click', function() {
+            localStorage.removeItem('api-token');
+            location.replace('login.html');
+        });
+    })();
+
     (function initGame() {
         function getBlunder(next) {
             $.ajax({
-                url: 'http://{0}/api/blunder/get'.format(app.settings.server),
+                url: 'http://{0}/{1}/blunder/get'.format(app.settings.server, app.settings.pathToApi),
                 method: 'POST',
                 crossDomain: true,
                 contentType: 'application/json',
-                data: JSON.stringify({type: 'rated'}),
+                data: JSON.stringify({
+                    token: getTokenAndRedirectIfNotExist(),
+                    type: 'rated'
+                }),
                 success: function(result) {
                     var data = result.data;
 
                     $.ajax({
-                        url: ('http://{0}/api/blunder/info').format(app.settings.server),
+                        url: 'http://{0}/{1}/blunder/info'.format(app.settings.server, app.settings.pathToApi),
                         method: 'POST',
                         crossDomain: true,
                         contentType: 'application/json',
-                        data: JSON.stringify({blunder_id: data.id}),
+                        data: JSON.stringify({
+                            token: getTokenAndRedirectIfNotExist(),
+                            blunder_id: data.id
+                        }),
                         success: function(result) {
                             var data = result.data;
 
@@ -62,11 +97,12 @@
 
         function validateBlunder(pv, blunder, next) {
             $.ajax({
-                url: ('http://{0}/api/blunder/validate').format(app.settings.server),
+                url: 'http://{0}/{1}/blunder/validate'.format(app.settings.server, app.settings.pathToApi),
                 method: 'POST',
                 crossDomain: true,
                 contentType: 'application/json',
                 data: JSON.stringify({
+                    token: getTokenAndRedirectIfNotExist(),
                     id: blunder.id,
                     line: pv,
                     spentTime: 0,
