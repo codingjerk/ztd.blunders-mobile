@@ -1,6 +1,16 @@
 (function() {
     'use strict';
 
+    function getTokenAndRedirectIfNotExist() {
+        var result = localStorage.getItem('api-token');
+
+        if (!result) {
+            location.replace('login.html');
+        }
+
+        return result;
+    }
+
     (function prepareLibs() {
         $("#pages").dragend({
             page: 2,
@@ -15,15 +25,23 @@
         new Chessboard('board', ChessUtils.FEN.emptyId);
     })();
 
-    function getTokenAndRedirectIfNotExist() {
-        var result = localStorage.getItem('api-token');
+    (function updateUserRating() {
+        $.ajax({
+            url: 'http://{0}/{1}/session/rating'.format(app.settings.server, app.settings.pathToApi),
+            method: 'POST',
+            crossDomain: true,
+            contentType: 'application/json',
+            data: JSON.stringify({
+                token: getTokenAndRedirectIfNotExist()
+            }),
+            success: function(result) {
+                if (result.status !== 'ok') return;
 
-        if (!result) {
-            location.replace('login.html');
-        }
-
-        return result;
-    }
+                $('#rating-value').html(result.rating);
+                next();
+            }
+        });
+    })();
 
     (function setupListeners() {
         $('#menu-button').on('click', function() {
@@ -107,6 +125,8 @@
                             blunder_id: data.id
                         }),
                         success: function(result) {
+                            if (result.status !== 'ok') return;
+
                             updateInfoView(result.data);
                         }
                     });
@@ -130,6 +150,9 @@
                     type: 'rated'
                 }),
                 success: function(result) {
+                    if (result.status !== 'ok') return;
+
+                    $('#rating-value').html(result.data.elo);
                     next();
                 }
             });
@@ -289,6 +312,8 @@
                             blunder_id: blunder.id
                         }),
                         success: function(result) {
+                            if (result.status !== 'ok') return;
+
                             updateInfoView(result.data);
                         }
                     });
@@ -307,6 +332,8 @@
                                 vote: vote
                             }),
                             success: function(result) {
+                                if (result.status !== 'ok') return;
+
                                 updateInfoView(result.data);
                             }
                         });
