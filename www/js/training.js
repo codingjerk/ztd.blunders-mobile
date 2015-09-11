@@ -293,6 +293,31 @@
                         }
                     });
                 });
+
+                function voteListener(vote) {
+                    return (function() {
+                        $.ajax({
+                            url: 'http://{0}/{1}/blunder/vote'.format(app.settings.server, app.settings.pathToApi),
+                            method: 'POST',
+                            crossDomain: true,
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                token: getTokenAndRedirectIfNotExist(),
+                                blunder_id: blunder.id,
+                                vote: vote
+                            }),
+                            success: function(result) {
+                                updateInfoView(result.data);
+                            }
+                        });
+                    });
+                }
+
+                $('#like-button').off('click');
+                $('#like-button').on('click', voteListener(1));
+
+                $('#dislike-button').off('click');
+                $('#dislike-button').on('click', voteListener(-1));
             }
         }
 
