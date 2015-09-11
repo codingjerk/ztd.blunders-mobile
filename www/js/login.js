@@ -38,8 +38,22 @@
         });
 
         $('#signup-button').on('click', function() {
-            $('#pages').dragend({
-                scrollToPage: 1
+            $.ajax({
+                url: 'http://{0}/{1}/session/signup'.format(app.settings.server, app.settings.pathToApi),
+                method: 'POST',
+                crossDomain: true,
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    username: $('#signup-username').val(),
+                    password: $('#signup-password').val(),
+                    email: $('#signup-email').val(),
+                }),
+                success: function(result) {
+                    if (result.status === 'ok') {
+                        localStorage.setItem('api-token', result.token);
+                        location.replace('training.html');
+                    }
+                }
             });
         });
     })();
