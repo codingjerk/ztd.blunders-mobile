@@ -26,15 +26,13 @@
     })();
 
     (function updateUserRating() {
-        $.ajax({
+        sync.ajax({
             url: url('session/rating'),
-            method: 'POST',
-            crossDomain: true,
-            contentType: 'application/json',
-            data: JSON.stringify({
+            crossDomain : true,
+            data: {
                 token: getTokenAndRedirectIfNotExist()
-            }),
-            success: function(result) {
+            },
+            onDone: function(result) {
                 if (result.status !== 'ok') return;
 
                 $('#rating-value').html(result.rating);
@@ -102,28 +100,25 @@
         }
 
         function getBlunder(next) {
-            $.ajax({
+            sync.ajax({
+                selector: 'game-status',
                 url: url('blunder/get'),
-                method: 'POST',
-                crossDomain: true,
-                contentType: 'application/json',
-                data: JSON.stringify({
+                crossDomain : true,
+                data: {
                     token: getTokenAndRedirectIfNotExist(),
                     type: 'rated'
-                }),
-                success: function(result) {
+                },
+                onDone: function(result) {
                     var data = result.data;
 
-                    $.ajax({
+                    sync.ajax({
                         url: url('blunder/info'),
-                        method: 'POST',
-                        crossDomain: true,
-                        contentType: 'application/json',
-                        data: JSON.stringify({
+                        crossDomain : true,
+                        data: {
                             token: getTokenAndRedirectIfNotExist(),
                             blunder_id: data.id
-                        }),
-                        success: function(result) {
+                        },
+                        onDone: function(result) {
                             if (result.status !== 'ok') return;
 
                             updateInfoView(result.data);
@@ -136,19 +131,17 @@
         }
 
         function validateBlunder(pv, blunder, next) {
-            $.ajax({
+            sync.ajax({
                 url: url('blunder/validate'),
-                method: 'POST',
-                crossDomain: true,
-                contentType: 'application/json',
-                data: JSON.stringify({
+                crossDomain : true,
+                data: {
                     token: getTokenAndRedirectIfNotExist(),
                     id: blunder.id,
                     line: pv,
                     spentTime: 0,
                     type: 'rated'
-                }),
-                success: function(result) {
+                },
+                onDone: function(result) {
                     if (result.status !== 'ok') return;
 
                     $('#rating-value').html(result.data.elo);
@@ -308,16 +301,14 @@
             function setupListeners() {
                 $('#favorite-button').off('click');
                 $('#favorite-button').on('click', function() {
-                    $.ajax({
+                    sync.ajax({
                         url: url('blunder/favorite'),
-                        method: 'POST',
-                        crossDomain: true,
-                        contentType: 'application/json',
-                        data: JSON.stringify({
+                        crossDomain : true,
+                        data: {
                             token: getTokenAndRedirectIfNotExist(),
                             blunder_id: blunder.id
-                        }),
-                        success: function(result) {
+                        },
+                        onDone: function(result) {
                             if (result.status !== 'ok') return;
 
                             updateInfoView(result.data);
@@ -327,17 +318,15 @@
 
                 function voteListener(vote) {
                     return (function() {
-                        $.ajax({
+                        sync.ajax({
                             url: url('blunder/vote'),
-                            method: 'POST',
-                            crossDomain: true,
-                            contentType: 'application/json',
-                            data: JSON.stringify({
+                            crossDomain : true,
+                            data: {
                                 token: getTokenAndRedirectIfNotExist(),
                                 blunder_id: blunder.id,
                                 vote: vote
-                            }),
-                            success: function(result) {
+                            },
+                            onDone: function(result) {
                                 if (result.status !== 'ok') return;
 
                                 updateInfoView(result.data);

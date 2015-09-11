@@ -19,16 +19,15 @@
         });
 
         $('#login-button').on('click', function() {
-            $.ajax({
+            sync.ajax({
                 url: url('session/login'),
-                method: 'POST',
-                crossDomain: true,
-                contentType: 'application/json',
-                data: JSON.stringify({
+                crossdomain:true,
+                data: {
                     username: $('#login-username').val(),
                     password: $('#login-password').val(),
-                }),
-                success: function(result) {
+                },
+                onDone: function(result) {
+                    console.log(result);
                     if (result.status === 'ok') {
                         localStorage.setItem('api-token', result.token);
                         location.replace('training.html');
@@ -38,17 +37,16 @@
         });
 
         $('#signup-button').on('click', function() {
-            $.ajax({
+            sync.ajax({
                 url: url('session/signup'),
-                method: 'POST',
-                crossDomain: true,
-                contentType: 'application/json',
-                data: JSON.stringify({
+                selector: 'signup-button',
+                crossDomain:true,
+                data: {
                     username: $('#signup-username').val(),
                     password: $('#signup-password').val(),
                     email: $('#signup-email').val(),
-                }),
-                success: function(result) {
+                },
+                onDone: function(result) {
                     if (result.status === 'ok') {
                         localStorage.setItem('api-token', result.token);
                         location.replace('training.html');
