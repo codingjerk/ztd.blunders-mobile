@@ -67,6 +67,18 @@ header {
     vertical-align: middle;
 }
 
+.favorite-active {
+    color: #e3cf7a !important;
+}
+
+.like-active {
+    color: #1fa67a !important;
+}
+
+.dislike-active {
+    color: rgb(217, 83, 79) !important;
+}
+
 #game-status-container {
     margin-top: 0.6em;
     padding: 0 1em;

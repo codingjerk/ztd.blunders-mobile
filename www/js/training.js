@@ -36,14 +36,54 @@
             localStorage.removeItem('api-token');
             location.replace('login.html');
         });
-
-        $('#favorite-button').on('click', function() {
-            localStorage.removeItem('api-token');
-            location.replace('login.html');
-        });
     })();
 
     (function initGame() {
+        function updateInfoView(data) {
+            var info = data['game-info'];
+            $("#white-player").html(info.White);
+            $("#black-player").html(info.Black);
+
+            grid.update({
+                'white-name-value': info.White,
+                'white-elo-value':  info.WhiteElo,
+                'black-name-value': info.Black,
+                'black-elo-value':  info.BlackElo
+            });
+
+            var successRate = (data.totalTries !== 0)? (data.successTries * 100 / data.totalTries): 0; 
+            grid.update({
+                'blunder-rating': data.elo,
+                'success-played': data.successTries,
+                'total-played': data.totalTries,
+                'success-rate': successRate.toFixed(1)
+            });
+
+            grid.update({
+                'blunder-votes': data.likes - data.dislikes,
+                'blunder-favorite-count': data.favorites
+            });
+
+            if (data.myFavorite) {
+                $('#favorite-button').addClass('favorite-active');
+                $('#favorite-button').html('<i id="favorite-icon" class="fa fa-star"></i>');
+            } else {
+                $('#favorite-button').removeClass('favorite-active');
+                $('#favorite-button').html('<i id="favorite-icon" class="fa fa-star-o"></i>');
+            }
+
+            if (data.myVote === 1) {
+                $('#like-button').addClass('like-active');
+                $('#dislike-button').removeClass('dislike-active');
+            } else if (data.myVote === -1) {
+                $('#dislike-button').addClass('dislike-active');
+                $('#like-button').removeClass('like-active');
+            } else {
+                $('#dislike-button').removeClass('dislike-active');
+                $('#like-button').removeClass('like-active');
+            }
+        }
+
         function getBlunder(next) {
             $.ajax({
                 url: 'http://{0}/{1}/blunder/get'.format(app.settings.server, app.settings.pathToApi),
@@ -67,31 +107,7 @@
                             blunder_id: data.id
                         }),
                         success: function(result) {
-                            var data = result.data;
-
-                            var info = data['game-info'];
-                            $("#white-player").html(info.White);
-                            $("#black-player").html(info.Black);
-
-                            grid.update({
-                                'white-name-value': info.White,
-                                'white-elo-value':  info.WhiteElo,
-                                'black-name-value': info.Black,
-                                'black-elo-value':  info.BlackElo
-                            });
-
-                            var successRate = (data.totalTries !== 0)? (data.successTries * 100 / data.totalTries): 0; 
-                            grid.update({
-                                'blunder-rating': data.elo,
-                                'success-played': data.successTries,
-                                'total-played': data.totalTries,
-                                'success-rate': successRate.toFixed(1)
-                            });
-
-                            grid.update({
-                                'blunder-votes': data.likes - data.dislikes,
-                                'blunder-favorite-count': data.favorites
-                            });
+                            updateInfoView(result.data);
                         }
                     });
 
@@ -162,6 +178,7 @@
                 }
             );
 
+            setupListeners();
             makeAiMove(blunder.blunderMove);
 
             function updateStatus(statusName) {
@@ -257,6 +274,25 @@
                     getBlunder(startGame);
                     view.off('click');
                 })
+            }
+
+            function setupListeners() {
+                $('#favorite-button').off('click');
+                $('#favorite-button').on('click', function() {
+                    $.ajax({
+                        url: 'http://{0}/{1}/blunder/favorite'.format(app.settings.server, app.settings.pathToApi),
+                        method: 'POST',
+                        crossDomain: true,
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            token: getTokenAndRedirectIfNotExist(),
+                            blunder_id: blunder.id
+                        }),
+                        success: function(result) {
+                            updateInfoView(result.data);
+                        }
+                    });
+                });
             }
         }
 
