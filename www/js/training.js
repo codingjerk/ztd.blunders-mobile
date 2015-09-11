@@ -38,7 +38,6 @@
                 if (result.status !== 'ok') return;
 
                 $('#rating-value').html(result.rating);
-                next();
             }
         });
     })();
@@ -272,7 +271,14 @@
 
                 var gameStatus = checkLines();
                 if (gameStatus === 'fail') {
-                    highlightMove(chessMove, 'fail-move-hightlight');
+                    game.undo();
+
+                    var rightMove = blunder.forcedLine[game.history().length - 1];
+                    chessMove = game.move(rightMove);
+
+                    highlightMove(chessMove, 'success-move-hightlight');
+
+                    return board.fen();
                 } else if (gameStatus === 'success') {
                     highlightMove(chessMove, 'success-move-hightlight');
                 } else {
