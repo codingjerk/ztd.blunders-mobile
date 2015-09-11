@@ -20,7 +20,7 @@
 
         $('#login-button').on('click', function() {
             sync.ajax({
-                url: url('session/login'),
+                url: app.url('session/login'),
                 crossdomain:true,
                 data: {
                     username: $('#login-username').val(),
@@ -38,7 +38,7 @@
 
         $('#signup-button').on('click', function() {
             sync.ajax({
-                url: url('session/signup'),
+                url: app.url('session/signup'),
                 selector: 'signup-button',
                 crossDomain:true,
                 data: {
@@ -56,3 +56,4 @@
         });
     })();
 })();
+

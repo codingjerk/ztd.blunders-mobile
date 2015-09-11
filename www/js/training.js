@@ -27,7 +27,7 @@
 
     (function updateUserRating() {
         sync.ajax({
-            url: url('session/rating'),
+            url: app.url('session/rating'),
             crossDomain : true,
             data: {
                 token: getTokenAndRedirectIfNotExist()
@@ -102,7 +102,7 @@
         function getBlunder(next) {
             sync.ajax({
                 selector: 'game-status',
-                url: url('blunder/get'),
+                url: app.url('blunder/get'),
                 crossDomain : true,
                 data: {
                     token: getTokenAndRedirectIfNotExist(),
@@ -112,7 +112,7 @@
                     var data = result.data;
 
                     sync.ajax({
-                        url: url('blunder/info'),
+                        url: app.url('blunder/info'),
                         crossDomain : true,
                         data: {
                             token: getTokenAndRedirectIfNotExist(),
@@ -132,7 +132,8 @@
 
         function validateBlunder(pv, blunder, next) {
             sync.ajax({
-                url: url('blunder/validate'),
+                selector: 'game-status',
+                url: app.url('blunder/validate'),
                 crossDomain : true,
                 data: {
                     token: getTokenAndRedirectIfNotExist(),
@@ -302,7 +303,7 @@
                 $('#favorite-button').off('click');
                 $('#favorite-button').on('click', function() {
                     sync.ajax({
-                        url: url('blunder/favorite'),
+                        url: app.url('blunder/favorite'),
                         crossDomain : true,
                         data: {
                             token: getTokenAndRedirectIfNotExist(),
@@ -319,7 +320,7 @@
                 function voteListener(vote) {
                     return (function() {
                         sync.ajax({
-                            url: url('blunder/vote'),
+                            url: app.url('blunder/vote'),
                             crossDomain : true,
                             data: {
                                 token: getTokenAndRedirectIfNotExist(),
