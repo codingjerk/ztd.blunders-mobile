@@ -20,7 +20,7 @@
 
         $('#login-button').on('click', function() {
             $.ajax({
-                url: 'http://{0}/{1}/session/login'.format(app.settings.server, app.settings.pathToApi),
+                url: url('session/login'),
                 method: 'POST',
                 crossDomain: true,
                 contentType: 'application/json',
@@ -39,7 +39,7 @@
 
         $('#signup-button').on('click', function() {
             $.ajax({
-                url: 'http://{0}/{1}/session/signup'.format(app.settings.server, app.settings.pathToApi),
+                url: url('session/signup'),
                 method: 'POST',
                 crossDomain: true,
                 contentType: 'application/json',

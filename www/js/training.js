@@ -27,7 +27,7 @@
 
     (function updateUserRating() {
         $.ajax({
-            url: 'http://{0}/{1}/session/rating'.format(app.settings.server, app.settings.pathToApi),
+            url: url('session/rating'),
             method: 'POST',
             crossDomain: true,
             contentType: 'application/json',
@@ -103,7 +103,7 @@
 
         function getBlunder(next) {
             $.ajax({
-                url: 'http://{0}/{1}/blunder/get'.format(app.settings.server, app.settings.pathToApi),
+                url: url('blunder/get'),
                 method: 'POST',
                 crossDomain: true,
                 contentType: 'application/json',
@@ -115,7 +115,7 @@
                     var data = result.data;
 
                     $.ajax({
-                        url: 'http://{0}/{1}/blunder/info'.format(app.settings.server, app.settings.pathToApi),
+                        url: url('blunder/info'),
                         method: 'POST',
                         crossDomain: true,
                         contentType: 'application/json',
@@ -137,7 +137,7 @@
 
         function validateBlunder(pv, blunder, next) {
             $.ajax({
-                url: 'http://{0}/{1}/blunder/validate'.format(app.settings.server, app.settings.pathToApi),
+                url: url('blunder/validate'),
                 method: 'POST',
                 crossDomain: true,
                 contentType: 'application/json',
@@ -309,7 +309,7 @@
                 $('#favorite-button').off('click');
                 $('#favorite-button').on('click', function() {
                     $.ajax({
-                        url: 'http://{0}/{1}/blunder/favorite'.format(app.settings.server, app.settings.pathToApi),
+                        url: url('blunder/favorite'),
                         method: 'POST',
                         crossDomain: true,
                         contentType: 'application/json',
@@ -328,7 +328,7 @@
                 function voteListener(vote) {
                     return (function() {
                         $.ajax({
-                            url: 'http://{0}/{1}/blunder/vote'.format(app.settings.server, app.settings.pathToApi),
+                            url: url('blunder/vote'),
                             method: 'POST',
                             crossDomain: true,
                             contentType: 'application/json',
