@@ -18,6 +18,7 @@ header {
 
 #menu-button {
     margin-right: 1.5em;
+    cursor: pointer;
 }
 
 header > #user-rating {

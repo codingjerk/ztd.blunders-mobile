@@ -36,6 +36,11 @@
             localStorage.removeItem('api-token');
             location.replace('login.html');
         });
+
+        $('#favorite-button').on('click', function() {
+            localStorage.removeItem('api-token');
+            location.replace('login.html');
+        });
     })();
 
     (function initGame() {

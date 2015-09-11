@@ -38,6 +38,8 @@ header {
 
     background-color: rgb(37,172,77);
     border-color: rgb(57,172,37);
+
+    cursor: pointer;
 }
 
 #logout-button:hover {
@@ -148,10 +150,9 @@ header {
     text-align: right;
 }
 
-#dislike-button, #like-button, #next-button {
-    font-size: 1.7em;
-    color: #333;
-    margin-left: 0.5em;
+#dislike-button, #like-button {
+    color: #555;
+    cursor: pointer;
 }
 
 #info-page {
