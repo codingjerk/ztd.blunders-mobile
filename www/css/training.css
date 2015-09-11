@@ -136,20 +136,32 @@ header {
     background-color: #f0f0f0 !important;
 }
 
-.ai-move-hightlight {
-    box-shadow: 0 0 100em 100em rgba(255,255,0,0.3) inset !important;
+div.chess_board div.chess_square_light.ai-move-hightlight {
+    background-color: #dfdba4 !important;
 }
 
-.player-move-hightlight {
-    box-shadow: 0 0 100em 100em rgba(255,255,0,0.4) inset !important;
+div.chess_board div.chess_square_dark.ai-move-hightlight {
+    background-color: #cfcb94 !important;
+}
+
+div.chess_board div.chess_square_light.player-move-hightlight {
+    background-color: #dfdba4 !important;
+}
+
+div.chess_board div.chess_square_dark.player-move-hightlight {
+    background-color: #bfbba4 !important;
 }
 
 .fail-move-hightlight {
     box-shadow: 0 0 100em 100em rgba(238,51,51,0.7) inset !important;
 }
 
-.success-move-hightlight {
-    box-shadow: 0 0 100em 100em rgba(10,235,50,0.6) inset !important;
+div.chess_board div.chess_square_light.success-move-hightlight {
+    background-color: #2fb68a !important;
+}
+
+div.chess_board div.chess_square_dark.success-move-hightlight {
+    background-color: #1fa67a !important;
 }
 
 .social-button-container {
@@ -193,15 +205,15 @@ div.chess_board div.chess_square_dark {
 }
 
 div.chess_board div.chess_square_valid_move {
-    box-shadow: 0 0 100em 100em rgba(10,235,50,0.3) inset !important;
+    box-shadow: 0 0 100em 100em rgba(10,235,50,0.2) inset !important;
 }
 
 div.chess_board div.chess_square_light.chess_square_selected {
-    background-color: #8fbbd4;
+    background-color: #afcbe4;
 }
 
 div.chess_board div.chess_square_dark.chess_square_selected {
-    background-color: #0f3b94;
+    background-color: #0f6bb4;
 }
 
 /* labels for white squares */
