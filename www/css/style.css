@@ -2,12 +2,9 @@ body {
     cursor: url('http://ionicframework.com/img/finger.png'), auto;
 }
 
-
-
 .blue-background {
     background-color: #0f6bb4 !important;
 }
-
 
 
 label, button {
@@ -100,98 +97,98 @@ div.chess_board div.chess_square_dark div.chess_label_row {
 
 /* white pieces */
 div.chess_board div.chess_player_white.chess_piece_pawn:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_white.chess_piece_pawn {
-    background-image: url('../img/wP.svg');
+    background-image: url('../img/pieces/wP.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_knight:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_white.chess_piece_knight {
-    background-image: url('../img/wN.svg');
+    background-image: url('../img/pieces/wN.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_bishop:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_white.chess_piece_bishop {
-    background-image: url('../img/wB.svg');
+    background-image: url('../img/pieces/wB.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_rook:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_white.chess_piece_rook {
-    background-image: url('../img/wR.svg');
+    background-image: url('../img/pieces/wR.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_queen:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_white.chess_piece_queen {
-    background-image: url('../img/wQ.svg');
+    background-image: url('../img/pieces/wQ.svg');
 }
 
 div.chess_board div.chess_player_white.chess_piece_king:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_white.chess_piece_king {
-    background-image: url('../img/wK.svg');
+    background-image: url('../img/pieces/wK.svg');
 }
 
 /* black pieces */
 div.chess_board div.chess_player_black.chess_piece_pawn:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_black.chess_piece_pawn {
-    background-image: url('../img/bP.svg');
+    background-image: url('../img/pieces/bP.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_knight:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_black.chess_piece_knight {
-    background-image: url('../img/bN.svg');
+    background-image: url('../img/pieces/bN.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_bishop:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_black.chess_piece_bishop {
-    background-image: url('../img/bB.svg');
+    background-image: url('../img/pieces/bB.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_rook:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_black.chess_piece_rook {
-    background-image: url('../img/bR.svg');
+    background-image: url('../img/pieces/bR.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_queen:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_black.chess_piece_queen {
-    background-image: url('../img/bQ.svg');
+    background-image: url('../img/pieces/bQ.svg');
 }
 
 div.chess_board div.chess_player_black.chess_piece_king:after {
-    content: '';
+    content: '' !important;
 }
 
 div.chess_board div.chess_player_black.chess_piece_king {
-    background-image: url('../img/bK.svg');
+    background-image: url('../img/pieces/bK.svg');
 }
