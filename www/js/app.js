@@ -20,7 +20,17 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     $scope.login = function() {
         $state.go('training');
     };
+
+    $scope.goToSignup = function() {
+        $ionicSlideBoxDelegate.next();
+    };
 });
 
 app.controller('TrainingCtrl', function($scope, $state) {
+    $scope.whitePlayer = '???';
+    $scope.blackPlayer = '???';
+
+    $scope.$on('$ionicView.loaded', function() {
+        new Chessboard('board', ChessUtils.FEN.initial);
+    });
 });
