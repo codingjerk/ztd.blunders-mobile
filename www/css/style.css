@@ -36,10 +36,6 @@ label, button {
     /*line-height: 70px !important;*/
 }
 
-.game-status {
-    width: 60vw;
-}
-
 .bar-header {
     color: #dedede;
     border-bottom: 1px solid #0f4b94;
@@ -60,7 +56,7 @@ label, button {
 
 #board {
     border: 3px solid #0f6bb4;
-    width: 98vw;
+    width: 100%;
 }
 
 /* square colors */

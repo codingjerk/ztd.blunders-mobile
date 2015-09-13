@@ -92,30 +92,47 @@
 
         <script id="training.html" type="text/ng-template">
             <ion-view class="white-background">
-                <div class="bar bar-subheader">
-                    <button class="button button-icon icon ion-ios-heart-outline"></button>
-                    <div class="title">{{whitePlayer}} - {{blackPlayer}}</div>
-                </div>
-
-                <ion-content class="has-header has-subheader has-footer">
+                <ion-content class="has-header">
                     <ion-slide-box show-pager="false">
                         <ion-slide>
-                            <div id="board"></div>
+                            <div class="card">
+                                <div class="item item-divider">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button class="button button-icon icon ion-ios-star-outline"></button>
+                                        </div
+                                        <div class="col col-75">
+                                            <button class="button button-clear button-positive button-full">
+                                                {{whitePlayer}} - {{blackPlayer}}
+                                            </button>
+                                        </div
+                                    </div>
+                                </div>
+                                <div class="item item-text-wrap">
+                                    <div id="board"></div>
+                                </div>
+                                <div class="item item-divider">
+                                    <div class="row">
+                                      <div class="col">
+                                        <button class="button button-icon icon ion-thumbsdown"></button>
+                                      </div>
+                                      <div class="col col-75">
+                                                <button class="button button-balanced button-wide">
+                                                    White to move
+                                                </button>
+                                        </div>
+                                      <div class="col">
+                                        <button class="button button-icon icon ion-thumbsup"></button>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
                         </ion-slide>
                         <ion-slide>
                         </ion-slide>
                     </ion-slide-box>
                 </ion-content>
         
-                <div class="bar bar-footer white-background">
-                    <button class="button button-icon icon ion-thumbsdown"></button>
-                    <div class="title">
-                        <button class="game-status button button-balanced button-wide">
-                            White to move
-                        </button>
-                    </div>
-                    <button class="button button-icon icon ion-thumbsup"></button>
-                </div>
             </ion-view>
         </script>
     
