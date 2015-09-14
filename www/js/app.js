@@ -27,8 +27,8 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
 });
 
 app.controller('TrainingCtrl', function($scope, $state) {
-    $scope.whitePlayer = '???';
-    $scope.blackPlayer = '???';
+    $scope.whitePlayer = 'Kasparov M. I.';
+    $scope.blackPlayer = 'Kasparov M. I.';
 
     $scope.$on('$ionicView.loaded', function() {
         new Chessboard('board', ChessUtils.FEN.initial);

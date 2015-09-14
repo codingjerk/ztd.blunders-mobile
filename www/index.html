@@ -97,32 +97,34 @@
                         <ion-slide>
                             <div class="card">
                                 <div class="item item-divider">
-                                    {{whitePlayer}} - {{blackPlayer}}
+                                    <div class="padding">
+                                        {{whitePlayer}} - {{blackPlayer}}
+                                    </div>
                                 </div>
                                 <div class="item item-text-wrap">
                                     <div id="board"></div>
                                 </div>
-                                <div class="item item-divider">
-                                    <div class="row">
-                                      <div class="col col-50">
-                                                <button class="button button-balanced button-wide">
-                                                    White to move
-                                                </button>
-                                        </div>
-                                      <div class="col">
-                                        <button class="button button-icon icon ion-thumbsdown"></button>
-                                      </div>
-                                      <div class="col">
-                                        <button class="button button-icon icon ion-ios-star-outline"></button>
-                                      </div>
-                                      <div class="col">
-                                        <button class="button button-icon icon ion-thumbsup"></button>
-                                      </div>
-                                    </div>
+                                <div class="game-status-container item item-divider">
+                                    <button class="game-status button button-balanced button-full">
+                                        Success! Next >>
+                                    </button>
                                 </div>
                             </div>
                         </ion-slide>
                         <ion-slide>
+                            <div class="card">
+                                <div class="row">
+                                  <div class="col">
+                                    <button class="button button-icon icon ion-thumbsdown"></button>
+                                  </div>
+                                  <div class="col">
+                                    <button class="button button-icon icon ion-ios-heart-outline"></button>
+                                  </div>
+                                  <div class="col">
+                                    <button class="button button-icon icon ion-thumbsup"></button>
+                                  </div>
+                                </div>
+                            </div>
                         </ion-slide>
                     </ion-slide-box>
                 </ion-content>

@@ -45,12 +45,15 @@ label, button {
     color: #dedede;
 }
 
-
-
 .new-user-greeting {
     color: #dedede;
 }
 
+.game-status-container {
+    margin: 0;
+
+    padding: 0 15%;
+}
 
 
 
