@@ -2711,7 +2711,7 @@ ion-infinite-scroll {
 
 /* If you change these, change platform.scss as well */
 .has-header {
-  top: 44px; }
+  top: 70px; }
 
 .no-header {
   top: 0; }
@@ -3041,7 +3041,7 @@ a.subdued {
   box-sizing: border-box;
   padding: 5px;
   width: 100%;
-  height: 44px;
+  height: 70px;
   border-width: 0;
   border-style: solid;
   border-top: 1px solid transparent;
@@ -3168,7 +3168,7 @@ a.subdued {
     white-space: nowrap;
     font-size: 17px;
     font-weight: 500;
-    line-height: 44px; }
+    line-height: 70px; }
     .bar .title.title-left {
       text-align: left; }
     .bar .title.title-right {

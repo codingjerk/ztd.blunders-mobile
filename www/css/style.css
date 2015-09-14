@@ -7,6 +7,13 @@ body {
 }
 
 
+.fixed-label {
+    max-width: 25em;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
 label, button {
     border-radius: 3px !important;
 }
@@ -28,14 +35,6 @@ label, button {
     text-align: center;
 }
 
-.has-subheader {
-    /*top: 100px !important;*/
-}
-
-.header-title {
-    /*line-height: 70px !important;*/
-}
-
 .bar-header {
     color: #dedede;
     border-bottom: 1px solid #0f4b94;
@@ -55,6 +54,18 @@ label, button {
     padding: 0 15%;
 }
 
+
+.cell-header, .cell-footer {
+    color: #777;
+}
+
+.cell-value {
+    white-space: normal !important;
+    font-size: 140%;
+    font-weight: bold;
+
+    margin: 5px 0;
+}
 
 
 #board {

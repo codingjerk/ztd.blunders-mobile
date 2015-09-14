@@ -16,6 +16,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/login');
 });
 
+app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate) {
+    $scope.isTokenExist = function() {
+        return localStorage.getItem('api-token') !== null;
+    };
+
+    $scope.showMenu = function() {
+        if (!$scope.isTokenExist()) return;
+
+        $ionicSideMenuDelegate.toggleLeft();
+    };
+});
+
 app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     $scope.login = function() {
         $state.go('training');
@@ -29,6 +41,8 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
 app.controller('TrainingCtrl', function($scope, $state) {
     $scope.whitePlayer = 'Kasparov M. I.';
     $scope.blackPlayer = 'Kasparov M. I.';
+
+    $scope.value = 1000;
 
     $scope.$on('$ionicView.loaded', function() {
         new Chessboard('board', ChessUtils.FEN.initial);

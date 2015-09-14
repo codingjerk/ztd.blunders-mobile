@@ -19,14 +19,26 @@
         <link rel="stylesheet" type="text/css" href="third-party/chessboard-js/css/chessboard.min.css">
         <script src="third-party/chessboard-js/js/chessboard.min.js"></script>
     </head>
-    <body ng-app="Ztd.Blunders Mobile">
+    <body ng-app="Ztd.Blunders Mobile" ng-controller="MainCtrl">
         <div class="bar bar-header bar-positive blue-background">
-            <button class="button button-icon icon ion-navicon"> Ztd.Blunders</button>
+            <button ng-click="showMenu()" class="button button-icon icon ion-navicon"> Ztd.Blunders</button>
             <div class="title header-title"></div>
             <button class="button button-icon icon ion-university">1954</button>
         </div>
 
-        <ion-nav-view></ion-nav-view>
+        <ion-side-menus>
+            <ion-side-menu side="left">
+                <ion-content class="has-header blue-background padding">
+                    <button ng-show="isTokenExist()" ng-click="logout()" class="button button-assertive button-full icon-right ion-log-out">
+                        Logout
+                    </button>
+                </ion-content>
+            </ion-side-menu>
+
+            <ion-side-menu-content>
+                <ion-nav-view></ion-nav-view>
+            </ion-side-menu-content>
+        </ion-side-menus>
 
         <script id="login.html" type="text/ng-template"> 
             <ion-view class="blue-background">
@@ -35,18 +47,18 @@
                         <ion-slide>
                             <div class="list list-inset blue-background">
                                 <div class="padding">
-                                    <label class="item item-input">
-                                        <input type="text" placeholder="Your username">
+                                    <label class="fixed-label item item-input">
+                                        <input ng-model="username" type="text" placeholder="Your username">
                                     </label>
                                 </div>
                                 <div class="padding">
-                                    <label class="item item-input">
+                                    <label class="fixed-label item item-input">
                                         <input type="password" placeholder="Your password">
                                     </label>
                                 </div>
                             </div>
                             <div class="padding">
-                                <button ng-click="login()" class="button button-balanced button-wide icon-right ion-forward">
+                                <button ng-click="login()" class="button button-balanced button-wide icon-right ion-log-in">
                                     Login
                                 </button>
                             </div>
@@ -64,17 +76,17 @@
                         <ion-slide>
                             <div class="list list-inset blue-background">
                                 <div class="padding">
-                                    <label class="item item-input">
+                                    <label class="fixed-label item item-input">
                                         <input type="text" placeholder="Pick a username">
                                     </label>
                                 </div>
                                 <div class="padding">
-                                    <label class="item item-input">
+                                    <label class="fixed-label item item-input">
                                         <input type="password" placeholder="Create a password">
                                     </label>
                                 </div>
                                 <div class="padding">
-                                    <label class="item item-input">
+                                    <label class="fixed-label item item-input">
                                         <input type="email" placeholder="Optional email">
                                     </label>
                                 </div>
@@ -92,8 +104,8 @@
 
         <script id="training.html" type="text/ng-template">
             <ion-view class="white-background">
-                <ion-content class="has-header">
-                    <ion-slide-box show-pager="false">
+                <ion-content>
+                    <ion-slide-box show-pager="false" class="has-header">
                         <ion-slide>
                             <div class="card">
                                 <div class="item item-divider">
@@ -113,24 +125,96 @@
                         </ion-slide>
                         <ion-slide>
                             <div class="card">
-                                <div class="row">
-                                  <div class="col">
-                                    <button class="button button-icon icon ion-thumbsdown"></button>
-                                  </div>
-                                  <div class="col">
-                                    <button class="button button-icon icon ion-ios-heart-outline"></button>
-                                  </div>
-                                  <div class="col">
-                                    <button class="button button-icon icon ion-thumbsup"></button>
-                                  </div>
+                                <div class="item item-divider">
+                                    <div class="row">
+                                      <div class="col">
+                                        <button class="button button-icon icon ion-thumbsdown"></button>
+                                      </div>
+                                      <div class="col">
+                                        <button class="button button-icon icon ion-ios-heart-outline"></button>
+                                      </div>
+                                      <div class="col">
+                                        <button class="button button-icon icon ion-thumbsup"></button>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="item item-divider">
+                                    Blunder
+                                </div>
+                                <div class="item item-wrap">
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="cell-header">Rating</div>
+                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-footer">Elo</div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="cell-header">Rating</div>
+                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-footer">votes</div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="cell-header">Favorite for</div>
+                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-footer">users</div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="cell-header">Success</div>
+                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-footer">played</div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="cell-header">Total</div>
+                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-footer">played</div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="cell-header">Success rate</div>
+                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-footer">percents</div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="item item-divider">
+                                    Game
+                                </div>
+                                <div class="item item-wrap">
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="cell-header">White</div>
+                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-footer">player</div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="cell-header">Black</div>
+                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-footer">player</div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="cell-header">White</div>
+                                        <div class="cell-value">{{value}} Monika Beluchi lalala</div>
+                                        <div class="cell-footer">Elo</div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="cell-header">Black</div>
+                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-footer">Elo</div>
+                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </ion-slide>
                     </ion-slide-box>
                 </ion-content>
-        
             </ion-view>
         </script>
-    
     </body>
 </html>
