@@ -35,6 +35,8 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate) {
 });
 
 app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+    if (localStorage.getItem('api-token')) $state.go('training');
+
     $scope.authInProgress = false;
 
     $scope.login = function(username, password) {
@@ -54,7 +56,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
                 console.log(result);
                 if (result.status === 'ok') {
                     localStorage.setItem('api-token', result.token);
-                    $state.go('training')
+                    $state.go('training');
                 }
             }
         });
@@ -140,22 +142,22 @@ app.controller('TrainingCtrl', function($scope, $state) {
                 var stateNameToState = {
                     'fail': {
                         viewText: 'Failed. Next >>',
-                        viewClass: 'failed-status',
+                        viewClass: 'button-assertive',
                         onClick: function() {}
                     },
                     'success': {
                         viewText: 'Success. Next >>',
-                        viewClass: 'success-status',
+                        viewClass: 'button-balanced',
                         onClick: function() {}
                     },
                     'white-move': {
                         viewText: 'White to Move',
-                        viewClass: 'white-to-move-status',
+                        viewClass: 'button-white',
                         onClick: function() {}
                     },
                     'black-move': {
                         viewText: 'Black to Move',
-                        viewClass: 'black-to-move-status',
+                        viewClass: 'button-dark',
                         onClick: function() {}
                     }
                 };
