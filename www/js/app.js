@@ -155,7 +155,7 @@ app.controller('TrainingCtrl', function($scope, $state) {
     $scope.player = function(info, color) {
         if (!info || !info['game-info']) return '???';
 
-        var result = (color === 'white')? info['game-info'].WhitePlayer: info['game-info'].BlackPlayer;
+        var result = (color === 'white')? info['game-info'].White: info['game-info'].Black;
         if (!result) return '???';
 
         return result;
