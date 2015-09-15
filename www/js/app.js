@@ -16,6 +16,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/login');
 });
 
+app.run(function($ionicPlatform, $ionicPopup, $state) {
+    if(localStorage.getItem('api-token')) {
+        $state.go('training');
+    } else {
+        $state.go('login');
+    }
+
+    $ionicPlatform.registerBackButtonAction(function(event) {
+        $ionicPopup.confirm({
+            title: 'System warning',
+            template: 'Are you sure you want to exit?'
+        }).then(function(res) {
+            if (res) {
+                ionic.Platform.exitApp();
+            }
+        });
+    }, 100);
+});
+
 app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate) {
     $scope.isTokenExist = function() {
         return localStorage.getItem('api-token') !== null;
