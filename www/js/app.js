@@ -229,6 +229,9 @@ app.controller('TrainingCtrl', function($scope, $state) {
             },
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
+            },
+            onTimerUpdate: function(value) {
+            	//TODO: now not used by app
             }
         });
     });

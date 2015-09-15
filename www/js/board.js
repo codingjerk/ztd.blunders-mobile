@@ -1,6 +1,14 @@
 var board = {};
 
 board.init = function(options) {
+    var counter = utils.counter(1000, function () {
+        var totalSeconds = counter.total();
+        
+        var formatted = utils.timePrettyFormat(totalSeconds);
+
+        options.onTimerUpdate(formatted);
+    });
+
     function getTokenAndRedirectIfNotExist() {
         var result = localStorage.getItem('api-token');
 
@@ -67,7 +75,7 @@ board.init = function(options) {
                     token: getTokenAndRedirectIfNotExist(),
                     id: blunder.id,
                     line: pv,
-                    spentTime: 0,
+                    spentTime: counter.total(),
                     type: 'rated'
                 },
                 onDone: function(result) {
@@ -130,6 +138,7 @@ board.init = function(options) {
 
                 if (status.terminate) {
                     validateBlunder(game.history(), blunder, function() {
+                        counter.stop();
                         options.onStatusChanged('ready-to-new-game');
                     });
                 }
@@ -214,6 +223,8 @@ board.init = function(options) {
                     return ChessUtils.convertNotationSquareToIndex(e.to);
                 });
             }
+
+            counter.start();
         }
 
         board.nextBlunder = function() {
