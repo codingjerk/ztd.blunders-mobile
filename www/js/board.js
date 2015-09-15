@@ -26,17 +26,23 @@ board.init = function(options) {
             data: {
                 token: getTokenAndRedirectIfNotExist()
             },
-            onDone: function(result) {
-                if (result.status !== 'ok') return;
+            onSuccess: function(result) {
+                if (result.status !== 'ok') {
+                    notify.error(result.message);
+                    return;
+                }
 
                 options.onUserRatingChanged(result.rating);
+            },
+            onFail: function(result) {
+                notify.error("Can't connect to server.<br>Check your connection");
             }
         });
     })();
 
     (function initGame() {
         function getBlunder(next) {
-            sync.ajax({
+            sync.repeat({
                 url: settings.url('blunder/get'),
                 crossDomain : true,
                 data: {
@@ -44,30 +50,44 @@ board.init = function(options) {
                     type: 'rated'
                 },
                 onAnimate: options.onAnimate,
-                onDone: function(result) {
+                onSuccess: function(result) {
+                    if (result.status !== 'ok') {
+                        notify.error(result.message);
+                        return;
+                    }
+
                     var data = result.data;
 
-                    sync.ajax({
+                    sync.repeat({
                         url: settings.url('blunder/info'),
                         crossDomain : true,
                         data: {
                             token: getTokenAndRedirectIfNotExist(),
                             blunder_id: data.id
                         },
-                        onDone: function(result) {
-                            if (result.status !== 'ok') return;
+                        onSuccess: function(result) {
+                            if (result.status !== 'ok') {
+                                notify.error(result.message);
+                                return;
+                            }
 
                             options.onInfoChanged(result.data);
+                        },
+                        onFail: function(result) {
+                            notify.error("Can't connect to server.<br>Check your connection");
                         }
                     });
 
                     next(data);
+                },
+                onFail: function(result) {
+                    notify.error("Can't connect to server.<br>Check your connection");
                 }
             });
         }
 
         function validateBlunder(pv, blunder, next) {
-            sync.ajax({
+            sync.repeat({
                 url: settings.url('blunder/validate'),
                 crossDomain : true,
                 onAnimate: options.onAnimate,
@@ -78,11 +98,17 @@ board.init = function(options) {
                     spentTime: counter.total(),
                     type: 'rated'
                 },
-                onDone: function(result) {
-                    if (result.status !== 'ok') return;
+                onSuccess: function(result) {
+                    if (result.status !== 'ok') {
+                        notify.error(result.message);
+                        return;
+                    }
 
                     options.onUserRatingChanged(result.data.elo);
                     next();
+                },
+                onFail: function(result) {
+                    notify.error("Can't connect to server.<br>Check your connection");
                 }
             });
         }

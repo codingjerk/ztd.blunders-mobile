@@ -63,20 +63,25 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
             url: settings.url('session/login'),
             crossDomain: true,
             data: {
-                username: username,
-                password: password,
+                username: username || '',
+                password: password || '',
             },
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
                 $('#login-button').toggleClass('disabled', state);
                 $('#signup-button').toggleClass('disabled', state);
             },
-            onDone: function(result) {
-                console.log(result);
-                if (result.status === 'ok') {
-                    localStorage.setItem('api-token', result.token);
-                    $state.go('training');
+            onSuccess: function(result) {
+                if (result.status !== 'ok') {
+                    notify.error(result.message);
+                    return;
                 }
+
+                localStorage.setItem('api-token', result.token);
+                $state.go('training');
+            },
+            onFail: function(result) {
+                notify.error("Can't connect to server.<br>Check your connection");
             }
         });
     };
@@ -86,8 +91,8 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
             url: settings.url('session/signup'),
             crossDomain: true,
             data: {
-                username: username,
-                password: password,
+                username: username || '',
+                password: password || '',
                 email: email || ''
             },
             onAnimate: function(state) {
@@ -95,12 +100,17 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
                 $('#login-button').toggleClass('disabled', state);
                 $('#signup-button').toggleClass('disabled', state);
             },
-            onDone: function(result) {
-                console.log(result);
-                if (result.status === 'ok') {
-                    localStorage.setItem('api-token', result.token);
-                    $state.go('training');
+            onSuccess: function(result) {
+                if (result.status !== 'ok') {
+                    notify.error(result.message);
+                    return;
                 }
+
+                localStorage.setItem('api-token', result.token);
+                $state.go('training');
+            },
+            onFail: function(result) {
+                notify.error("Can't connect to server.<br>Check your connection");
             }
         });
     };
@@ -133,10 +143,16 @@ app.controller('TrainingCtrl', function($scope, $state) {
                 $('#dislike-button').toggleClass('disabled', state);
                 $('#like-button').toggleClass('disabled', state);
             },
-            onDone: function(result) {
-                if (result.status !== 'ok') return;
+            onSuccess: function(result) {
+                if (result.status !== 'ok') {
+                    notify.error(result.message);
+                    return;
+                }
 
                 updateInfoView(result.data);
+            },
+            onFail: function(result) {
+                notify.error("Can't connect to server.<br>Check your connection");
             }
         });
     }
@@ -155,10 +171,16 @@ app.controller('TrainingCtrl', function($scope, $state) {
                 $('#loading-indicator').toggle(state);
                 $('#favorite-button').toggleClass('disabled', state);
             },
-            onDone: function(result) {
-                if (result.status !== 'ok') return;
+            onSuccess: function(result) {
+                if (result.status !== 'ok') {
+                    notify.error(result.message);
+                    return;
+                }
 
                 updateInfoView(result.data);
+            },
+            onFail: function(result) {
+                notify.error("Can't connect to server.<br>Check your connection");
             }
         });
     }

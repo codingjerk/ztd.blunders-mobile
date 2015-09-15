@@ -7,3 +7,6 @@
 [submodule "www/third-party/chess.js"]
 	path = www/third-party/chess.js
 	url = https://github.com/jhlywa/chess.js.git
+[submodule "www/third-party/toastr"]
+	path = www/third-party/toastr
+	url = https://github.com/CodeSeven/toastr
