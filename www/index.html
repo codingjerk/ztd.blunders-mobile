@@ -18,10 +18,12 @@
 
         <link rel="stylesheet" type="text/css" href="third-party/chessboard-js/css/chessboard.min.css">
         <script src="third-party/chessboard-js/js/chessboard.min.js"></script>
+        <script src="third-party/chess.js/chess.min.js"></script>
 
         <script src="third-party/ztd.blunders-misc/js/utils.js"></script>
         <script src="third-party/ztd.blunders-misc/js/sync.js"></script>
         <script src="js/settings.js"></script>
+        <script src="js/board.js"></script>
     </head>
     <body ng-app="Ztd.Blunders Mobile" ng-controller="MainCtrl">
         <div class="bar bar-header bar-positive blue-background">
@@ -30,7 +32,7 @@
             </div>
             
             <button style="display: none;" id="loading-indicator" class="button button-icon icon ion-load-c ion-spin-animation"></button>
-            <button class="button button-icon icon ion-university">1954</button>
+            <button id="user-elo" class="button button-icon icon ion-university">-</button>
         </div>
 
         <ion-side-menus>
@@ -117,15 +119,15 @@
                             <div class="card">
                                 <div class="item item-divider">
                                     <div class="padding">
-                                        {{whitePlayer}} - {{blackPlayer}}
+                                        {{player(info, 'white')}} - {{player(info, 'black')}}
                                     </div>
                                 </div>
                                 <div class="item item-text-wrap">
                                     <div id="board"></div>
                                 </div>
                                 <div class="game-status-container item item-divider">
-                                    <button class="game-status button button-balanced button-full">
-                                        Success! Next >>
+                                    <button ng-click="status.onClick()" class="{{status.viewClass}} game-status button button-balanced button-full">
+                                        {{status.viewText}}
                                     </button>
                                 </div>
                             </div>
@@ -135,13 +137,13 @@
                                 <div class="item item-divider">
                                     <div class="row">
                                       <div class="col">
-                                        <button class="button button-icon icon ion-thumbsdown"></button>
+                                        <button ng-click="dislike(blunder_id)" class="button button-icon icon ion-thumbsdown"></button>
                                       </div>
                                       <div class="col">
-                                        <button class="button button-icon icon ion-ios-heart-outline"></button>
+                                        <button ng-click="favorite(blunder_id)" class="button button-icon icon ion-ios-heart-outline"></button>
                                       </div>
                                       <div class="col">
-                                        <button class="button button-icon icon ion-thumbsup"></button>
+                                        <button ng-click="like(blunder_id)" class="button button-icon icon ion-thumbsup"></button>
                                       </div>
                                     </div>
                                 </div>
@@ -154,34 +156,34 @@
                                     <div class="row">
                                       <div class="col">
                                         <div class="cell-header">Rating</div>
-                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-value">{{info.elo}}</div>
                                         <div class="cell-footer">Elo</div>
                                       </div>
                                       <div class="col">
                                         <div class="cell-header">Rating</div>
-                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-value">{{info.likes - info.dislikes}}</div>
                                         <div class="cell-footer">votes</div>
                                       </div>
                                       <div class="col">
                                         <div class="cell-header">Favorite for</div>
-                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-value">{{info.favorites}}</div>
                                         <div class="cell-footer">users</div>
                                       </div>
                                     </div>
                                     <div class="row">
                                       <div class="col">
                                         <div class="cell-header">Success</div>
-                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-value">{{info.successTries}}</div>
                                         <div class="cell-footer">played</div>
                                       </div>
                                       <div class="col">
                                         <div class="cell-header">Total</div>
-                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-value">{{info.totalTries}}</div>
                                         <div class="cell-footer">played</div>
                                       </div>
                                       <div class="col">
                                         <div class="cell-header">Success rate</div>
-                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-value">{{successRate(info)}}</div>
                                         <div class="cell-footer">percents</div>
                                       </div>
                                     </div>
@@ -195,24 +197,24 @@
                                     <div class="row">
                                       <div class="col">
                                         <div class="cell-header">White</div>
-                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-value">{{player(info, 'white')}}</div>
                                         <div class="cell-footer">player</div>
                                       </div>
                                       <div class="col">
                                         <div class="cell-header">Black</div>
-                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-value">{{player(info, 'black')}}</div>
                                         <div class="cell-footer">player</div>
                                       </div>
                                     </div>
                                     <div class="row">
                                       <div class="col">
                                         <div class="cell-header">White</div>
-                                        <div class="cell-value">{{value}} Monika Beluchi lalala</div>
+                                        <div class="cell-value">{{elo(info, 'white')}}</div>
                                         <div class="cell-footer">Elo</div>
                                       </div>
                                       <div class="col">
                                         <div class="cell-header">Black</div>
-                                        <div class="cell-value">{{value}}</div>
+                                        <div class="cell-value">{{elo(info, 'black')}}</div>
                                         <div class="cell-footer">Elo</div>
                                       </div>
                                     </div>

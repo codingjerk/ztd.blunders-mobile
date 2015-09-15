@@ -4,3 +4,6 @@
 [submodule "www/third-party/ztd.blunders-misc"]
 	path = www/third-party/ztd.blunders-misc
 	url = git@bitbucket.org:ziltoidteam/ztd.blunders-misc.git
+[submodule "www/third-party/chess.js"]
+	path = www/third-party/chess.js
+	url = https://github.com/jhlywa/chess.js.git
