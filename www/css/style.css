@@ -234,6 +234,42 @@ div.chess_board div.chess_player_black.chess_piece_king {
 
 
 
+div.chess_board div.chess_square_light.ai-move-hightlight {
+    background-color: #dfdba4 !important;
+}
+
+div.chess_board div.chess_square_dark.ai-move-hightlight {
+    background-color: #cfcb94 !important;
+}
+
+div.chess_board div.chess_square_light.player-move-hightlight {
+    background-color: #dfdba4 !important;
+}
+
+div.chess_board div.chess_square_dark.player-move-hightlight {
+    background-color: #bfbba4 !important;
+}
+
+.fail-move-hightlight {
+    box-shadow: 0 0 100em 100em rgba(238,51,51,0.7) inset !important;
+}
+
+div.chess_board div.chess_square_light.success-move-hightlight {
+    background-color: #2fb68a !important;
+}
+
+div.chess_board div.chess_square_dark.success-move-hightlight {
+    background-color: #1fa67a !important;
+}
+
+.social-button-container {
+    text-align: center;
+    font-size: 1.6em; 
+    color: #333;
+}
+
+
+
 
 
 
