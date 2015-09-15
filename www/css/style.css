@@ -55,6 +55,16 @@ label, button {
 
 
 
+.like-active {
+    color: #1fa67a;
+}
+
+.favorite-active, .dislike-active {
+    color: rgb(217, 83, 79);
+}
+
+
+
 
 
 

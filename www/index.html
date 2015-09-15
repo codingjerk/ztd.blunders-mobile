@@ -137,13 +137,13 @@
                                 <div class="item item-divider">
                                     <div class="row">
                                       <div class="col">
-                                        <button ng-click="dislike(blunder_id)" class="button button-icon icon ion-thumbsdown"></button>
+                                        <button id="dislike-button" ng-class="{'dislike-active': info.myVote === -1}" ng-click="vote(-1)" class="button button-icon icon ion-thumbsdown"></button>
                                       </div>
                                       <div class="col">
-                                        <button ng-click="favorite(blunder_id)" class="button button-icon icon ion-ios-heart-outline"></button>
+                                        <button id="favorite-button" ng-class="{'favorite-active': info.myFavorite === true}" ng-click="favorite()" class="button button-icon icon {{info.myFavorite? 'ion-ios-heart': 'ion-ios-heart-outline'}}"></button>
                                       </div>
                                       <div class="col">
-                                        <button ng-click="like(blunder_id)" class="button button-icon icon ion-thumbsup"></button>
+                                        <button id="like-button" ng-class="{'like-active': info.myVote === 1}" ng-click="vote(1)" class="button button-icon icon ion-thumbsup"></button>
                                       </div>
                                     </div>
                                 </div>

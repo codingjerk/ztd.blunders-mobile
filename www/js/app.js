@@ -92,16 +92,56 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
 });
 
 app.controller('TrainingCtrl', function($scope, $state) {
-    $scope.dislike = function(blunder_id) {
-        console.log('dislike', blunder_id);
+    function updateInfoView(info) {
+        $scope.$apply(function () {
+            $scope.info = info;
+        });
     }
 
-    $scope.favorite = function(blunder_id) {
-        console.log('favorite', blunder_id);
+    $scope.vote = function(vote) {
+        if (!$scope.blunder_id) return;
+
+        sync.ajax({
+            url: settings.url('blunder/vote'),
+            crossDomain : true,
+            data: {
+                token: localStorage.getItem('api-token'),
+                blunder_id: $scope.blunder_id,
+                vote: vote
+            },
+            onAnimate: function(state) {
+                $('#loading-indicator').toggle(state);
+                $('#dislike-button').toggleClass('disabled', state);
+                $('#like-button').toggleClass('disabled', state);
+            },
+            onDone: function(result) {
+                if (result.status !== 'ok') return;
+
+                updateInfoView(result.data);
+            }
+        });
     }
 
-    $scope.like = function(blunder_id) {
-        console.log('like', blunder_id);
+    $scope.favorite = function() {
+        if (!$scope.blunder_id) return;
+
+        sync.ajax({
+            url: settings.url('blunder/favorite'),
+            crossDomain : true,
+            data: {
+                token: localStorage.getItem('api-token'),
+                blunder_id: $scope.blunder_id
+            },
+            onAnimate: function(state) {
+                $('#loading-indicator').toggle(state);
+                $('#favorite-button').toggleClass('disabled', state);
+            },
+            onDone: function(result) {
+                if (result.status !== 'ok') return;
+
+                updateInfoView(result.data);
+            }
+        });
     }
 
     $scope.successRate = function(info) {
@@ -165,6 +205,8 @@ app.controller('TrainingCtrl', function($scope, $state) {
                 if (statusName === 'ready-to-new-game') {
                     $scope.$apply(function () {
                         $scope.status.onClick = function() {
+                            $scope.blunder_id = null;
+
                             board.nextBlunder();
                         }
                     });
@@ -180,12 +222,13 @@ app.controller('TrainingCtrl', function($scope, $state) {
                 $('#user-elo').html(rating);
             },
             onInfoChanged: function(info) {
-                $scope.$apply(function () {
-                    $scope.info = info;
-                });
+                updateInfoView(info);
             },
             onTokenRefused: function() {
                 $state.go('login');
+            },
+            onAnimate: function(state) {
+                $('#loading-indicator').toggle(state);
             }
         });
     });

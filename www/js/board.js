@@ -35,6 +35,7 @@ board.init = function(options) {
                     token: getTokenAndRedirectIfNotExist(),
                     type: 'rated'
                 },
+                onAnimate: options.onAnimate,
                 onDone: function(result) {
                     var data = result.data;
 
@@ -61,6 +62,7 @@ board.init = function(options) {
             sync.ajax({
                 url: settings.url('blunder/validate'),
                 crossDomain : true,
+                onAnimate: options.onAnimate,
                 data: {
                     token: getTokenAndRedirectIfNotExist(),
                     id: blunder.id,
