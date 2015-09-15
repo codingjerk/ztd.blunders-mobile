@@ -18,11 +18,18 @@
 
         <link rel="stylesheet" type="text/css" href="third-party/chessboard-js/css/chessboard.min.css">
         <script src="third-party/chessboard-js/js/chessboard.min.js"></script>
+
+        <script src="third-party/ztd.blunders-misc/js/utils.js"></script>
+        <script src="third-party/ztd.blunders-misc/js/sync.js"></script>
+        <script src="js/settings.js"></script>
     </head>
     <body ng-app="Ztd.Blunders Mobile" ng-controller="MainCtrl">
         <div class="bar bar-header bar-positive blue-background">
-            <button ng-click="showMenu()" class="button button-icon icon ion-navicon"> Ztd.Blunders</button>
-            <div class="title header-title"></div>
+            <button ng-click="toggleMenu()" class="button button-icon icon ion-navicon"> Ztd.Blunders</button>
+            <div class="title header-title">
+            </div>
+            
+            <button style="display: none;" id="loading-indicator" class="button button-icon icon ion-load-c ion-spin-animation"></button>
             <button class="button button-icon icon ion-university">1954</button>
         </div>
 
@@ -48,17 +55,17 @@
                             <div class="list list-inset blue-background">
                                 <div class="padding">
                                     <label class="fixed-label item item-input">
-                                        <input ng-model="username" type="text" placeholder="Your username">
+                                        <input ng-model="loginUsername" type="text" placeholder="Your username">
                                     </label>
                                 </div>
                                 <div class="padding">
                                     <label class="fixed-label item item-input">
-                                        <input type="password" placeholder="Your password">
+                                        <input ng-model="loginPassword" type="password" placeholder="Your password">
                                     </label>
                                 </div>
                             </div>
                             <div class="padding">
-                                <button ng-click="login()" class="button button-balanced button-wide icon-right ion-log-in">
+                                <button id="login-button" ng-click="login(loginUsername, loginPassword)" class="button button-balanced button-wide icon-right ion-log-in">
                                     Login
                                 </button>
                             </div>
@@ -77,22 +84,22 @@
                             <div class="list list-inset blue-background">
                                 <div class="padding">
                                     <label class="fixed-label item item-input">
-                                        <input type="text" placeholder="Pick a username">
+                                        <input ng-model="signupUsername" type="text" placeholder="Pick a username">
                                     </label>
                                 </div>
                                 <div class="padding">
                                     <label class="fixed-label item item-input">
-                                        <input type="password" placeholder="Create a password">
+                                        <input ng-model="signupPassword" type="password" placeholder="Create a password">
                                     </label>
                                 </div>
                                 <div class="padding">
                                     <label class="fixed-label item item-input">
-                                        <input type="email" placeholder="Optional email">
+                                        <input ng-model="signupEmail" type="email" placeholder="Optional email">
                                     </label>
                                 </div>
                             </div>
                             <div class="padding">
-                                <button class="button button-balanced button-wide icon-right ion-person-add">
+                                <button id="signup-button" ng-click="signup(signupUsername, signupPassword, signupEmail)" class="button button-balanced button-wide icon-right ion-person-add">
                                     Sign Up!
                                 </button>
                             </div>

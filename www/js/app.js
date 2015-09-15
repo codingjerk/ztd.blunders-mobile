@@ -21,16 +21,67 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate) {
         return localStorage.getItem('api-token') !== null;
     };
 
-    $scope.showMenu = function() {
+    $scope.toggleMenu = function() {
         if (!$scope.isTokenExist()) return;
 
         $ionicSideMenuDelegate.toggleLeft();
     };
+
+    $scope.logout = function() {
+        localStorage.removeItem('api-token');
+        $state.go('login');
+        $ionicSideMenuDelegate.toggleLeft(false);
+    };
 });
 
 app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
-    $scope.login = function() {
-        $state.go('training');
+    $scope.authInProgress = false;
+
+    $scope.login = function(username, password) {
+        sync.ajax({
+            url: settings.url('session/login'),
+            crossDomain: true,
+            data: {
+                username: username,
+                password: password,
+            },
+            onAnimate: function(state) {
+                $('#loading-indicator').toggle(state);
+                $('#login-button').toggleClass('disabled', state);
+                $('#signup-button').toggleClass('disabled', state);
+            },
+            onDone: function(result) {
+                console.log(result);
+                if (result.status === 'ok') {
+                    localStorage.setItem('api-token', result.token);
+                    $state.go('training')
+                }
+            }
+        });
+    };
+
+    $scope.signup = function(username, password, email) {
+        sync.ajax({
+            url: settings.url('session/signup'),
+            crossDomain: true,
+            data: {
+                username: username,
+                password: password,
+                email: email || ''
+            },
+            onAnimate: function(state) {
+                $('#loading-indicator').toggle(state);
+                $('#login-button').toggleClass('disabled', state);
+                $('#signup-button').toggleClass('disabled', state);
+            },
+            onDone: function(result) {
+                console.log(result);
+                if (result.status === 'ok') {
+                    localStorage.setItem('api-token', result.token);
+                    $state.go('training')
+                }
+            }
+        });
     };
 
     $scope.goToSignup = function() {

@@ -6,7 +6,6 @@ body {
     background-color: #0f6bb4 !important;
 }
 
-
 .fixed-label {
     max-width: 25em;
 
@@ -55,6 +54,13 @@ label, button {
 }
 
 
+
+
+
+
+
+
+
 .cell-header, .cell-footer {
     color: #777;
 }
@@ -66,6 +72,15 @@ label, button {
 
     margin: 5px 0;
 }
+
+
+
+
+
+
+
+
+
 
 
 #board {
@@ -205,3 +220,30 @@ div.chess_board div.chess_player_black.chess_piece_king:after {
 div.chess_board div.chess_player_black.chess_piece_king {
     background-image: url('../img/pieces/bK.svg');
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* @TODO: move to hacks.css*/
+.ion-spin-animation { -webkit-animation: spin 1s infinite linear; -moz-animation: spin 1s infinite linear; -o-animation: spin 1s infinite linear; animation: spin 1s infinite linear; }
+
+@-moz-keyframes spin { 0% { -moz-transform: rotate(0deg); }
+    100% { -moz-transform: rotate(359deg); } }
+@-webkit-keyframes spin { 0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(359deg); } }
+@-o-keyframes spin { 0% { -o-transform: rotate(0deg); }
+    100% { -o-transform: rotate(359deg); } }
+@-ms-keyframes spin { 0% { -ms-transform: rotate(0deg); }
+    100% { -ms-transform: rotate(359deg); } }
+@keyframes spin { 0% { transform: rotate(0deg); }
+    100% { transform: rotate(359deg); } }
