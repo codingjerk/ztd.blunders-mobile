@@ -22,6 +22,11 @@
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
+
+  <feature name="Insomnia">
+    <param name="android-package" value="nl.xservices.plugins.Insomnia" />
+  </feature>
+
   <platform name="android">
     <icon src="resources/android/icon/icon-36-ldpi.png" density="ldpi"/>
     <icon src="resources/android/icon/icon-48-mdpi.png" density="mdpi"/>
