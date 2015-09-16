@@ -21,11 +21,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -46,10 +46,10 @@
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "id.ztd.blunders"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "id.ztd.blunders"
         },
-        "cordova-plugin-statusbar": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "id.ztd.blunders"
         }
     },

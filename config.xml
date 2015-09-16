@@ -16,6 +16,7 @@
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="StatusBarBackgroundColor" value="#0f6bb4" />
+  <preference name="SplashScreen" value="none"/>
   <preference name="orientation" value="portrait" />
 
   <feature name="StatusBar">
