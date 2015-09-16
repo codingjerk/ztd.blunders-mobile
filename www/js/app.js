@@ -17,10 +17,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 });
 
 app.run(function($ionicPlatform, $ionicPopup, $state) {
-    if (window.plugins) {
-        window.plugins.insomnia.keepAwake();
-    }
-
     if(localStorage.getItem('api-token')) {
         $state.go('training');
     } else {
