@@ -32,7 +32,7 @@ label, button {
 
 .bar-header {
     color: #dedede;
-    border-bottom: 1px solid #0f4b94;
+    border-bottom: 1px solid #0f4b94 !important;
 }
 
 .ion-navicon {
