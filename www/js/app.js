@@ -211,7 +211,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
         return result;
     }
 
-    $scope.$on('$ionicView.loaded', function() {
+    $scope.startGame = function() {
         board.init({
             id: 'board',
             onBlunderChanged: function(blunder) {
@@ -276,9 +276,15 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
                 $('#loading-indicator').toggle(state);
             },
             onTimerUpdate: function(value) {
-            	//TODO: now not used by app
+            	// @TODO: now not used by app
             }
         });
+    };
+
+    $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
+        if (to.name === 'training') {
+            $scope.startGame();
+        }
     });
 
     window.onresize = function(event) {
