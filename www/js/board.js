@@ -102,9 +102,10 @@ board.init = function(options) {
                     if (result.status !== 'ok') {
                         notify.error(result.message);
                         return;
+                    } else {
+                        options.onUserRatingChanged(result.data.elo);
                     }
 
-                    options.onUserRatingChanged(result.data.elo);
                     next();
                 },
                 onFail: function(result) {
