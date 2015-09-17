@@ -222,23 +222,27 @@ app.controller('TrainingCtrl', function($scope, $state) {
             onStatusChanged: function(statusName) {
                 var stateNameToState = {
                     'fail': {
-                        viewText: 'Failed. Next >>',
+                        viewText: 'Failed. Next',
                         viewClass: 'button-assertive',
+                        terminate: true,
                         onClick: function() {}
                     },
                     'success': {
-                        viewText: 'Success. Next >>',
+                        viewText: 'Success. Next',
                         viewClass: 'button-balanced',
+                        terminate: true,
                         onClick: function() {}
                     },
                     'white-move': {
                         viewText: 'White to Move',
                         viewClass: 'button-white',
+                        terminate: false,
                         onClick: function() {}
                     },
                     'black-move': {
                         viewText: 'Black to Move',
                         viewClass: 'button-dark',
+                        terminate: false,
                         onClick: function() {}
                     }
                 };
@@ -277,3 +281,4 @@ app.controller('TrainingCtrl', function($scope, $state) {
         });
     });
 });
+

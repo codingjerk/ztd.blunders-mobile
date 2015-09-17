@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="game-status-container item item-divider">
                                     <button ng-click="status.onClick()" class="{{status.viewClass}} game-status button button-full">
-                                        {{status.viewText}}
+                                        {{status.viewText}} <i ng-show="status.terminate === true" class="icon ion-ios-arrow-right"></i>
                                     </button>
                                 </div>
                             </div>
