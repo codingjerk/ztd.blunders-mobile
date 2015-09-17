@@ -50,6 +50,22 @@ label, button {
 }
 
 
+.title {
+    width: 100% !important;
+    margin: 0 !important;
+
+    text-align: center;
+    display: table !important;
+}
+
+.title-text {
+    text-align: center;
+
+    display: table-cell !important;
+    vertical-align: middle !important;
+}
+
+
 
 .like-active {
     color: #1fa67a;
