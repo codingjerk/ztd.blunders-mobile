@@ -33,7 +33,11 @@
     </head>
     <body ng-app="Ztd.Blunders Mobile" ng-controller="MainCtrl">
         <div class="bar bar-header bar-positive blue-background">
-            <button ng-click="toggleMenu()" class="button button-icon icon ion-navicon"></button>
+            <div class="buttons">
+                <span class="title-text">
+                    <button id="menu-button" ng-click="toggleMenu()" class="button button-icon icon ion-navicon"></button>
+                </span>
+            </div>
             <div class="title">
                 <span class="title-text">
                     Ztd.Blunders

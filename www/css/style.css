@@ -49,13 +49,15 @@ label, button {
     padding: 0 15%;
 }
 
+.title, .buttons {
+    text-align: center;
+    display: table !important;
+    height: 100%;
+}
 
 .title {
     width: 100% !important;
     margin: 0 !important;
-
-    text-align: center;
-    display: table !important;
 }
 
 .title-text {
