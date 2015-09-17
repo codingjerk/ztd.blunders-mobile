@@ -120,7 +120,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     };
 });
 
-app.controller('TrainingCtrl', function($scope, $state) {
+app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     function updateInfoView(info) {
         $scope.$apply(function () {
             $scope.info = info;
@@ -280,5 +280,9 @@ app.controller('TrainingCtrl', function($scope, $state) {
             }
         });
     });
+
+    window.onresize = function(event) {
+        $ionicSlideBoxDelegate.update();
+    };
 });
 
