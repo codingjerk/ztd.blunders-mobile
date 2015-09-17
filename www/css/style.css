@@ -69,11 +69,11 @@ label, button {
 
 
 
-.like-active {
+.like-active, .like-active:hover {
     color: #1fa67a;
 }
 
-.favorite-active, .dislike-active {
+.favorite-active, .dislike-active, .favorite-active:hover, .dislike-active:hover {
     color: rgb(217, 83, 79);
 }
 
