@@ -19,6 +19,15 @@ board.init = function(options) {
         return result;
     }
 
+    function processError(data) {
+        if (data.message === 'Invalid API token') {
+            options.onTokenRefused();
+            return;
+        }
+
+        notify.error(data.message);
+    }
+
     (function updateUserRating() {
         sync.ajax({
             url: settings.url('session/rating'),
@@ -28,8 +37,7 @@ board.init = function(options) {
             },
             onSuccess: function(result) {
                 if (result.status !== 'ok') {
-                    notify.error(result.message);
-                    return;
+                    return processError(result);
                 }
 
                 options.onUserRatingChanged(result.rating);
@@ -52,8 +60,7 @@ board.init = function(options) {
                 onAnimate: options.onAnimate,
                 onSuccess: function(result) {
                     if (result.status !== 'ok') {
-                        notify.error(result.message);
-                        return;
+                        return processError(result);
                     }
 
                     var data = result.data;
@@ -67,8 +74,7 @@ board.init = function(options) {
                         },
                         onSuccess: function(result) {
                             if (result.status !== 'ok') {
-                                notify.error(result.message);
-                                return;
+                                return processError(result);
                             }
 
                             options.onInfoChanged(result.data);
@@ -100,8 +106,7 @@ board.init = function(options) {
                 },
                 onSuccess: function(result) {
                     if (result.status !== 'ok') {
-                        notify.error(result.message);
-                        return;
+                        return processError(result);
                     } else {
                         options.onUserRatingChanged(result.data.elo);
                     }
