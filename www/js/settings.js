@@ -1,7 +1,7 @@
 var settings = {
     server: {
         protocol: 'https',
-        hostname: 'ssl.ztd.io',
+        hostname: 'blunders.ztd.io',
         pathToApi: 'api/mobile'
     },
 
