@@ -18,8 +18,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 app.run(function($ionicPlatform, $ionicPopup, $state) {
     document.addEventListener("deviceready", function() {
-        console.log('NOW AWAKE!!!');
-        window.plugins.insomnia.keepAwake();
+        window.plugins.insomnia.keepAwake(function() {
+            // All is ok
+        }, function() {
+            notify.error("Can't keep screen on, please dont be upset.");
+        });
     }, false);
 
     if(localStorage.getItem('api-token')) {
