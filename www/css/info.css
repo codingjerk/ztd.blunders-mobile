@@ -1,0 +1,19 @@
+.like-active, .like-active:hover {
+    color: #1fa67a;
+}
+
+.favorite-active, .dislike-active, .favorite-active:hover, .dislike-active:hover {
+    color: rgb(217, 83, 79);
+}
+
+.cell-header, .cell-footer {
+    color: #777;
+}
+
+.cell-value {
+    white-space: normal !important;
+    font-size: 140%;
+    font-weight: bold;
+
+    margin: 5px 0;
+}
