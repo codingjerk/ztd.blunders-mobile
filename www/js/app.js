@@ -17,6 +17,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 });
 
 app.run(function($ionicPlatform, $ionicPopup, $state) {
+    document.addEventListener("deviceready", function() {
+        console.log('NOW AWAKE!!!');
+        window.plugins.insomnia.keepAwake();
+    }, false);
+
     if(localStorage.getItem('api-token')) {
         $state.go('training');
     } else {
