@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="id.ztd.blunders" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Ztd.Blunders Mobile</name>
+<widget id="id.ztd.blunders" version="1.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Ztd.Blunders</name>
   <description>
       Mobile client to Ztd.Blunders (blunders.ztd.io)
   </description>
