@@ -106,7 +106,7 @@ board.init = function(options) {
                 },
                 onSuccess: function(result) {
                     if (result.status !== 'ok') {
-                        return processError(result);
+                        processError(result);
                     } else {
                         options.onUserRatingChanged(result.data.elo);
                     }
