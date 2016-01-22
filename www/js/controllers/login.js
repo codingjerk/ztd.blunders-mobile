@@ -4,13 +4,9 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     $scope.authInProgress = false;
 
     $scope.login = function(username, password) {
-        sync.ajax({
-            url: settings.url('session/login'),
-            crossDomain: true,
-            data: {
-                username: username || '',
-                password: password || '',
-            },
+        api.session.login({
+            username: username,
+            password: password,
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
                 $('#login-button').toggleClass('disabled', state);
@@ -32,14 +28,10 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     };
 
     $scope.signup = function(username, password, email) {
-        sync.ajax({
-            url: settings.url('session/signup'),
-            crossDomain: true,
-            data: {
-                username: username || '',
-                password: password || '',
-                email: email || ''
-            },
+        api.session.signup({
+            username: username,
+            password: password,
+            email: email,
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
                 $('#login-button').toggleClass('disabled', state);

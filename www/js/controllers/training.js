@@ -6,16 +6,12 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
     }
 
     $scope.vote = function(vote) {
-        if (!$scope.blunder_id) return;
+        if (!$scope.blunderId) return;
 
-        sync.ajax({
-            url: settings.url('blunder/vote'),
-            crossDomain : true,
-            data: {
-                token: localStorage.getItem('api-token'),
-                blunder_id: $scope.blunder_id,
-                vote: vote
-            },
+        api.blunder.vote({
+            token: localStorage.getItem('api-token'),
+            blunderId: $scope.blunderId,
+            vote: vote,
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
                 $('#dislike-button').toggleClass('disabled', state);
@@ -36,15 +32,11 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
     }
 
     $scope.favorite = function() {
-        if (!$scope.blunder_id) return;
+        if (!$scope.blunderId) return;
 
-        sync.ajax({
-            url: settings.url('blunder/favorite'),
-            crossDomain : true,
-            data: {
-                token: localStorage.getItem('api-token'),
-                blunder_id: $scope.blunder_id
-            },
+        api.blunder.favorite({
+            token: localStorage.getItem('api-token'),
+            blunderId: $scope.blunderId,
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
                 $('#favorite-button').toggleClass('disabled', state);
@@ -94,7 +86,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
             id: 'board',
             onBlunderChanged: function(blunder) {
                 $scope.$apply(function () {
-                    $scope.blunder_id = blunder.id;
+                    $scope.blunderId = blunder.id;
                 });
             },
             onStatusChanged: function(statusName) {
@@ -128,7 +120,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
                 if (statusName === 'ready-to-new-game') {
                     $scope.$apply(function () {
                         $scope.status.onClick = function() {
-                            $scope.blunder_id = null;
+                            $scope.blunderId = null;
 
                             board.nextBlunder();
                         }

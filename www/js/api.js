@@ -41,6 +41,33 @@ var api = {
           onFail: args.onFail,
           onAnimate: args.onAnimate
       });
+    },
+    vote: function(args) {
+      sync.ajax({
+          url: settings.url('blunder/vote'),
+          crossDomain : true,
+          data: {
+              token: args.token,
+              blunder_id: args.blunderId,
+              vote: args.vote
+          },
+          onSuccess: args.onSuccess,
+          onFail: args.onFail,
+          onAnimate: args.onAnimate
+      });
+    },
+    favorite: function(args) {
+      sync.ajax({
+          url: settings.url('blunder/favorite'),
+          crossDomain : true,
+          data: {
+              token: args.token,
+              blunder_id: args.blunderId
+          },
+          onSuccess: args.onSuccess,
+          onFail:   args.onFail,
+          onAnimate: args.onAnimate
+      });
     }
 
   },
@@ -55,6 +82,33 @@ var api = {
         onSuccess: args.onSuccess,
         onFail: args.onFail,
         onAnimate: args.onAnimate
+      });
+    },
+    login: function(args) {
+      sync.ajax({
+          url: settings.url('session/login'),
+          crossDomain: true,
+          data: {
+              username: args.username || '',
+              password: args.password || '',
+          },
+          onSuccess: args.onSuccess,
+          onFail: args.onFail,
+          onAnimate: args.onAnimate
+      });
+    },
+    signup: function(args) {
+      sync.ajax({
+          url: settings.url('session/signup'),
+          crossDomain: true,
+          data: {
+              username: args.username || '',
+              password: args.password || '',
+              email: args.email || ''
+          },
+          onSuccess: args.onSuccess,
+          onFail: args.onFail,
+          onAnimate: args.onAnimate
       });
     }
   }
