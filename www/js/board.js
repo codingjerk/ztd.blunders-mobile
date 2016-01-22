@@ -3,7 +3,7 @@ var board = {};
 board.init = function(options) {
     var counter = utils.counter(1000, function () {
         var totalSeconds = counter.total();
-        
+
         var formatted = utils.timePrettyFormat(totalSeconds);
 
         options.onTimerUpdate(formatted);
@@ -14,6 +14,7 @@ board.init = function(options) {
 
         if (!result) {
             options.onTokenRefused();
+            console.log("refused");
         }
 
         return result;
@@ -29,94 +30,73 @@ board.init = function(options) {
     }
 
     (function updateUserRating() {
-        sync.ajax({
-            url: settings.url('session/rating'),
-            crossDomain : true,
-            data: {
-                token: getTokenAndRedirectIfNotExist()
-            },
-            onSuccess: function(result) {
-                if (result.status !== 'ok') {
-                    return processError(result);
-                }
-
-                options.onUserRatingChanged(result.rating);
-            },
-            onFail: function(result) {
+        api.session.rating({
+          token: getTokenAndRedirectIfNotExist(),
+          onSuccess: function(result) {
+              if (result.status !== 'ok') {
+                  return processError(result);
+              }
+              options.onUserRatingChanged(result.rating);
+          },
+          onFail: function(result) {
                 notify.error("Can't connect to server.<br>Check your connection");
-            }
+          }
         });
     })();
 
     (function initGame() {
         function getBlunder(next) {
-            sync.repeat({
-                url: settings.url('blunder/get'),
-                crossDomain : true,
-                data: {
+            api.blunder.get({
+              token: getTokenAndRedirectIfNotExist(),
+              onSuccess: function(result) {
+                  if (result.status !== 'ok') {
+                      return processError(result);
+                  }
+                  var data = result.data;
+
+                  api.blunder.info({
                     token: getTokenAndRedirectIfNotExist(),
-                    type: 'rated'
-                },
-                onAnimate: options.onAnimate,
-                onSuccess: function(result) {
-                    if (result.status !== 'ok') {
-                        return processError(result);
-                    }
-
-                    var data = result.data;
-
-                    sync.repeat({
-                        url: settings.url('blunder/info'),
-                        crossDomain : true,
-                        data: {
-                            token: getTokenAndRedirectIfNotExist(),
-                            blunder_id: data.id
-                        },
-                        onSuccess: function(result) {
-                            if (result.status !== 'ok') {
-                                return processError(result);
-                            }
-
-                            options.onInfoChanged(result.data);
-                        },
-                        onFail: function(result) {
-                            notify.error("Can't connect to server.<br>Check your connection");
+                    blunderId: data.id,
+                    onSuccess: function(result) {
+                        if (result.status !== 'ok') {
+                            return processError(result);
                         }
-                    });
-
-                    next(data);
-                },
-                onFail: function(result) {
-                    notify.error("Can't connect to server.<br>Check your connection");
-                }
-            });
+                        options.onInfoChanged(result.data);
+                    },
+                    onFail: function(result) {
+                        notify.error("Can't connect to server.<br>Check your connection");
+                    }
+                  })
+                  next(data);
+              },
+              onFail: function(result) {
+                  notify.error("Can't connect to server.<br>Check your connection");
+              },
+              onAnimate: options.onAnimate
+            })
         }
 
         function validateBlunder(pv, blunder, next) {
-            sync.repeat({
-                url: settings.url('blunder/validate'),
-                crossDomain : true,
-                onAnimate: options.onAnimate,
-                data: {
-                    token: getTokenAndRedirectIfNotExist(),
-                    id: blunder.id,
-                    line: pv,
-                    spentTime: counter.total(),
-                    type: 'rated'
-                },
-                onSuccess: function(result) {
-                    if (result.status !== 'ok') {
-                        processError(result);
-                    } else {
-                        options.onUserRatingChanged(result.data.elo);
-                    }
-
-                    next();
-                },
-                onFail: function(result) {
-                    notify.error("Can't connect to server.<br>Check your connection");
+          api.blunder.validate({
+            token: getTokenAndRedirectIfNotExist(),
+            blunderId: blunder.id,
+            pv: pv,
+            spentTime: counter.total(),
+            onSuccess: function(result) {
+                if (result.status !== 'ok') {
+                    console.log(result);
+                    processError(result);
+                } else {
+                    options.onUserRatingChanged(result.data.elo);
                 }
-            });
+
+                next();
+            },
+            onFail:function(result) {
+                notify.error("Can't connect to server.<br>Check your connection");
+            },
+            onAnimate: options.onAnimate
+          })
         }
 
         function startGame(blunder) {
@@ -149,7 +129,7 @@ board.init = function(options) {
 
             var game = new Chess(blunder.fenBefore);
             var chessboard = new Chessboard(
-                options.id, 
+                options.id,
                 {
                     position: blunder.fenBefore,
                     eventHandlers: {
