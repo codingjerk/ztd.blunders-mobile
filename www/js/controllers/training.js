@@ -1,5 +1,6 @@
 app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     $scope.unlockedInfo = pack.unlockedInfo()
+    $scope.packBlundersInfo = pack.packBlundersInfo()
 
     function updateInfoView(info) {
         $scope.$apply(function () {
@@ -90,6 +91,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
                 $scope.$apply(function () {
                     $scope.blunderId = blunder.id;
                     $scope.unlockedInfo = pack.unlockedInfo()
+                    $scope.packBlundersInfo = pack.packBlundersInfo()
                 });
             },
             onStatusChanged: function(statusName) {
@@ -153,7 +155,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
             }
         });
 
-        pack.fullSync({
+        pack.sync({
           onTokenRefused: function() {
             $state.go('login');
           }

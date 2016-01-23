@@ -148,6 +148,14 @@
                 <ion-content>
                     <ion-slide-box show-pager="false" class="has-header">
                         <ion-slide>
+                          <div data-ng-repeat="pack in packBlundersInfo" class="card">
+                            <div class="item item-divider">
+                              {{pack.description}}
+                            </div>
+                            <div class="item item-text-wrap">
+                              <button id="user-elo" class="button button-icon icon ion-ios-cloud-download"></button>
+                            </div>
+                          </div>
                           <div data-ng-repeat="pack in unlockedInfo" class="card">
                               <div class="item item-divider">
                                 {{pack.description}}

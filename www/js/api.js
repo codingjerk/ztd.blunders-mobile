@@ -114,11 +114,24 @@ var api = {
   },
   pack: {
     info: function(args) {
-      sync.ajax({
+      sync.repeat({
           url: settings.url('pack/info'),
           crossDomain: true,
           data: {
             token: args.token
+          },
+          onSuccess: args.onSuccess,
+          onFail: args.onFail,
+          onAnimate: args.onAnimate
+      });
+    },
+    get: function(args) {
+      sync.repeat({
+          url: settings.url('pack/get'),
+          crossDomain: true,
+          data: {
+            token: args.token,
+            pack_id: args.packId
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,
