@@ -28,6 +28,8 @@
         <script type="text/javascript" src="third-party/toastr/build/toastr.min.js"></script>
         <script src="third-party/chessboard-js/js/chessboard.min.js"></script>
         <script src="third-party/chess.js/chess.min.js"></script>
+        <script src="third-party/lokijs/build/lokijs.min.js"></script>
+        <script src="third-party/lokijs/build/loki-indexed-adapter.min.js"></script>
 
         <!-- Ztd.Team modules as external js -->
         <script src="third-party/ztd.blunders-misc/js/utils.js"></script>
@@ -46,6 +48,7 @@
         <script src="js/notify.js"></script>
         <script src="js/settings.js"></script>
         <script src="js/board.js"></script>
+        <script src="js/pack.js"></script>
     </head>
     <body ng-app="Ztd.Blunders Mobile" ng-controller="MainCtrl">
         <div class="bar bar-header bar-positive blue-background">
@@ -144,6 +147,16 @@
             <ion-view class="white-background">
                 <ion-content>
                     <ion-slide-box show-pager="false" class="has-header">
+                        <ion-slide>
+                          <div data-ng-repeat="pack in unlockedInfo" class="card">
+                              <div class="item item-divider">
+                                {{pack.description}}
+                              </div>
+                              <div class="item item-text-wrap">
+                                <button id="user-elo" class="button button-icon icon ion-ios-cloud-download"></button>
+                              </div>
+                            </div>
+                        </ion-slide>
                         <ion-slide>
                             <div class="card">
                                 <div class="item item-divider">

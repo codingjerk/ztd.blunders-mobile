@@ -111,5 +111,19 @@ var api = {
           onAnimate: args.onAnimate
       });
     }
+  },
+  pack: {
+    info: function(args) {
+      sync.ajax({
+          url: settings.url('pack/info'),
+          crossDomain: true,
+          data: {
+            token: args.token
+          },
+          onSuccess: args.onSuccess,
+          onFail: args.onFail,
+          onAnimate: args.onAnimate
+      });
+    }
   }
 };

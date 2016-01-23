@@ -10,3 +10,6 @@
 [submodule "www/third-party/toastr"]
 	path = www/third-party/toastr
 	url = https://github.com/CodeSeven/toastr
+[submodule "www/third-party/lokijs"]
+	path = www/third-party/lokijs
+	url = https://github.com/techfort/LokiJS.git

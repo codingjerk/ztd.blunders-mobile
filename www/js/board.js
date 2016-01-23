@@ -14,7 +14,6 @@ board.init = function(options) {
 
         if (!result) {
             options.onTokenRefused();
-            console.log("refused");
         }
 
         return result;
@@ -84,7 +83,6 @@ board.init = function(options) {
             spentTime: counter.total(),
             onSuccess: function(result) {
                 if (result.status !== 'ok') {
-                    console.log(result);
                     processError(result);
                 } else {
                     options.onUserRatingChanged(result.data.elo);
