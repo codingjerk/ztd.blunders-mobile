@@ -8,6 +8,9 @@ var pack = {};
     module.unlockedCollection = null
     module.selectedPack = null
 
+    module.dynamicPacks = null
+    module.dynamicUnlocked = null
+
     module.remove = function(packId) {
       api.pack.remove({
         token: module.options.token(),
@@ -52,23 +55,17 @@ var pack = {};
     }
 
     module.unlockedInfo = function() {
-      if(module.unlockedCollection == null)
-          return []
+      if(module.dynamicUnlocked == null)
+        return []
 
-      var unlocked_packs = module.unlockedCollection.addDynamicView('unlocked_packs');
-      unlocked_packs.applyFind( { } )
-      //legs.applySimpleSort('legs');
-      return unlocked_packs.data();
+      return module.dynamicUnlocked.data();
     }
 
     module.packBlundersInfo = function() {
-      if(module.packsCollection == null)
-          return []
+      if(module.dynamicPacks == null)
+        return []
 
-      var blunder_packs = module.packsCollection.addDynamicView('blunder_packs');
-      blunder_packs.applyFind( { } )
-      //legs.applySimpleSort('legs');
-      return blunder_packs.data();
+      return module.dynamicPacks.data();
     }
 
     module.init = function(options) {
@@ -88,6 +85,14 @@ var pack = {};
         if (module.unlockedCollection === null) {
           module.unlockedCollection = module.db.addCollection('unlocked');
         }
+
+        // Prepare dynamic views
+        module.dynamicPacks = module.packsCollection.addDynamicView('blunder_packs');
+        module.dynamicPacks.applyFind( { } )
+
+        module.dynamicUnlocked = module.unlockedCollection.addDynamicView('unlocked_packs');
+        module.dynamicUnlocked.applyFind( { } )
+
 
         module.sync()
       }
