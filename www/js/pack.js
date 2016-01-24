@@ -44,6 +44,13 @@ var pack = {};
       return (packId == module.selectedPack);
     }
 
+    module.canRemove = function(packId) {
+      // For now, only disable removing last pack
+      if(module.packBlundersInfo().length <= 1)
+        return false
+      return true
+    }
+
     module.unlockedInfo = function() {
       if(module.unlockedCollection == null)
           return []

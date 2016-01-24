@@ -37,6 +37,10 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
       return pack.isSelected(packId)
     }
 
+    $scope.canRemovePack = function(packId) {
+      return pack.canRemove(packId)
+    }
+
     $scope.vote = function(vote) {
         if (!$scope.blunderId) return;
 
