@@ -25,12 +25,10 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
 
     $scope.unlockPack = function(meta) {
       pack.unlock(meta)
-      console.log(meta)
     }
 
     $scope.selectPack = function(packId) {
       pack.select(packId)
-      $ionicSlideBoxDelegate.slide(1)
     }
 
     $scope.isSelectedPack = function(packId) {
@@ -189,7 +187,11 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
                   $scope.unlockedInfo = pack.unlockedInfo()
                   $scope.packBlundersInfo = pack.packBlundersInfo()
               });
+          },
+          goChessboardSlide: function() {
+            $ionicSlideBoxDelegate.slide(1)
           }
+
         })
     };
 

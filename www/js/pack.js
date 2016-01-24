@@ -9,10 +9,11 @@ var pack = {};
     module.selectedPack = null
 
     module.remove = function(packId) {
-      console.log("remove" + packId);
+
     }
 
     module.unlock = function(meta) {
+      console.log(meta)
       api.pack.new({
         token: module.options.token(),
         typeName: meta.typeName,
@@ -22,12 +23,11 @@ var pack = {};
         },
         onFail: function(result) {console.log(result);},
       })
-      console.log("unlock" + meta);
     }
 
     module.select = function(packId) {
-      console.log("select" + packId);
       module.selectedPack = packId
+      module.options.goChessboardSlide()
     }
 
     module.isSelected = function(packId) {
@@ -61,6 +61,18 @@ var pack = {};
       module.sync()
     }
 
+    var getRandomPack = function() {
+        api.pack.new({
+          token: module.options.token(),
+          typeName: "Random",
+          onSuccess: function(result) {
+            module.select(result.data.pack_id)
+            module.sync()
+          },
+          onFail: function(result) {console.log(result);},
+        })
+    }
+
     module.sync = function() {
       function loadHandler() {
         // if database did not exist it will be empty so I will intitialize here
@@ -79,7 +91,6 @@ var pack = {};
             module.unlockedCollection.insert(unlocked_pack)
             module.options.onPacksChanged()
           })
-          //console.log(module.unlockedCollection.find({}))
         }
 
         var parsePackBlunders = function(packs) {
@@ -91,7 +102,6 @@ var pack = {};
               token: module.options.token(),
               packId: packId,
               onSuccess: function(result) {
-                  console.log(result.data);
                   module.packsCollection.insert(result.data)
                   module.options.onPacksChanged()
               },
@@ -105,6 +115,8 @@ var pack = {};
           onSuccess: function(result) {
             parseUnlocked(result.data.unlocked)
             parsePackBlunders(result.data.packs)
+            if(result.data.packs.length == 0)
+              getRandomPack() //If user have no packs, download at least one pack
           },
           onFail: function(result) {console.log(result);},
         })
