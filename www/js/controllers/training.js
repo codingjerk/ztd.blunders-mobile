@@ -1,11 +1,31 @@
 app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     $scope.unlockedInfo = pack.unlockedInfo()
     $scope.packBlundersInfo = pack.packBlundersInfo()
+    $scope.selectedPack = null
 
     function updateInfoView(info) {
         $scope.$apply(function () {
             $scope.info = info;
         });
+    }
+
+    $scope.removePack = function(packId) {
+      console.log("remove" + packId);
+    }
+
+    $scope.unlockPack = function(packId) {
+      console.log("unlock" + packId);
+    }
+
+    $scope.selectPack = function(packId) {
+      console.log("select" + packId);
+      $scope.selectedPack = packId
+    }
+
+    $scope.isSelectedPack = function(packId) {
+      if($scope.selectedPack == null)
+        return false
+      return (packId == $scope.selectedPack);
     }
 
     $scope.vote = function(vote) {
