@@ -30,6 +30,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
 
     $scope.selectPack = function(packId) {
       pack.select(packId)
+      $ionicSlideBoxDelegate.slide(1)
     }
 
     $scope.isSelectedPack = function(packId) {

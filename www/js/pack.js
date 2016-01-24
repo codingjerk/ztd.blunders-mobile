@@ -77,6 +77,7 @@ var pack = {};
           module.unlockedCollection.removeWhere(function(doc){return true;})
           unlocked.forEach(function(unlocked_pack){
             module.unlockedCollection.insert(unlocked_pack)
+            module.options.onPacksChanged()
           })
           //console.log(module.unlockedCollection.find({}))
         }
