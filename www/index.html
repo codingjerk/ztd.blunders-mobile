@@ -68,8 +68,8 @@
         </div>
 
         <ion-side-menus>
-            <ion-side-menu side="left">
-                <ion-content class="has-header blue-background padding">
+            <ion-side-menu side="left" drag-content="false">
+                <ion-content drag-content="false" class="has-header blue-background padding">
                     <button ng-show="isTokenExist()" ng-click="logout()" class="button button-assertive button-full icon-right ion-log-out">
                         Logout
                     </button>

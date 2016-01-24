@@ -1,4 +1,4 @@
-app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate) {
     function token() {
         //This function redirects to login page if token not exist
         var result = localStorage.getItem('api-token');
@@ -205,6 +205,14 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
         if (to.name === 'training') {
             $scope.startGame();
         }
+    });
+
+    $scope.$on('$ionicView.enter', function(){
+      //disable accessing side menu by dragging
+      $ionicSideMenuDelegate.canDragContent(false);
+    });
+    $scope.$on('$ionicView.leave', function(){
+        $ionicSideMenuDelegate.canDragContent(true);
     });
 
     window.onresize = function(event) {
