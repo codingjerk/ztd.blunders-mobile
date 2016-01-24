@@ -1,7 +1,17 @@
 app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+    function token() {
+        //This function redirects to login page if token not exist
+        var result = localStorage.getItem('api-token');
+
+        if (!result) {
+            $state.go('login');
+        }
+
+        return result;
+    }
+
     $scope.unlockedInfo = pack.unlockedInfo()
     $scope.packBlundersInfo = pack.packBlundersInfo()
-    $scope.selectedPack = null
 
     function updateInfoView(info) {
         $scope.$apply(function () {
@@ -10,29 +20,27 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
     }
 
     $scope.removePack = function(packId) {
-      console.log("remove" + packId);
+      pack.remove(packId)
     }
 
     $scope.unlockPack = function(packId) {
-      console.log("unlock" + packId);
+      pack.unlock(packId)
+      console.log(packId)
     }
 
     $scope.selectPack = function(packId) {
-      console.log("select" + packId);
-      $scope.selectedPack = packId
+      pack.select(packId)
     }
 
     $scope.isSelectedPack = function(packId) {
-      if($scope.selectedPack == null)
-        return false
-      return (packId == $scope.selectedPack);
+      return pack.isSelected(packId)
     }
 
     $scope.vote = function(vote) {
         if (!$scope.blunderId) return;
 
         api.blunder.vote({
-            token: localStorage.getItem('api-token'),
+            token: token(),
             blunderId: $scope.blunderId,
             vote: vote,
             onAnimate: function(state) {
@@ -58,7 +66,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
         if (!$scope.blunderId) return;
 
         api.blunder.favorite({
-            token: localStorage.getItem('api-token'),
+            token: token(),
             blunderId: $scope.blunderId,
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
@@ -164,21 +172,17 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
             onInfoChanged: function(info) {
                 updateInfoView(info);
             },
-            onTokenRefused: function() {
-                $state.go('login');
-            },
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
             },
             onTimerUpdate: function(value) {
                 // @TODO: now not used by app
-            }
+            },
+            token: token, // This function redirects to login page on fail so need controller state
         });
 
-        pack.sync({
-          onTokenRefused: function() {
-            $state.go('login');
-          }
+        pack.init({
+          token: token
         })
     };
 

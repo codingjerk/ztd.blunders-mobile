@@ -1,9 +1,34 @@
 var pack = {};
 
 (function(module) {
+    module.options = null
+
     module.db = null;
     module.packsCollection = null
     module.unlockedCollection = null
+    module.selectedPack = null
+
+    module.remove = function(packId) {
+      console.log("remove" + packId);
+    }
+
+    module.unlock = function(packId) {
+      api.pack.new({
+
+      })
+      console.log("unlock" + packId);
+    }
+
+    module.select = function(packId) {
+      console.log("select" + packId);
+      module.selectedPack = packId
+    }
+
+    module.isSelected = function(packId) {
+      if(module.selectedPack == null)
+        return false
+      return (packId == module.selectedPack);
+    }
 
     module.unlockedInfo = function() {
       if(module.unlockedCollection == null)
@@ -25,17 +50,12 @@ var pack = {};
       return blunder_packs.data();
     }
 
-    module.sync = function(options) {
-      function getTokenAndRedirectIfNotExist() {
-          var result = localStorage.getItem('api-token');
+    module.init = function(options) {
+      module.options = options
+      module.sync()
+    }
 
-          if (!result) {
-              options.onTokenRefused();
-          }
-
-          return result;
-      }
-
+    module.sync = function() {
       function loadHandler() {
         // if database did not exist it will be empty so I will intitialize here
         module.packsCollection = module.db.getCollection('blunders');
@@ -61,7 +81,7 @@ var pack = {};
               return; // Already exist
 
             api.pack.get({
-              token: getTokenAndRedirectIfNotExist(),
+              token: module.options.token(),
               packId: packId,
               onSuccess: function(result) {
                   console.log(result.data);
@@ -73,7 +93,7 @@ var pack = {};
         }
 
         api.pack.info({
-          token: getTokenAndRedirectIfNotExist(),
+          token: module.options.token(),
           onSuccess: function(result) {
             parseUnlocked(result.data.unlocked)
             parsePackBlunders(result.data.packs)

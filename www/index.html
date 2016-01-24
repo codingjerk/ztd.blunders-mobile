@@ -156,14 +156,12 @@
                               <p>{{pack.blunders.length}} left</p>
                               <i ng-hide="!isSelectedPack(pack.pack_id)" class="icon ion-ios-checkmark" ></i>
                             </ion-item>
-                            <ion-item class="item item-divider">Unlocked</ion-item>
-                            <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo" ng-click="unlockPack(pack.pack_id)">
+                            <ion-item class="item item-divider">Unlocked packs</ion-item>
+                            <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo" ng-click="unlockPack(pack)">
                               <i class="icon ion-ios-plus" ></i>
                               <h2>{{pack.description}}</h2>
                             </ion-item>
                         </ion-list>
-
-
                         </ion-slide>
                         <ion-slide>
                             <div class="card">

@@ -137,6 +137,20 @@ var api = {
           onFail: args.onFail,
           onAnimate: args.onAnimate
       });
+    },
+    new: function(args){
+      sync.repeat({
+          url: settings.url('pack/new'),
+          crossDomain: true,
+          data: {
+            token: args.token,
+            type_name: args.typeName,
+            args: args.args || {}
+          },
+          onSuccess: args.onSuccess,
+          onFail: args.onFail,
+          onAnimate: args.onAnimate
+      });
     }
   }
 };

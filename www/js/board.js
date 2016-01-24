@@ -9,16 +9,6 @@ board.init = function(options) {
         options.onTimerUpdate(formatted);
     });
 
-    function getTokenAndRedirectIfNotExist() {
-        var result = localStorage.getItem('api-token');
-
-        if (!result) {
-            options.onTokenRefused();
-        }
-
-        return result;
-    }
-
     function processError(data) {
         if (data.message === 'Invalid API token') {
             options.onTokenRefused();
@@ -30,7 +20,7 @@ board.init = function(options) {
 
     (function updateUserRating() {
         api.session.rating({
-          token: getTokenAndRedirectIfNotExist(),
+          token: options.token(),
           onSuccess: function(result) {
               if (result.status !== 'ok') {
                   return processError(result);
@@ -46,7 +36,7 @@ board.init = function(options) {
     (function initGame() {
         function getBlunder(next) {
             api.blunder.get({
-              token: getTokenAndRedirectIfNotExist(),
+              token: options.token(),
               onSuccess: function(result) {
                   if (result.status !== 'ok') {
                       return processError(result);
@@ -54,7 +44,7 @@ board.init = function(options) {
                   var data = result.data;
 
                   api.blunder.info({
-                    token: getTokenAndRedirectIfNotExist(),
+                    token: options.token(),
                     blunderId: data.id,
                     onSuccess: function(result) {
                         if (result.status !== 'ok') {
@@ -77,7 +67,7 @@ board.init = function(options) {
 
         function validateBlunder(pv, blunder, next) {
           api.blunder.validate({
-            token: getTokenAndRedirectIfNotExist(),
+            token: options.token(),
             blunderId: blunder.id,
             pv: pv,
             spentTime: counter.total(),
