@@ -150,14 +150,14 @@
                         <ion-slide>
                           <ion-list type="card">
                             <ion-item class="item item-divider">Packs</ion-item>
-                            <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo" ng-click="selectPack(pack.pack_id)">
+                            <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo track by $index" ng-click="selectPack(pack.pack_id)">
                               <i class="icon ion-backspace-outline" ></i>
                               <h2>{{pack.description}}</h2>
                               <p>{{pack.blunders.length}} left</p>
                               <i ng-hide="!isSelectedPack(pack.pack_id)" class="icon ion-ios-checkmark" ></i>
                             </ion-item>
                             <ion-item class="item item-divider">Unlocked packs</ion-item>
-                            <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo" ng-click="unlockPack(pack)">
+                            <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo track by $index" ng-click="unlockPack({typeName:pack.type_name,args:pack.args})">
                               <i class="icon ion-ios-plus" ></i>
                               <h2>{{pack.description}}</h2>
                             </ion-item>

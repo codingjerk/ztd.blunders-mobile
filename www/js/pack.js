@@ -12,11 +12,17 @@ var pack = {};
       console.log("remove" + packId);
     }
 
-    module.unlock = function(packId) {
+    module.unlock = function(meta) {
       api.pack.new({
-
+        token: module.options.token(),
+        typeName: meta.typeName,
+        args: meta.args,
+        onSuccess: function(result) {
+          module.sync()
+        },
+        onFail: function(result) {console.log(result);},
       })
-      console.log("unlock" + packId);
+      console.log("unlock" + meta);
     }
 
     module.select = function(packId) {
@@ -86,6 +92,7 @@ var pack = {};
               onSuccess: function(result) {
                   console.log(result.data);
                   module.packsCollection.insert(result.data)
+                  module.options.onPacksChanged()
               },
               onFail: function(result) {console.log(result);},
             })
@@ -107,7 +114,7 @@ var pack = {};
       }
 
       var idbAdapter = new LokiIndexedAdapter('loki');
-      module.db = new loki('blunders.json',
+      module.db = new loki('blunders-user-' + module.options.token() + '.json',
         {
           autoload: true,
           autoloadCallback : loadHandler,

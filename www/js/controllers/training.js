@@ -23,9 +23,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
       pack.remove(packId)
     }
 
-    $scope.unlockPack = function(packId) {
-      pack.unlock(packId)
-      console.log(packId)
+    $scope.unlockPack = function(meta) {
+      pack.unlock(meta)
+      console.log(meta)
     }
 
     $scope.selectPack = function(packId) {
@@ -182,7 +182,13 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
         });
 
         pack.init({
-          token: token
+          token: token,
+          onPacksChanged: function() {
+              $scope.$apply(function () {
+                  $scope.unlockedInfo = pack.unlockedInfo()
+                  $scope.packBlundersInfo = pack.packBlundersInfo()
+              });
+          }
         })
     };
 
