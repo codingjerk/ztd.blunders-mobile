@@ -151,6 +151,19 @@ var api = {
           onFail: args.onFail,
           onAnimate: args.onAnimate
       });
+    },
+    remove: function(args){
+      sync.repeat({
+        url: settings.url('pack/remove'),
+        crossDomain: true,
+        data: {
+          token: args.token,
+          pack_id: args.packId
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
     }
   }
 };

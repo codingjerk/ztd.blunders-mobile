@@ -9,11 +9,19 @@ var pack = {};
     module.selectedPack = null
 
     module.remove = function(packId) {
-
+      api.pack.remove({
+        token: module.options.token(),
+        packId: packId,
+        onSuccess: function(result) {
+          module.packsCollection.removeWhere({pack_id:packId})
+          module.options.onPacksChanged()
+          module.sync()
+        },
+        onFail: function(result) {console.log(result);},
+      })
     }
 
     module.unlock = function(meta) {
-      console.log(meta)
       api.pack.new({
         token: module.options.token(),
         typeName: meta.typeName,
@@ -58,7 +66,35 @@ var pack = {};
 
     module.init = function(options) {
       module.options = options
-      module.sync()
+
+      function saveHandler() {
+        console.log("saved");
+      }
+
+      function loadHandler() {
+        // if database did not exist it will be empty so I will intitialize here
+        module.packsCollection = module.db.getCollection('blunders');
+        if (module.packsCollection === null) {
+          module.packsCollection = module.db.addCollection('blunders');
+        }
+        module.unlockedCollection = module.db.getCollection('unlocked');
+        if (module.unlockedCollection === null) {
+          module.unlockedCollection = module.db.addCollection('unlocked');
+        }
+
+        module.sync()
+      }
+
+      var idbAdapter = new LokiIndexedAdapter('loki');
+      module.db = new loki('blunders-user-' + module.options.token() + '.json',
+        {
+          autoload: true,
+          autoloadCallback : loadHandler,
+          autosave: true,
+          autosaveCallback: saveHandler,
+          autosaveInterval: 1000,
+          adapter: idbAdapter
+        });
     }
 
     var getRandomPack = function() {
@@ -74,17 +110,6 @@ var pack = {};
     }
 
     module.sync = function() {
-      function loadHandler() {
-        // if database did not exist it will be empty so I will intitialize here
-        module.packsCollection = module.db.getCollection('blunders');
-        if (module.packsCollection === null) {
-          module.packsCollection = module.db.addCollection('blunders');
-        }
-        module.unlockedCollection = module.db.getCollection('unlocked');
-        if (module.unlockedCollection === null) {
-          module.unlockedCollection = module.db.addCollection('unlocked');
-        }
-
         var parseUnlocked = function(unlocked) {
           module.unlockedCollection.removeWhere(function(doc){return true;})
           unlocked.forEach(function(unlocked_pack){
@@ -120,21 +145,5 @@ var pack = {};
           },
           onFail: function(result) {console.log(result);},
         })
-      }
-
-      function saveHandler() {
-        console.log("saved");
-      }
-
-      var idbAdapter = new LokiIndexedAdapter('loki');
-      module.db = new loki('blunders-user-' + module.options.token() + '.json',
-        {
-          autoload: true,
-          autoloadCallback : loadHandler,
-          autosave: true,
-          autosaveCallback: saveHandler,
-          autosaveInterval: 1000,
-          adapter: idbAdapter
-        });
     }
 })(pack)

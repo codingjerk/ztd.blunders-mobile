@@ -20,6 +20,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
     }
 
     $scope.removePack = function(packId) {
+      console.log('Remove' + packId)
       pack.remove(packId)
     }
 
@@ -28,6 +29,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
     }
 
     $scope.selectPack = function(packId) {
+      console.log('Select' + packId)
       pack.select(packId)
     }
 

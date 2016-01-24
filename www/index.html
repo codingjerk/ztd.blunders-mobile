@@ -151,7 +151,7 @@
                           <ion-list type="card">
                             <ion-item class="item item-divider">Packs</ion-item>
                             <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo track by $index" ng-click="selectPack(pack.pack_id)">
-                              <i class="icon ion-backspace-outline" ></i>
+                              <button ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="button button-icon icon ion-backspace-outline"></button>
                               <h2>{{pack.description}}</h2>
                               <p>{{pack.blunders.length}} left</p>
                               <i ng-hide="!isSelectedPack(pack.pack_id)" class="icon ion-ios-checkmark" ></i>
