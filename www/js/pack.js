@@ -45,16 +45,6 @@ var pack = {};
       module.options.goChessboardSlide()
     }
 
-    module.selectAnyIfNot = function() {
-      if(module.selectedPack != null)
-        return;
-
-      packs = module.packBlundersInfo();
-      if(packs.length == 0)
-        return;
-      module.selectedPack = packs[0]['pack_id']
-    }
-
     module.isSelected = function(packId) {
       if(module.selectedPack == null)
         return false
@@ -65,11 +55,33 @@ var pack = {};
       return true
     }
 
-    module.getCurrentBlunder = function() {
-      /*if(module.selectedPack == null) //TODO: Selected pack stored in the database
+    var getPackById = function(pack_id) {
+      packs = module.packsCollection.find({pack_id:pack_id})
+      if(packs == null)
         return null
-      selectedPack = module.packsCollection.find({pack_id:module.selectedPack})
-      console.log(selectedPack)*/
+
+      if(packs.length != 1)
+        return null
+
+      return packs[0]
+    }
+
+    module.selectAnyIfNot = function() {
+      if(module.selectedPack != null && getPackById(module.selectedPack) != null)
+        return;
+
+      packs = module.packBlundersInfo();
+      if(packs.length == 0)
+        return;
+      module.selectedPack = packs[0]['pack_id']
+    }
+
+    module.getCurrentBlunder = function() {
+      if(module.selectedPack == null) //TODO: Selected pack stored in the database
+        return null
+      selectedPack = getPackById(module.selectedPack)
+
+      return selectedPack
     }
 
     module.unlockedInfo = function() {
@@ -111,7 +123,6 @@ var pack = {};
         module.dynamicUnlocked = module.unlockedCollection.addDynamicView('unlocked_packs');
         module.dynamicUnlocked.applyFind( { } )
 
-        module.selectAnyIfNot()
         module.sync()
       }
 
@@ -166,5 +177,6 @@ var pack = {};
                 notify.error("Can't connect to server.<br>Check your connection");
           }
         })
+        module.selectAnyIfNot()
     }
 })(pack)
