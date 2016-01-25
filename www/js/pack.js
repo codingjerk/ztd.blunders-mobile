@@ -48,9 +48,6 @@ var pack = {};
     }
 
     module.canRemove = function(packId) {
-      // For now, only disable removing last pack
-      if(module.packBlundersInfo().length <= 1)
-        return false
       return true
     }
 
@@ -109,18 +106,6 @@ var pack = {};
         });
     }
 
-    var getRandomPack = function() {
-        api.pack.new({
-          token: module.options.token(),
-          typeName: "Random",
-          onSuccess: function(result) {
-            module.select(result.data.pack_id)
-            module.sync()
-          },
-          onFail: function(result) {console.log(result);},
-        })
-    }
-
     module.sync = function() {
         var parseUnlocked = function(unlocked) {
           module.unlockedCollection.removeWhere(function(doc){return true;})
@@ -152,8 +137,6 @@ var pack = {};
           onSuccess: function(result) {
             parseUnlocked(result.data.unlocked)
             parsePackBlunders(result.data.packs)
-            if(result.data.packs.length == 0)
-              getRandomPack() //If user have no packs, download at least one pack
           },
           onFail: function(result) {console.log(result);},
         })
