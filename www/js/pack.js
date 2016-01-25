@@ -20,7 +20,9 @@ var pack = {};
           module.options.onPacksChanged()
           module.sync()
         },
-        onFail: function(result) {console.log(result);},
+        onFail: function(result) {
+              notify.error("Can't connect to server.<br>Check your connection");
+        }
       })
     }
 
@@ -32,13 +34,25 @@ var pack = {};
         onSuccess: function(result) {
           module.sync()
         },
-        onFail: function(result) {console.log(result);},
+        onFail: function(result) {
+              notify.error("Can't connect to server.<br>Check your connection");
+        }
       })
     }
 
     module.select = function(packId) {
       module.selectedPack = packId
       module.options.goChessboardSlide()
+    }
+
+    module.selectAnyIfNot = function() {
+      if(module.selectedPack != null)
+        return;
+
+      packs = module.packBlundersInfo();
+      if(packs.length == 0)
+        return;
+      module.selectedPack = packs[0]['pack_id']
     }
 
     module.isSelected = function(packId) {
@@ -49,6 +63,13 @@ var pack = {};
 
     module.canRemove = function(packId) {
       return true
+    }
+
+    module.getCurrentBlunder = function() {
+      /*if(module.selectedPack == null) //TODO: Selected pack stored in the database
+        return null
+      selectedPack = module.packsCollection.find({pack_id:module.selectedPack})
+      console.log(selectedPack)*/
     }
 
     module.unlockedInfo = function() {
@@ -90,7 +111,7 @@ var pack = {};
         module.dynamicUnlocked = module.unlockedCollection.addDynamicView('unlocked_packs');
         module.dynamicUnlocked.applyFind( { } )
 
-
+        module.selectAnyIfNot()
         module.sync()
       }
 
@@ -117,7 +138,7 @@ var pack = {};
 
         var parsePackBlunders = function(packs) {
           packs.forEach(function(packId){
-            if(module.packsCollection.find({pack_id:packId}).length != 0)
+            if(module.packsCollection.find({pack_id:packId}).length > 0)
               return; // Already exist
 
             api.pack.get({
@@ -125,9 +146,12 @@ var pack = {};
               packId: packId,
               onSuccess: function(result) {
                   module.packsCollection.insert(result.data)
+                  module.selectAnyIfNot()
                   module.options.onPacksChanged()
               },
-              onFail: function(result) {console.log(result);},
+              function(result) {
+                    notify.error("Can't connect to server.<br>Check your connection");
+              }
             })
           })
         }
@@ -138,7 +162,9 @@ var pack = {};
             parseUnlocked(result.data.unlocked)
             parsePackBlunders(result.data.packs)
           },
-          onFail: function(result) {console.log(result);},
+          onFail: function(result) {
+                notify.error("Can't connect to server.<br>Check your connection");
+          }
         })
     }
 })(pack)

@@ -114,7 +114,7 @@ var api = {
   },
   pack: {
     info: function(args) {
-      sync.repeat({
+      sync.ajax({
           url: settings.url('pack/info'),
           crossDomain: true,
           data: {
@@ -126,7 +126,7 @@ var api = {
       });
     },
     get: function(args) {
-      sync.repeat({
+      sync.ajax({
           url: settings.url('pack/get'),
           crossDomain: true,
           data: {
@@ -139,7 +139,7 @@ var api = {
       });
     },
     new: function(args){
-      sync.repeat({
+      sync.ajax({
           url: settings.url('pack/new'),
           crossDomain: true,
           data: {
@@ -153,7 +153,7 @@ var api = {
       });
     },
     remove: function(args){
-      sync.repeat({
+      sync.ajax({
         url: settings.url('pack/remove'),
         crossDomain: true,
         data: {
