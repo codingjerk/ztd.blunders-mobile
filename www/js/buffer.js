@@ -17,6 +17,5 @@ var buffer = {};
       favorite: function(args) {
 
       }
-
     }
 })(buffer)

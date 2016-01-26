@@ -1,5 +1,7 @@
-var api = {
-  blunder: {
+var api = {};
+
+(function(module) {
+  module.blunder = {
     get: function(args) {
       sync.repeat({
         url: settings.url('blunder/get'),
@@ -69,9 +71,8 @@ var api = {
           onAnimate: args.onAnimate
       });
     }
-
-  },
-  session: {
+  };
+  module.session = {
     rating: function(args) {
       sync.ajax({
         url: settings.url('session/rating'),
@@ -111,8 +112,8 @@ var api = {
           onAnimate: args.onAnimate
       });
     }
-  },
-  pack: {
+  };
+  module.pack = {
     info: function(args) {
       sync.ajax({
           url: settings.url('pack/info'),
@@ -166,4 +167,4 @@ var api = {
       })
     }
   }
-};
+})(api);
