@@ -43,7 +43,7 @@ board.init = function(options) {
                   }
                   var data = result.data;
 
-                  api.blunder.info({
+                  buffer.blunder.info({
                     token: options.token(),
                     blunderId: data.id,
                     onSuccess: function(result) {

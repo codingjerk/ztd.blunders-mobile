@@ -172,9 +172,24 @@ var pack = {};
         module.selectAnyIfNot()
     }
 
+    var existCurrentBlunder = function() {
+      if(module.selectedPack == null)
+        return false;
+
+      var selectedPack = getPackById(module.selectedPack)
+      if(selectedPack == null)
+        return false
+
+      var blunders = selectedPack.blunders
+      if(blunders.length == 0)
+        return false
+
+      return true
+    }
+
     module.getCurrentBlunder = function(args) {
       var currentBlunder = utils.ensure(200, 5000, function() {
-        return module.selectedPack == null
+        return !existCurrentBlunder() // What if pack empty - check!!!
       }, function() {
         selectedPack = getPackById(module.selectedPack)
         currentBlunder = selectedPack.blunders[0].get;
@@ -189,4 +204,23 @@ var pack = {};
         })
       })
     }
+
+    module.getCurrentBlunderInfo = function(args) {
+      var currentBlunder = utils.ensure(200, 5000, function() {
+        return !existCurrentBlunder() // What if pack empty - check!!!
+      }, function() {
+        selectedPack = getPackById(module.selectedPack)
+        currentBlunder = selectedPack.blunders[0].info;
+        args.onSuccess({
+          status:'ok',
+          data: currentBlunder
+        })
+      }, function(){
+        args.onFail({
+          status: 'error',
+          message: 'Pack local storage engine error'
+        })
+      })
+    }
+
 })(pack)

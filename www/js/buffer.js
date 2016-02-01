@@ -6,7 +6,7 @@ var buffer = {};
         pack.getCurrentBlunder(args)
       },
       info: function(args) {
-
+        pack.getCurrentBlunderInfo(args)
       },
       validate: function(args) {
 
