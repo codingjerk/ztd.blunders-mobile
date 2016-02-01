@@ -3,7 +3,7 @@ var buffer = {};
 (function(module) {
     module.blunder = {
       get: function(args) {
-
+        pack.getCurrentBlunder(args)
       },
       info: function(args) {
 

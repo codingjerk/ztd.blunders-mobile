@@ -35,7 +35,7 @@ board.init = function(options) {
 
     (function initGame() {
         function getBlunder(next) {
-            api.blunder.get({
+            buffer.blunder.get({
               token: options.token(),
               onSuccess: function(result) {
                   if (result.status !== 'ok') {

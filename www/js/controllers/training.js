@@ -30,7 +30,12 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
 
     $scope.selectPack = function(packId) {
       console.log('Select' + packId)
-      pack.select(packId)
+      new Promise(function(resolve){ //Without promise ''$apply already in progress' error
+        pack.select(packId)
+        resolve()
+      }).then(function(){
+        $scope.startGame()
+      })
     }
 
     $scope.isSelectedPack = function(packId) {

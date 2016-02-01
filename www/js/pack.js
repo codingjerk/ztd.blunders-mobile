@@ -76,14 +76,6 @@ var pack = {};
       module.selectedPack = packs[0]['pack_id']
     }
 
-    module.getCurrentBlunder = function() {
-      if(module.selectedPack == null) //TODO: Selected pack stored in the database
-        return null
-      selectedPack = getPackById(module.selectedPack)
-
-      return selectedPack
-    }
-
     module.unlockedInfo = function() {
       if(module.dynamicUnlocked == null)
         return []
@@ -178,5 +170,23 @@ var pack = {};
           }
         })
         module.selectAnyIfNot()
+    }
+
+    module.getCurrentBlunder = function(args) {
+      var currentBlunder = utils.ensure(200, 5000, function() {
+        return module.selectedPack == null
+      }, function() {
+        selectedPack = getPackById(module.selectedPack)
+        currentBlunder = selectedPack.blunders[0].get;
+        args.onSuccess({
+          status:'ok',
+          data: currentBlunder
+        })
+      }, function(){
+        args.onFail({
+          status: 'error',
+          message: 'Pack local storage engine error'
+        })
+      })
     }
 })(pack)
