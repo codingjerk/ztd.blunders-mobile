@@ -1,5 +1,4 @@
 var direct = {};
-var buffer = {};
 
 (function(module) {
     module.blunder = {
@@ -21,7 +20,20 @@ var buffer = {};
         api.blunder.favorite(args)
       }
     }
+    module.session = {
+      rating: function(args) {
+        api.blunder.rating(args)
+      },
+      login: function(args) {
+        api.blunder.login(args)
+      },
+      signup: function(args) {
+        api.blunder.signup(args)
+      }
+    };
 })(direct)
+
+var buffer = {};
 
 (function(module) {
     module.blunder = {
@@ -42,4 +54,15 @@ var buffer = {};
         //Store into buffer
       }
     }
+    module.session = {
+      rating: function(args) {
+        //api.blunder.rating(args)
+      },
+      login: function(args) {
+        //api.blunder.login(args)
+      },
+      signup: function(args) {
+        //api.blunder.signup(args)
+      }
+    };
 })(buffer)

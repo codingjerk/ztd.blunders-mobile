@@ -19,7 +19,7 @@ board.init = function(options) {
     }
 
     (function updateUserRating() {
-        api.session.rating({
+        buffer.session.rating({
           token: options.token(),
           onSuccess: function(result) {
               if (result.status !== 'ok') {
