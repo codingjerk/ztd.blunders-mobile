@@ -182,6 +182,10 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             onInfoChanged: function(info) {
                 updateInfoView(info);
             },
+            onTokenRefused: function() {
+                console.log("Token refused") //TODO: check if fail!!!
+                $state.go('login');
+            },
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
             },

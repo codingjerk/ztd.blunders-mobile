@@ -8,7 +8,7 @@ var api = {};
         crossDomain: true,
         data: {
           token: args.token,
-          type: 'rated'
+          type: args.type || ''
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
@@ -37,7 +37,7 @@ var api = {};
               id: args.blunderId,
               line: args.pv,
               spentTime: args.spentTime,
-              type: 'rated'
+              type: args.type || ''
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,

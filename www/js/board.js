@@ -66,7 +66,7 @@ board.init = function(options) {
         }
 
         function validateBlunder(pv, blunder, next) {
-          api.blunder.validate({
+          buffer.blunder.validate({
             token: options.token(),
             blunderId: blunder.id,
             pv: pv,
