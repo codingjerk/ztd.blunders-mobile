@@ -187,10 +187,18 @@ var pack = {};
       return true
     }
 
-    module.getCurrentBlunder = function(args) {
+    var ensureSelectedBlunder = function(onSuccess, onFail) {
       var currentBlunder = utils.ensure(200, 5000, function() {
         return !existCurrentBlunder() // What if pack empty - check!!!
       }, function() {
+        onSuccess()
+      }, function(){
+        onFail()
+      })
+    }
+
+    module.getCurrentBlunder = function(args) {
+       ensureSelectedBlunder(function() {
         selectedPack = getPackById(module.selectedPack)
         currentBlunder = selectedPack.blunders[0].get;
         args.onSuccess({
@@ -206,9 +214,7 @@ var pack = {};
     }
 
     module.getCurrentBlunderInfo = function(args) {
-      var currentBlunder = utils.ensure(200, 5000, function() {
-        return !existCurrentBlunder() // What if pack empty - check!!!
-      }, function() {
+      ensureSelectedBlunder(function() {
         selectedPack = getPackById(module.selectedPack)
         currentBlunder = selectedPack.blunders[0].info;
         args.onSuccess({
@@ -221,6 +227,28 @@ var pack = {};
           message: 'Pack local storage engine error'
         })
       })
+    }
+
+    module.validateCurrentBlunder = function(args) {
+      // Here goes complicate logic with buffering requests
+      // Now we will so simple wrapper
+      ensureSelectedBlunder(function() {
+        result = module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
+          var blunderMatch = function(blunder) {
+            return blunder.get.id != args.blunderId;
+          }
+          var filteredBlunders = pack.blunders.filter(blunderMatch);
+          pack.blunders = filteredBlunders
+          return pack
+        })
+        api.blunder.validate(args)  //Store into buffer
+      }, function(){
+        args.onFail({
+          status: 'error',
+          message: 'Pack local storage engine error'
+        })
+      })
+      api.blunder.validate(args)
     }
 
 })(pack)

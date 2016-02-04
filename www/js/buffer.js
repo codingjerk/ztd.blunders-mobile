@@ -45,7 +45,7 @@ var buffer = {};
       },
       validate: function(args) {
         args.type = "pack"
-        api.blunder.validate(args)  //Store into buffer
+        pack.validateCurrentBlunder(args)
       },
       vote: function(args) {
         //Store into buffer
