@@ -1,4 +1,4 @@
-app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate) {
+app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout) {
     $scope.token = function() {
         //This function redirects to login page if token not exist
         var result = localStorage.getItem('api-token');
@@ -11,7 +11,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
     }
 
     function updateInfoView(info) {
-        $scope.$apply(function () {
+        $timeout(function () {
             $scope.info = info;
         });
     }
@@ -96,7 +96,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         board.init({
             id: 'board',
             onBlunderChanged: function(blunder) {
-                $scope.$apply(function () {
+                $timeout(function () {
                     $scope.blunderId = blunder.id;
                     $scope.unlockedInfo = pack.unlockedInfo()
                     $scope.packBlundersInfo = pack.packBlundersInfo()
@@ -131,7 +131,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                 };
 
                 if (statusName === 'ready-to-new-game') {
-                    $scope.$apply(function () {
+                    $timeout(function () {
                         $scope.status.onClick = function() {
                             $scope.blunderId = null;
 
@@ -142,7 +142,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                     return;
                 }
 
-                $scope.$apply(function () {
+                $timeout(function () {
                     $scope.status = stateNameToState[statusName];
                 });
             },

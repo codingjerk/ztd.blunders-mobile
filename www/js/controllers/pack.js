@@ -1,4 +1,4 @@
-app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate) {
+app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $timeout) {
   $scope.unlockedInfo = pack.unlockedInfo()
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
@@ -32,7 +32,7 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
   pack.init({
     token: $scope.token,
     onPacksChanged: function() {
-        $scope.$apply(function () {
+        $timeout(function () {
             $scope.unlockedInfo = pack.unlockedInfo()
             $scope.packBlundersInfo = pack.packBlundersInfo()
         });
