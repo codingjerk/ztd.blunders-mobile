@@ -1,5 +1,5 @@
 app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate) {
-    function token() {
+    $scope.token = function() {
         //This function redirects to login page if token not exist
         var result = localStorage.getItem('api-token');
 
@@ -10,47 +10,17 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         return result;
     }
 
-    $scope.unlockedInfo = pack.unlockedInfo()
-    $scope.packBlundersInfo = pack.packBlundersInfo()
-
     function updateInfoView(info) {
         $scope.$apply(function () {
             $scope.info = info;
         });
     }
 
-    $scope.removePack = function(packId) {
-      console.log('Remove' + packId)
-      pack.remove(packId)
-    }
-
-    $scope.unlockPack = function(meta) {
-      pack.unlock(meta)
-    }
-
-    $scope.selectPack = function(packId) {
-      console.log('Select' + packId)
-      new Promise(function(resolve){ //Without promise ''$apply already in progress' error
-        pack.select(packId)
-        resolve()
-      }).then(function(){
-        $scope.startGame()
-      })
-    }
-
-    $scope.isSelectedPack = function(packId) {
-      return pack.isSelected(packId)
-    }
-
-    $scope.canRemovePack = function(packId) {
-      return pack.canRemove(packId)
-    }
-
     $scope.vote = function(vote) {
         if (!$scope.blunderId) return;
 
         api.blunder.vote({
-            token: token(),
+            token: $scope.token(),
             blunderId: $scope.blunderId,
             vote: vote,
             onAnimate: function(state) {
@@ -76,7 +46,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         if (!$scope.blunderId) return;
 
         api.blunder.favorite({
-            token: token(),
+            token: $scope.token(),
             blunderId: $scope.blunderId,
             onAnimate: function(state) {
                 $('#loading-indicator').toggle(state);
@@ -192,22 +162,8 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             onTimerUpdate: function(value) {
                 // @TODO: now not used by app
             },
-            token: token, // This function redirects to login page on fail so need controller state
+            token: $scope.token, // This function redirects to login page on fail so need controller state
         });
-
-        pack.init({
-          token: token,
-          onPacksChanged: function() {
-              $scope.$apply(function () {
-                  $scope.unlockedInfo = pack.unlockedInfo()
-                  $scope.packBlundersInfo = pack.packBlundersInfo()
-              });
-          },
-          goChessboardSlide: function() {
-            $ionicSlideBoxDelegate.slide(1)
-          }
-
-        })
     };
 
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {

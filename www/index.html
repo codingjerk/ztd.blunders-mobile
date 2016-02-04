@@ -42,6 +42,7 @@
         <script src="js/controllers/main.js"></script>
         <script src="js/controllers/login.js"></script>
         <script src="js/controllers/training.js"></script>
+        <script src="js/controllers/pack.js"></script>
 
         <!-- Miscellaneous js -->
         <script src="js/api.js"></script>
@@ -148,7 +149,7 @@
             <ion-view class="white-background">
                 <ion-content>
                     <ion-slide-box show-pager="false" class="has-header">
-                        <ion-slide>
+                        <ion-slide ng-controller="PackCtrl">
                           <ion-list type="card">
                             <ion-item class="item item-divider">Packs</ion-item>
                             <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo track by $index" ng-click="selectPack(pack.pack_id)">
