@@ -251,7 +251,7 @@ var pack = {};
           pack.blunders = filteredBlunders
           return pack
         })
-        api.blunder.validate(args)  //Store into buffer
+        api.blunder.validate(args)  //TODO: Store into buffer
       }, function(){
         args.onFail({
           status: 'error',
@@ -259,6 +259,32 @@ var pack = {};
         })
       })
       api.blunder.validate(args)
+    }
+
+    module.voteCurrentBlunder = function(args) {
+      ensureSelectedBlunder(function() {
+        selectedPack = getPackById(module.selectedPack)
+        currentBlunder = selectedPack.blunders[0].info;
+        api.blunder.vote(args) //TODO: Store into buffer
+      }, function(){
+        args.onFail({
+          status: 'error',
+          message: 'Pack local storage engine error'
+        })
+      })
+    }
+
+    module.favoriteCurrentBlunder = function(args) {
+      ensureSelectedBlunder(function() {
+        selectedPack = getPackById(module.selectedPack)
+        currentBlunder = selectedPack.blunders[0].info;
+        api.blunder.favorite(args) //TODO: Store into buffer
+      }, function(){
+        args.onFail({
+          status: 'error',
+          message: 'Pack local storage engine error'
+        })
+      })
     }
 
 })(pack)

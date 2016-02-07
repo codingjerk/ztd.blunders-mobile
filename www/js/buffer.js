@@ -48,7 +48,7 @@ var buffer = {};
         pack.validateCurrentBlunder(args)
       },
       vote: function(args) {
-        //Store into buffer
+        pack.voteCurrentBlunder(args)
       },
       favorite: function(args) {
         //Store into buffer
