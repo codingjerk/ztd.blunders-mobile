@@ -66,16 +66,6 @@ var pack = {};
       return packs[0]
     }
 
-    module.selectAnyIfNot = function() {
-      if(module.selectedPack != null && getPackById(module.selectedPack) != null)
-        return;
-
-      packs = module.packBlundersInfo();
-      if(packs.length == 0)
-        return;
-      module.selectedPack = packs[0]['pack_id']
-    }
-
     module.unlockedInfo = function() {
       if(module.dynamicUnlocked == null)
         return []
@@ -130,6 +120,9 @@ var pack = {};
         });
     }
 
+    /**
+     * This method sync local database to remote
+    */
     module.sync = function() {
         var parseUnlocked = function(unlocked) {
           module.unlockedCollection.removeWhere(function(doc){return true;})
@@ -169,7 +162,25 @@ var pack = {};
                 notify.error("Can't connect to server.<br>Check your connection");
           }
         })
-        module.selectAnyIfNot()
+        module.maintain()
+    }
+
+    /**
+     * This function removes empty packs, handles special cases(no packs at all),
+     * and ensures packs engine is in correct state.
+     */
+    module.maintain = function() {
+      var selectAnyIfNot = function() {
+        if(module.selectedPack != null && getPackById(module.selectedPack) != null)
+          return;
+
+        packs = module.packBlundersInfo();
+        if(packs.length == 0)
+          return;
+        module.selectedPack = packs[0]['pack_id']
+      }
+
+      selectAnyIfNot()
     }
 
     var existCurrentBlunder = function() {
