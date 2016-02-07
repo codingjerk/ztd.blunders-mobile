@@ -17,7 +17,6 @@ var pack = {};
         packId: packId,
         onSuccess: function(result) {
           module.packsCollection.removeWhere({pack_id:packId})
-          module.options.onPacksChanged()
           module.sync()
         },
         onFail: function(result) {
@@ -128,7 +127,7 @@ var pack = {};
           module.unlockedCollection.removeWhere(function(doc){return true;})
           unlocked.forEach(function(unlocked_pack){
             module.unlockedCollection.insert(unlocked_pack)
-            module.options.onPacksChanged()
+            module.maintain()
           })
         }
 
@@ -142,11 +141,10 @@ var pack = {};
               packId: packId,
               onSuccess: function(result) {
                   module.packsCollection.insert(result.data)
-                  module.selectAnyIfNot()
-                  module.options.onPacksChanged()
+                  module.maintain()
               },
               function(result) {
-                    notify.error("Can't connect to server.<br>Check your connection");
+                  //notify.error("Can't connect to server.<br>Check your connection");
               }
             })
           })
@@ -159,7 +157,7 @@ var pack = {};
             parsePackBlunders(result.data.packs)
           },
           onFail: function(result) {
-                notify.error("Can't connect to server.<br>Check your connection");
+                //notify.error("Can't connect to server.<br>Check your connection");
           }
         })
         module.maintain()
@@ -181,6 +179,7 @@ var pack = {};
       }
 
       selectAnyIfNot()
+      module.options.onPacksChanged()
     }
 
     var existCurrentBlunder = function() {
