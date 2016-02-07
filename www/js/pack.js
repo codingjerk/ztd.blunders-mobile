@@ -168,6 +168,12 @@ var pack = {};
      * and ensures packs engine is in correct state.
      */
     module.maintain = function() {
+      var removeEmptyPacks = function() {
+        module.packsCollection.removeWhere(function(pack) {
+          return pack.blunders.length == 0
+        })
+      }
+
       var selectAnyIfNot = function() {
         if(module.selectedPack != null && getPackById(module.selectedPack) != null)
           return;
@@ -178,6 +184,7 @@ var pack = {};
         module.selectedPack = packs[0]['pack_id']
       }
 
+      removeEmptyPacks()
       selectAnyIfNot()
       module.options.onPacksChanged()
     }
@@ -251,6 +258,7 @@ var pack = {};
           pack.blunders = filteredBlunders
           return pack
         })
+        module.maintain()
         api.blunder.validate(args)  //TODO: Store into buffer
       }, function(){
         args.onFail({
@@ -258,7 +266,6 @@ var pack = {};
           message: 'Pack local storage engine error'
         })
       })
-      api.blunder.validate(args)
     }
 
     module.voteCurrentBlunder = function(args) {
