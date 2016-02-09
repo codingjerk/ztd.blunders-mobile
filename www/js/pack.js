@@ -268,7 +268,30 @@ var pack = {};
       })
     }
 
+    /**
+     * Create a proxy function to update local storage model
+     */
+    var updateInfoViewLocal = function(args) {
+      var onSuccesSaved = args.onSuccess
+      args.onSuccess = function override(result) {
+        module.packsCollection.chain().update(function(pack) { //TODO: slow solution?
+          //We don't use map to make selective edit
+          var updateOnNeed = function(blunder) {
+            if(blunder.get.id != args.blunderId)
+              return;
+            blunder.info = result.data
+          }
+          pack.blunders.forEach(updateOnNeed)
+          return pack
+        })
+
+        onSuccesSaved(result)
+      }
+    }
+
     module.voteCurrentBlunder = function(args) {
+      updateInfoViewLocal(args)
+
       ensureSelectedBlunder(function() {
         selectedPack = getPackById(module.selectedPack)
         currentBlunder = selectedPack.blunders[0].info;
@@ -282,6 +305,8 @@ var pack = {};
     }
 
     module.favoriteCurrentBlunder = function(args) {
+      updateInfoViewLocal(args)
+
       ensureSelectedBlunder(function() {
         selectedPack = getPackById(module.selectedPack)
         currentBlunder = selectedPack.blunders[0].info;
