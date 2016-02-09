@@ -19,7 +19,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
     $scope.vote = function(vote) {
         if (!$scope.blunderId) return;
 
-        api.blunder.vote({
+        buffer.blunder.vote({
             token: $scope.token(),
             blunderId: $scope.blunderId,
             vote: vote,
@@ -45,7 +45,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
     $scope.favorite = function() {
         if (!$scope.blunderId) return;
 
-        api.blunder.favorite({
+        buffer.blunder.favorite({
             token: $scope.token(),
             blunderId: $scope.blunderId,
             onAnimate: function(state) {

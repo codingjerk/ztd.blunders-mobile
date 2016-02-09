@@ -51,7 +51,7 @@ var buffer = {};
         pack.voteCurrentBlunder(args)
       },
       favorite: function(args) {
-        //Store into buffer
+        pack.favoriteCurrentBlunder(args)
       }
     }
     module.session = {
