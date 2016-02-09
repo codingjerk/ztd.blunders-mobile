@@ -4,7 +4,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     $scope.authInProgress = false;
 
     $scope.login = function(username, password) {
-        api.session.login({
+        buffer.session.login({
             username: username,
             password: password,
             onAnimate: function(state) {
@@ -28,7 +28,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     };
 
     $scope.signup = function(username, password, email) {
-        api.session.signup({
+        buffer.session.signup({
             username: username,
             password: password,
             email: email,

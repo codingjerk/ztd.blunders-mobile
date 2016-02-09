@@ -56,13 +56,13 @@ var buffer = {};
     }
     module.session = {
       rating: function(args) {
-        //api.blunder.rating(args)
+        api.session.rating(args)
       },
       login: function(args) {
-        //api.blunder.login(args)
+        api.session.login(args)
       },
       signup: function(args) {
-        //api.blunder.signup(args)
+        api.session.signup(args)
       }
     };
 })(buffer)
