@@ -80,7 +80,8 @@ var pack = {};
     }
 
     module.init = function(options) {
-      module.options = options
+      if(options) // pass without options to trigger reload database
+        module.options = options
 
       function saveHandler() {
         console.log("saved");

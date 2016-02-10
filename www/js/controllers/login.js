@@ -19,6 +19,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
                 }
 
                 localStorage.setItem('api-token', result.token);
+                pack.init() //Reinit the database
                 $state.go('training');
             },
             onFail: function(result) {
@@ -44,6 +45,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
                 }
 
                 localStorage.setItem('api-token', result.token);
+                pack.init() //Reinit the database
                 $state.go('training');
             },
             onFail: function(result) {
