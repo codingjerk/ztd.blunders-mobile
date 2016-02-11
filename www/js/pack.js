@@ -16,7 +16,6 @@ var pack = {};
         token: module.options.token(),
         packId: packId,
         onSuccess: function(result) {
-          module.packsCollection.removeWhere({pack_id:packId})
           module.sync()
         },
         onFail: function(result) {
@@ -133,6 +132,12 @@ var pack = {};
         }
 
         var parsePackBlunders = function(packs) {
+          // Remove  local packs, removed in remote
+          module.packsCollection.removeWhere(function(pack) {
+            return (packs.indexOf(pack.pack_id) == -1);
+          })
+
+          // New packs from remote
           packs.forEach(function(packId){
             if(module.packsCollection.find({pack_id:packId}).length > 0)
               return; // Already exist
@@ -248,6 +253,8 @@ var pack = {};
     }
 
     module.validateCurrentBlunder = function(args) {
+      reloadPackLocallyOnError(args)
+
       // Here goes complicate logic with buffering requests
       // Now we will so simple wrapper
       ensureSelectedBlunder(function() {
@@ -269,12 +276,20 @@ var pack = {};
       })
     }
 
-    /**
-     * Create a proxy function to update local storage model
-     */
-    var updateInfoViewLocal = function(args) {
+
+    var injectIntoOnSuccess = function(args, callback) {
       var onSuccesSaved = args.onSuccess
       args.onSuccess = function override(result) {
+        callback(result)
+        onSuccesSaved(result)
+      }
+    }
+    /**
+     * Create a proxy function to update local storage model
+     * This function modify callbacks to handle local model update
+     */
+    var updateInfoViewLocalOnSuccess = function(args) {
+      injectIntoOnSuccess(args,function(result){
         module.packsCollection.chain().update(function(pack) { //TODO: slow solution?
           //We don't use map to make selective edit
           var updateOnNeed = function(blunder) {
@@ -285,13 +300,21 @@ var pack = {};
           pack.blunders.forEach(updateOnNeed)
           return pack
         })
+      })
+    }
 
-        onSuccesSaved(result)
-      }
+    var reloadPackLocallyOnError = function(args) {
+      injectIntoOnSuccess(args,function(result){
+        if(result.status == 'ok') return;
+          // Some error in pack consistency.
+          // Remove it from local and reload
+          module.packsCollection.removeWhere({pack_id:module.selectedPack})
+          module.sync()
+      })
     }
 
     module.voteCurrentBlunder = function(args) {
-      updateInfoViewLocal(args)
+      updateInfoViewLocalOnSuccess(args)
 
       ensureSelectedBlunder(function() {
         selectedPack = getPackById(module.selectedPack)
@@ -306,7 +329,7 @@ var pack = {};
     }
 
     module.favoriteCurrentBlunder = function(args) {
-      updateInfoViewLocal(args)
+      updateInfoViewLocalOnSuccess(args)
 
       ensureSelectedBlunder(function() {
         selectedPack = getPackById(module.selectedPack)
