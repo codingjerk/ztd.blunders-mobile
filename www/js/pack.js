@@ -105,6 +105,7 @@ var pack = {};
         module.dynamicUnlocked = module.unlockedCollection.addDynamicView('unlocked_packs');
         module.dynamicUnlocked.applyFind( { } )
 
+        module.options.onPacksChanged();
         module.sync()
       }
 
