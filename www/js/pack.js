@@ -254,21 +254,21 @@ var pack = {};
       })
     }
 
+    var injectIntoOnSuccess = function(args, callback) {
+      var onSuccesSaved = args.onSuccess
+      args.onSuccess = function override(result) {
+        onSuccesSaved(result)
+        callback(result)
+      }
+    }
+
     module.validateCurrentBlunder = function(args) {
       reloadPackLocallyOnError(args)
+      removeBlunderOnValidationOnSuccess(args)
 
       // Here goes complicate logic with buffering requests
       // Now we will so simple wrapper
       ensureSelectedBlunder(function() {
-        result = module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
-          var blunderMatch = function(blunder) {
-            return blunder.get.id != args.blunderId;
-          }
-          var filteredBlunders = pack.blunders.filter(blunderMatch);
-          pack.blunders = filteredBlunders
-          return pack
-        })
-        module.maintain()
         api.blunder.validate(args)  //TODO: Store into buffer
       }, function(){
         args.onFail({
@@ -278,14 +278,6 @@ var pack = {};
       })
     }
 
-
-    var injectIntoOnSuccess = function(args, callback) {
-      var onSuccesSaved = args.onSuccess
-      args.onSuccess = function override(result) {
-        callback(result)
-        onSuccesSaved(result)
-      }
-    }
     /**
      * Create a proxy function to update local storage model
      * This function modify callbacks to handle local model update
@@ -312,6 +304,22 @@ var pack = {};
           // Remove it from local and reload
           module.packsCollection.removeWhere({pack_id:module.selectedPack})
           module.sync()
+      })
+    }
+
+    var removeBlunderOnValidationOnSuccess = function(args) {
+      injectIntoOnSuccess(args,function(result){
+        if(result.status !== 'ok') return;
+
+        module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
+          var blunderMatch = function(blunder) {
+            return blunder.get.id != args.blunderId;
+          }
+          var filteredBlunders = pack.blunders.filter(blunderMatch);
+          pack.blunders = filteredBlunders
+          return pack
+        })
+        module.maintain()
       })
     }
 
