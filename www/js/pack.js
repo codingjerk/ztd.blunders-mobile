@@ -189,6 +189,7 @@ var pack = {};
         if(packs.length == 0)
           return;
         module.selectedPack = packs[0]['pack_id']
+        module.options.reloadGame()
       }
 
       removeEmptyPacks()
