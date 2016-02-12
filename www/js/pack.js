@@ -41,6 +41,7 @@ var pack = {};
     module.select = function(packId) {
       module.selectedPack = packId
       module.options.goChessboardSlide()
+      module.options.reloadGame()
     }
 
     module.isSelected = function(packId) {

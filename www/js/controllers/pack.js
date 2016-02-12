@@ -13,12 +13,7 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
 
   $scope.selectPack = function(packId) {
     console.log('Select' + packId)
-    new Promise(function(resolve){ //Without promise ''$apply already in progress' error
-      pack.select(packId)
-      resolve()
-    }).then(function(){
-      $scope.startGame()
-    })
+    pack.select(packId)
   }
 
   $scope.isSelectedPack = function(packId) {
@@ -39,6 +34,9 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
     },
     goChessboardSlide: function() {
       $ionicSlideBoxDelegate.slide(1)
+    },
+    reloadGame: function() {
+      $scope.startGame()
     }
 
   })
