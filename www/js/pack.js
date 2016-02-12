@@ -19,7 +19,7 @@ var pack = {};
           module.sync()
         },
         onFail: function(result) {
-              notify.error("Can't connect to server.<br>Check your connection");
+          notify.error("Can't connect to server.<br>Check your connection");
         }
       })
     }
@@ -33,7 +33,7 @@ var pack = {};
           module.sync()
         },
         onFail: function(result) {
-              notify.error("Can't connect to server.<br>Check your connection");
+          notify.error("Can't connect to server.<br>Check your connection");
         }
       })
     }
@@ -162,12 +162,12 @@ var pack = {};
           onSuccess: function(result) {
             parseUnlocked(result.data.unlocked)
             parsePackBlunders(result.data.packs)
+            module.maintain()
           },
           onFail: function(result) {
-                //notify.error("Can't connect to server.<br>Check your connection");
+            //notify.error("Can't connect to server.<br>Check your connection");
           }
         })
-        module.maintain()
     }
 
     /**
