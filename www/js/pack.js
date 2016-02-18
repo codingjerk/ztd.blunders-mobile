@@ -11,8 +11,23 @@ var pack = {};
     module.dynamicPacks = null
     module.dynamicUnlocked = null
 
+    module.isLocked = false
+
+    var lockUserChanges = function(args) {
+      console.log("interface locked")
+      module.isLocked = true
+      utils.inject(args, function() {
+        console.log("interface unlocked")
+        module.isLocked = false
+      })
+    }
+
+    module.locked = function() {
+      return module.isLocked;
+    }
+
     module.remove = function(packId) {
-      api.pack.remove({
+      args = {
         token: module.options.token(),
         packId: packId,
         onSuccess: function(result) {
@@ -21,11 +36,15 @@ var pack = {};
         onFail: function(result) {
           notify.error("Can't connect to server.<br>Check your connection");
         }
-      })
+      }
+
+      lockUserChanges(args)
+
+      api.pack.remove(args)
     }
 
     module.unlock = function(meta) {
-      api.pack.new({
+      args = {
         token: module.options.token(),
         typeName: meta.typeName,
         args: meta.args,
@@ -35,7 +54,11 @@ var pack = {};
         onFail: function(result) {
           notify.error("Can't connect to server.<br>Check your connection");
         }
-      })
+      }
+
+      lockUserChanges(args)
+
+      api.pack.new(args)
     }
 
     module.select = function(packId) {
@@ -51,7 +74,7 @@ var pack = {};
     }
 
     module.canRemove = function(packId) {
-      return true
+      return module.unlockedInfo().length == 0
     }
 
     var getPackById = function(pack_id) {
@@ -255,12 +278,49 @@ var pack = {};
       })
     }
 
-    var injectIntoOnSuccess = function(args, callback) {
-      var onSuccesSaved = args.onSuccess
-      args.onSuccess = function override(result) {
-        onSuccesSaved(result)
-        callback(result)
-      }
+    /**
+     * Create a proxy function to update local storage model
+     * This function modify callbacks to handle local model update
+     */
+    var updateInfoViewLocalOnSuccess = function(args) {
+      utils.injectOnSuccess(args, function(result){
+        module.packsCollection.chain().update(function(pack) { //TODO: slow solution?
+          //We don't use map to make selective edit
+          var updateOnNeed = function(blunder) {
+            if(blunder.get.id != args.blunderId)
+              return;
+            blunder.info = result.data
+          }
+          pack.blunders.forEach(updateOnNeed)
+          return pack
+        })
+      })
+    }
+
+    var reloadPackLocallyOnError = function(args) {
+      utils.injectOnSuccess(args,function(result){
+        if(result.status == 'ok') return;
+          // Some error in pack consistency.
+          // Remove it from local and reload
+          module.packsCollection.removeWhere({pack_id:module.selectedPack})
+          module.sync()
+      })
+    }
+
+    var removeBlunderOnValidationOnSuccess = function(args) {
+      utils.injectOnSuccess(args,function(result){
+        if(result.status !== 'ok') return;
+
+        module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
+          var blunderMatch = function(blunder) {
+            return blunder.get.id != args.blunderId;
+          }
+          var filteredBlunders = pack.blunders.filter(blunderMatch);
+          pack.blunders = filteredBlunders
+          return pack
+        })
+        module.maintain()
+      })
     }
 
     module.validateCurrentBlunder = function(args) {
@@ -276,51 +336,6 @@ var pack = {};
           status: 'error',
           message: 'Pack local storage engine error'
         })
-      })
-    }
-
-    /**
-     * Create a proxy function to update local storage model
-     * This function modify callbacks to handle local model update
-     */
-    var updateInfoViewLocalOnSuccess = function(args) {
-      injectIntoOnSuccess(args,function(result){
-        module.packsCollection.chain().update(function(pack) { //TODO: slow solution?
-          //We don't use map to make selective edit
-          var updateOnNeed = function(blunder) {
-            if(blunder.get.id != args.blunderId)
-              return;
-            blunder.info = result.data
-          }
-          pack.blunders.forEach(updateOnNeed)
-          return pack
-        })
-      })
-    }
-
-    var reloadPackLocallyOnError = function(args) {
-      injectIntoOnSuccess(args,function(result){
-        if(result.status == 'ok') return;
-          // Some error in pack consistency.
-          // Remove it from local and reload
-          module.packsCollection.removeWhere({pack_id:module.selectedPack})
-          module.sync()
-      })
-    }
-
-    var removeBlunderOnValidationOnSuccess = function(args) {
-      injectIntoOnSuccess(args,function(result){
-        if(result.status !== 'ok') return;
-
-        module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
-          var blunderMatch = function(blunder) {
-            return blunder.get.id != args.blunderId;
-          }
-          var filteredBlunders = pack.blunders.filter(blunderMatch);
-          pack.blunders = filteredBlunders
-          return pack
-        })
-        module.maintain()
       })
     }
 

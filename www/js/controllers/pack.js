@@ -3,16 +3,20 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
   $scope.removePack = function(packId) {
-    console.log('Remove' + packId)
+    if(pack.locked())
+      return;
+
     pack.remove(packId)
   }
 
   $scope.unlockPack = function(meta) {
+    if(pack.locked())
+      return;
+      
     pack.unlock(meta)
   }
 
   $scope.selectPack = function(packId) {
-    console.log('Select' + packId)
     pack.select(packId)
   }
 
