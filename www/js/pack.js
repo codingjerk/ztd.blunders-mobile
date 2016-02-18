@@ -14,10 +14,8 @@ var pack = {};
     module.isLocked = false
 
     var lockUserChanges = function(args) {
-      console.log("interface locked")
       module.isLocked = true
       utils.inject(args, function() {
-        console.log("interface unlocked")
         module.isLocked = false
       })
     }

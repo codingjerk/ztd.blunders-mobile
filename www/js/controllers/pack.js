@@ -6,13 +6,16 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
     if(pack.locked())
       return;
 
+    if(!$scope.canRemovePack(packId))
+      return;
+
     pack.remove(packId)
   }
 
   $scope.unlockPack = function(meta) {
     if(pack.locked())
       return;
-      
+
     pack.unlock(meta)
   }
 
