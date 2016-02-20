@@ -31,20 +31,25 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
     return pack.canRemove(packId)
   }
 
-  pack.init({
-    token: $scope.token,
-    onPacksChanged: function() {
-        $timeout(function () {
-            $scope.unlockedInfo = pack.unlockedInfo()
-            $scope.packBlundersInfo = pack.packBlundersInfo()
-        });
-    },
-    goChessboardSlide: function() {
-      $ionicSlideBoxDelegate.slide(1)
-    },
-    reloadGame: function() {
-      $scope.startGame()
-    }
+  $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
+    if (!localStorage.getItem('api-token'))
+      return
 
-  })
+    pack.init({
+      token: $scope.token,
+      onPacksChanged: function() {
+          $timeout(function () {
+              $scope.unlockedInfo = pack.unlockedInfo()
+              $scope.packBlundersInfo = pack.packBlundersInfo()
+          });
+      },
+      goChessboardSlide: function() {
+        $ionicSlideBoxDelegate.slide(1)
+      },
+      reloadGame: function() {
+        $scope.startGame()
+      }
+    })
+  });
+
 });

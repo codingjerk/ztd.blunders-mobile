@@ -130,7 +130,20 @@ var pack = {};
         module.sync()
       }
 
-      var idbAdapter = new LokiIndexedAdapter('loki');
+      var idbAdapter = null
+      /*
+       * When using in browser, IndexedAdapter is great. Hovewer,
+         on Android device we have an issue when database initialises, load handler not called.
+         http://stackoverflow.com/questions/27735568/phonegap-web-sql-database-creation-error-no-such-table-cachegroups
+         For cordova, running on device, we use another adapter, as suggested here
+         http://gonehybrid.com/how-to-use-lokijs-for-local-storage-in-your-ionic-app/
+       */
+      if(window.cordova) // TODO:is this the best way to check this?
+        idbAdapter = new LokiCordovaFSAdapter({"prefix": "loki"});
+      else {
+        idbAdapter = new LokiIndexedAdapter({"prefix": "loki"});
+      }
+
       module.db = new loki('blunders-user-' + module.options.token() + '.json',
         {
           autoload: true,
@@ -172,7 +185,7 @@ var pack = {};
                   module.packsCollection.insert(result.data)
                   module.maintain()
               },
-              function(result) {
+              onFail: function(result) {
                   //notify.error("Can't connect to server.<br>Check your connection");
               }
             })
