@@ -213,17 +213,14 @@ var pack = {};
       //Remove packs without any blunders
       var removeEmptyPacks = function() {
         // The idea is to remove all empty modules and call sync only if any change has been done
-        var emptyCount = module.packsCollection.chain().where(function(pack){
+        var isPackEmpty = function(pack) {
           return pack.blunders.length == 0
-        }).data().length
-        if(emptyCount == 0)
-          return;
+        }
+        if(module.packsCollection.chain().where(isPackEmpty).data().length == 0) //TODO: optimize?
+          return
 
-        module.packsCollection.removeWhere(function(pack) {
-          return pack.blunders.length == 0
-       })
-
-       module.sync()
+        module.packsCollection.removeWhere(isPackEmpty)
+        module.sync()
       }
 
       // Select any pack if none selected
