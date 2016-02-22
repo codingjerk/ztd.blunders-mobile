@@ -168,7 +168,7 @@ var pack = {};
         }
 
         var parsePackBlunders = function(packs) {
-          // Remove  local packs, removed in remote
+          // Remove local packs, removed in remote
           module.packsCollection.removeWhere(function(pack) {
             return (packs.indexOf(pack.pack_id) == -1);
           })
@@ -210,12 +210,23 @@ var pack = {};
      * and ensures packs engine is in correct state.
      */
     module.maintain = function() {
+      //Remove packs without any blunders
       var removeEmptyPacks = function() {
+        // The idea is to remove all empty modules and call sync only if any change has been done
+        var emptyCount = module.packsCollection.chain().where(function(pack){
+          return pack.blunders.length == 0
+        }).data().length
+        if(emptyCount == 0)
+          return;
+
         module.packsCollection.removeWhere(function(pack) {
           return pack.blunders.length == 0
-        })
+       })
+
+       module.sync()
       }
 
+      // Select any pack if none selected
       var selectAnyIfNot = function() {
         if(module.selectedPack != null && getPackById(module.selectedPack) != null)
           return;
@@ -322,6 +333,7 @@ var pack = {};
       utils.injectOnSuccess(args,function(result){
         if(result.status !== 'ok') return;
 
+        // Remove validated blunder from pack
         module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
           var blunderMatch = function(blunder) {
             return blunder.get.id != args.blunderId;
