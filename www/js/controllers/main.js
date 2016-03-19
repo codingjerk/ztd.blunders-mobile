@@ -1,16 +1,12 @@
 app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate) {
-    $scope.isTokenExist = function() {
-        return localStorage.getItem('api-token') !== null;
-    };
-
     $scope.toggleMenu = function() {
-        if (!$scope.isTokenExist()) return;
+        if (!token.exist()) return;
 
         $ionicSideMenuDelegate.toggleLeft();
     };
 
     $scope.logout = function() {
-        localStorage.removeItem('api-token');
+        token.remove()
         $state.go('login');
         $ionicSideMenuDelegate.toggleLeft(false);
     };

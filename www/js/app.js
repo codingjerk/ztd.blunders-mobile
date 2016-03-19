@@ -25,7 +25,7 @@ app.run(function($ionicPlatform, $ionicPopup, $state) {
         });
     }, false);
 
-    if(localStorage.getItem('api-token')) {
+    if(token.exist()) {
         $state.go('training');
     } else {
         $state.go('login');

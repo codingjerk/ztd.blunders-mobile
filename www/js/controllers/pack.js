@@ -32,7 +32,7 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
   }
 
   $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
-    if (!localStorage.getItem('api-token'))
+    if (!token.exist())
       return
 
     pack.init({

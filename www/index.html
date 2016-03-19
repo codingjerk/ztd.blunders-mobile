@@ -53,6 +53,7 @@
         <script src="js/settings.js"></script>
         <script src="js/board.js"></script>
         <script src="js/pack.js"></script>
+        <script src="js/token.js"></script>
     </head>
     <body ng-app="Ztd.Blunders Mobile" ng-controller="MainCtrl">
         <div class="bar bar-header bar-positive blue-background">
@@ -74,7 +75,7 @@
         <ion-side-menus>
             <ion-side-menu side="left" drag-content="false">
                 <ion-content drag-content="false" class="has-header blue-background padding">
-                    <button ng-show="isTokenExist()" ng-click="logout()" class="button button-assertive button-full icon-right ion-log-out">
+                    <button ng-show="true" ng-click="logout()" class="button button-assertive button-full icon-right ion-log-out">
                         Logout
                     </button>
                 </ion-content>

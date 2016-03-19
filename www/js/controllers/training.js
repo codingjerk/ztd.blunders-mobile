@@ -1,13 +1,10 @@
 app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout) {
     $scope.token = function() {
         //This function redirects to login page if token not exist
-        var result = localStorage.getItem('api-token');
+        if(!token.exist())
+          $state.go('login');
 
-        if (!result) {
-            $state.go('login');
-        }
-
-        return result;
+        return token.get()
     }
 
     function updateInfoView(info) {

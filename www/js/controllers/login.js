@@ -1,5 +1,6 @@
 app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
-    if (localStorage.getItem('api-token')) $state.go('training');
+    if (token.exist())
+      $state.go('training');
 
     $scope.authInProgress = false;
 
@@ -18,7 +19,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
                     return;
                 }
 
-                localStorage.setItem('api-token', result.token);
+                token.set(result.token)
                 $state.go('training');
             },
             onFail: function(result) {
@@ -43,7 +44,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
                     return;
                 }
 
-                localStorage.setItem('api-token', result.token);
+                token.set(result.token)
                 pack.init() //Reinit the database
                 $state.go('training');
             },
