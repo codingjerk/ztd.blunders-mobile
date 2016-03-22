@@ -8,8 +8,8 @@ var pack = {};
     module.unlockedCollection = null
     module.selectedPack = null
 
-    module.dynamicPacks = null
-    module.dynamicUnlocked = null
+    module.packsDynamicView = null
+    module.unlockedDynamicView = null
 
     module.isLocked = false
 
@@ -30,6 +30,7 @@ var pack = {};
         packId: packId,
         onSuccess: function(result) {
           module.sync()
+          //TODO: when removing selected blunder, need to refresh board
         },
         onFail: function(result) {
           notify.error("Can't connect to server.<br>Check your connection");
@@ -87,17 +88,17 @@ var pack = {};
     }
 
     module.unlockedInfo = function() {
-      if(module.dynamicUnlocked == null)
+      if(module.unlockedDynamicView == null)
         return []
 
-      return module.dynamicUnlocked.data();
+      return module.unlockedDynamicView.data();
     }
 
     module.packBlundersInfo = function() {
-      if(module.dynamicPacks == null)
+      if(module.packsDynamicView == null)
         return []
 
-      return module.dynamicPacks.data();
+      return module.packsDynamicView.data();
     }
 
     module.init = function(options) {
@@ -120,11 +121,11 @@ var pack = {};
         }
 
         // Prepare dynamic views
-        module.dynamicPacks = module.packsCollection.addDynamicView('blunder_packs');
-        module.dynamicPacks.applyFind( { } )
+        module.packsDynamicView = module.packsCollection.addDynamicView('blunder_packs');
+        module.packsDynamicView.applyFind( { } )
 
-        module.dynamicUnlocked = module.unlockedCollection.addDynamicView('unlocked_packs');
-        module.dynamicUnlocked.applyFind( { } )
+        module.unlockedDynamicView = module.unlockedCollection.addDynamicView('unlocked_packs');
+        module.unlockedDynamicView.applyFind( { } )
 
         module.options.onPacksChanged();
         module.sync()
@@ -163,7 +164,7 @@ var pack = {};
           module.unlockedCollection.removeWhere(function(doc){return true;})
           unlocked.forEach(function(unlocked_pack){
             module.unlockedCollection.insert(unlocked_pack)
-            module.maintain()
+            module.options.onPacksChanged()
           })
         }
 
@@ -183,7 +184,7 @@ var pack = {};
               packId: packId,
               onSuccess: function(result) {
                   module.packsCollection.insert(result.data)
-                  module.maintain()
+                  module.options.onPacksChanged()
               },
               onFail: function(result) {
                   //notify.error("Can't connect to server.<br>Check your connection");
@@ -197,7 +198,7 @@ var pack = {};
           onSuccess: function(result) {
             parseUnlocked(result.data.unlocked)
             parsePackBlunders(result.data.packs)
-            module.maintain()
+            module.options.onPacksChanged()
           },
           onFail: function(result) {
             //notify.error("Can't connect to server.<br>Check your connection");
@@ -205,39 +206,16 @@ var pack = {};
         })
     }
 
-    /**
-     * This function removes empty packs, handles special cases(no packs at all),
-     * and ensures packs engine is in correct state.
-     */
-    module.maintain = function() {
-      //Remove packs without any blunders
-      var removeEmptyPacks = function() {
-        // The idea is to remove all empty modules and call sync only if any change has been done
-        var isPackEmpty = function(pack) {
-          return pack.blunders.length == 0
-        }
-        if(module.packsCollection.chain().where(isPackEmpty).data().length == 0) //TODO: optimize?
-          return
+    module.selectAnyIfNot = function() {
+      if(module.selectedPack != null && getPackById(module.selectedPack) != null)
+        return;
 
-        module.packsCollection.removeWhere(isPackEmpty)
-        module.sync()
-      }
-
-      // Select any pack if none selected
-      var selectAnyIfNot = function() {
-        if(module.selectedPack != null && getPackById(module.selectedPack) != null)
-          return;
-
-        packs = module.packBlundersInfo();
-        if(packs.length == 0)
-          return;
-        module.selectedPack = packs[0]['pack_id']
-        module.options.reloadGame()
-      }
-
-      removeEmptyPacks()
-      selectAnyIfNot()
+      packs = module.packBlundersInfo();
+      if(packs.length == 0)
+        return;
+      module.selectedPack = packs[0]['pack_id']
       module.options.onPacksChanged()
+      module.options.reloadGame()
     }
 
     var existCurrentBlunder = function() {
@@ -257,6 +235,7 @@ var pack = {};
 
     var ensureSelectedBlunder = function(onSuccess, onFail) {
       var currentBlunder = utils.ensure(200, 5000, function() {
+        module.selectAnyIfNot()
         return !existCurrentBlunder() // What if pack empty - check!!!
       }, function() {
         onSuccess()
@@ -266,7 +245,7 @@ var pack = {};
     }
 
     module.getCurrentBlunder = function(args) {
-       ensureSelectedBlunder(function() {
+      ensureSelectedBlunder(function() {
         selectedPack = getPackById(module.selectedPack)
         currentBlunder = selectedPack.blunders[0].get;
         args.onSuccess({
@@ -331,15 +310,33 @@ var pack = {};
         if(result.status !== 'ok') return;
 
         // Remove validated blunder from pack
-        module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
-          var blunderMatch = function(blunder) {
-            return blunder.get.id != args.blunderId;
+        var removeCurrentBlunderFromPack = function() {
+          module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
+            var blunderMatch = function(blunder) {
+              return blunder.get.id != args.blunderId;
+            }
+            var filteredBlunders = pack.blunders.filter(blunderMatch);
+            pack.blunders = filteredBlunders
+            return pack
+          })
+        }
+
+        // Remove pack itself if there is no blunders in it
+        var removeEmptyPacks = function() {
+          // The idea is to remove all empty modules and call sync only if any change has been done
+          var isPackEmpty = function(pack) {
+            return pack.blunders.length == 0
           }
-          var filteredBlunders = pack.blunders.filter(blunderMatch);
-          pack.blunders = filteredBlunders
-          return pack
-        })
-        module.maintain()
+          var emptyPacks = module.packsCollection.chain().where(isPackEmpty).data()
+          if(emptyPacks.length == 0) //TODO: optimize?
+            return
+
+          module.packsCollection.removeWhere(isPackEmpty)
+        }
+
+        removeCurrentBlunderFromPack()
+        removeEmptyPacks()
+        module.options.onPacksChanged()
       })
     }
 
