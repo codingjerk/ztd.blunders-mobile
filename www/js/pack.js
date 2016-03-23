@@ -29,8 +29,15 @@ var pack = {};
         token: module.options.token(),
         packId: packId,
         onSuccess: function(result) {
+          /* We want to refresh board, but sync is asyncronious and will actualy
+           * remove the blunder from local database later. But we want to reload
+           * so game will move to other blunder quickly. So we need to remove it
+           * manually */
+          module.packsCollection.removeWhere({pack_id:packId})
+          if(module.selectedPack == packId)
+            module.options.reloadGame()
+
           module.sync()
-          //TODO: when removing selected blunder, need to refresh board
         },
         onFail: function(result) {
           notify.error("Can't connect to server.<br>Check your connection");
@@ -327,9 +334,6 @@ var pack = {};
           var isPackEmpty = function(pack) {
             return pack.blunders.length == 0
           }
-          var emptyPacks = module.packsCollection.chain().where(isPackEmpty).data()
-          if(emptyPacks.length == 0) //TODO: optimize?
-            return
 
           module.packsCollection.removeWhere(isPackEmpty)
         }
