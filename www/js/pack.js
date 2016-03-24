@@ -335,7 +335,15 @@ var pack = {};
             return pack.blunders.length == 0
           }
 
+          /* Need to sync only if any packs got empty.
+             Sync is needed to update unlock list which might be empty
+             LokiJS don't support count so we make some hacking */
+          var emptyPacks = module.packsCollection.chain().where(isPackEmpty).data()
+          if(emptyPacks.length == 0) //TODO: optimize?
+            return
+
           module.packsCollection.removeWhere(isPackEmpty)
+          module.sync()
         }
 
         removeCurrentBlunderFromPack()
