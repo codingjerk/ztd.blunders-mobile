@@ -130,6 +130,12 @@ var pack = {};
         // Prepare dynamic views
         module.packsDynamicView = module.packsCollection.addDynamicView('blunder_packs');
         module.packsDynamicView.applyFind( { } )
+        // Sort in order to provide exactly the same behaviour on all devices
+        module.packsDynamicView.applySort( function(left, right) {
+          if (left.pack_id == right.pack_id) return 0;
+          if (left.pack_id > right.pack_id) return 1;
+          if (left.pack_id < right.pack_id) return -1;
+        });
 
         module.unlockedDynamicView = module.unlockedCollection.addDynamicView('unlocked_packs');
         module.unlockedDynamicView.applyFind( { } )
