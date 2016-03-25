@@ -6,6 +6,8 @@
 # Don't forget to edit id in config.xml to match correct version(io.ztd.blunders.free for example)
 # Don't forget to increase version before production
 
+rm -f build/*.apk
+
 cordova build --release android
 
 cp ./platforms/android/build/outputs/apk/android-release-unsigned.apk build/
