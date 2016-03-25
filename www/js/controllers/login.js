@@ -20,6 +20,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
                 }
 
                 token.set(result.token)
+                pack.init() //Reinit the database
                 $state.go('training');
             },
             onFail: function(result) {
