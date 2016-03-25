@@ -1,4 +1,4 @@
-app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicPopup, $timeout) {
+app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicPopup, $ionicPlatform, $timeout) {
   $scope.unlockedInfo = pack.unlockedInfo()
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
@@ -40,7 +40,13 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
     return pack.canRemove(packId)
   }
 
-  $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
+  /* We must ensure cordova is properly loaded and then lunch this code,
+     which will trigger database loading from the disk if needed.
+     See loki-cordova-fs-adapter.
+     If we will use stateChangeSuccess to trigger this, database will failed to
+     in the case user starts the application with token existing
+   */
+  $ionicPlatform.ready(function() {
     if (!token.exist())
       return
 
