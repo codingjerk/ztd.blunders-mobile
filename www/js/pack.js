@@ -362,44 +362,19 @@ var pack = {};
 
       // Here goes complicate logic with buffering requests
       // Now we will so simple wrapper
-      ensureSelectedBlunder(function() {
-        api.blunder.validate(args)  //TODO: Store into buffer
-      }, function(){
-        args.onFail({
-          status: 'error',
-          message: 'Pack local storage engine error'
-        })
-      })
+      api.blunder.validate(args)  //TODO: Store into buffer
     }
 
     module.voteCurrentBlunder = function(args) {
       updateInfoViewLocalOnSuccess(args)
 
-      ensureSelectedBlunder(function() {
-        selectedPack = getPackById(module.selectedPack)
-        currentBlunder = selectedPack.blunders[0].info;
-        api.blunder.vote(args) //TODO: Store into buffer
-      }, function(){
-        args.onFail({
-          status: 'error',
-          message: 'Pack local storage engine error'
-        })
-      })
+      api.blunder.vote(args) //TODO: Store into buffer
     }
 
     module.favoriteCurrentBlunder = function(args) {
       updateInfoViewLocalOnSuccess(args)
 
-      ensureSelectedBlunder(function() {
-        selectedPack = getPackById(module.selectedPack)
-        currentBlunder = selectedPack.blunders[0].info;
-        api.blunder.favorite(args) //TODO: Store into buffer
-      }, function(){
-        args.onFail({
-          status: 'error',
-          message: 'Pack local storage engine error'
-        })
-      })
+      api.blunder.favorite(args) //TODO: Store into buffer
     }
 
 })(pack)
