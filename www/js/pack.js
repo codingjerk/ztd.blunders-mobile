@@ -132,9 +132,7 @@ var pack = {};
         module.packsDynamicView.applyFind( { } )
         // Sort in order to provide exactly the same behaviour on all devices
         module.packsDynamicView.applySort( function(left, right) {
-          if (left.pack_id == right.pack_id) return 0;
-          if (left.pack_id > right.pack_id) return 1;
-          if (left.pack_id < right.pack_id) return -1;
+          return left.pack_id.localeCompare(right.pack_id)
         });
 
         module.unlockedDynamicView = module.unlockedCollection.addDynamicView('unlocked_packs');
