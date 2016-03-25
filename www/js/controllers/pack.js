@@ -1,4 +1,4 @@
-app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $timeout) {
+app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicPopup, $timeout) {
   $scope.unlockedInfo = pack.unlockedInfo()
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
@@ -9,7 +9,16 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
     if(!$scope.canRemovePack(packId))
       return;
 
-    pack.remove(packId)
+    var confirmPopup = $ionicPopup.confirm({
+         title: 'Removing pack',
+         template: 'Do you want to fail this pack?'
+       });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       pack.remove(packId)
+     }
+   });
   }
 
   $scope.unlockPack = function(meta) {
