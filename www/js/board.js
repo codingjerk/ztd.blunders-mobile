@@ -28,7 +28,8 @@ board.init = function(options) {
               options.onUserRatingChanged(result.rating);
           },
           onFail: function(result) {
-                notify.error("Can't connect to server.<br>Check your connection");
+              // Just ignore rating error, leave old rating as is
+              //notify.error("Can't connect to server.<br>Check your connection");
           }
         });
     })();
