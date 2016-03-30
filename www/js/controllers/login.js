@@ -23,7 +23,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
                 }
 
                 token.set(result.token)
-                pack.init() //Reinit the database
+                pack.restart();
                 $state.go('training');
             },
             onFail: function(result) {
@@ -52,7 +52,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
                 }
 
                 token.set(result.token)
-                pack.init() //Reinit the database
+                pack.restart();
                 $state.go('training');
             },
             onFail: function(result) {

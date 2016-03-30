@@ -94,9 +94,20 @@ var pack = {};
     }
 
     module.init = function(options) {
-      if(options) // pass without options to trigger reload database
         module.options = options
+    }
 
+    module.restart = function() {
+      var currentBlunder = utils.ensure(200, 5000, function() {
+        return module.options == undefined
+      }, function() {
+        restart()
+      }, function(){
+        notify.error('Pack engine: local storage error')
+      })
+    }
+
+    var restart = function() {
       function saveHandler() {
         console.log("saved");
       }

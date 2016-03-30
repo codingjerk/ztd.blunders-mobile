@@ -45,7 +45,7 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
      in the case user starts the application with token existing
    */
   $ionicPlatform.ready(function() {
-    if (!token.exist())
+    if (!token.exist()) // TODO: may be redirect to login?
       return
 
     pack.init({
@@ -69,6 +69,8 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
         })
       }
     })
+
+    pack.restart()
   });
 
 });
