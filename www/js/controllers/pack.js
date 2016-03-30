@@ -3,8 +3,7 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
   $scope.removePack = function(packId) {
-    if(pack.locked())
-      return;
+    if ($scope.isTriggered('packLock')) return;
 
     if(!$scope.canRemovePack(packId))
       return;
@@ -22,8 +21,7 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
   }
 
   $scope.unlockPack = function(meta) {
-    if(pack.locked())
-      return;
+    if ($scope.isTriggered('packLock')) return;
 
     pack.unlock(meta)
   }
@@ -63,6 +61,12 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
       },
       reloadGame: function() {
         $scope.startGame()
+      },
+      onAnimate: function(state) {
+        $scope.triggerSemaphore({
+          networkBusy: state,
+          packLock: state
+        })
       }
     })
   });

@@ -11,19 +11,6 @@ var pack = {};
     module.packsDynamicView = null
     module.unlockedDynamicView = null
 
-    module.isLocked = false
-
-    var lockUserChanges = function(args) {
-      module.isLocked = true
-      utils.inject(args, function() {
-        module.isLocked = false
-      })
-    }
-
-    module.locked = function() {
-      return module.isLocked;
-    }
-
     module.remove = function(packId) {
       args = {
         token: module.options.token(),
@@ -41,10 +28,9 @@ var pack = {};
         },
         onFail: function(result) {
           notify.error("Can't connect to server.<br>Check your connection");
-        }
+        },
+        onAnimate: module.options.onAnimate
       }
-
-      lockUserChanges(args)
 
       api.pack.remove(args)
     }
@@ -59,10 +45,9 @@ var pack = {};
         },
         onFail: function(result) {
           notify.error("Can't connect to server.<br>Check your connection");
-        }
+        },
+        onAnimate: module.options.onAnimate
       }
-
-      lockUserChanges(args)
 
       api.pack.new(args)
     }
