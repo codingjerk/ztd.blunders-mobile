@@ -15,15 +15,17 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
 
     $scope.vote = function(vote) {
         if (!$scope.blunderId) return;
+        if ($scope.isTriggered('voteLock')) return;
 
         buffer.blunder.vote({
             token: $scope.token(),
             blunderId: $scope.blunderId,
             vote: vote,
             onAnimate: function(state) {
-                $('#loading-indicator').toggle(state);
-                $('#dislike-button').toggleClass('disabled', state);
-                $('#like-button').toggleClass('disabled', state);
+                $scope.triggerSemaphore({
+                  networkBusy: state,
+                  voteLock: state
+                })
             },
             onSuccess: function(result) {
                 if (result.status !== 'ok') {
@@ -41,13 +43,16 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
 
     $scope.favorite = function() {
         if (!$scope.blunderId) return;
+        if ($scope.isTriggered('favoriteLock')) return;
 
         buffer.blunder.favorite({
             token: $scope.token(),
             blunderId: $scope.blunderId,
             onAnimate: function(state) {
-                $('#loading-indicator').toggle(state);
-                $('#favorite-button').toggleClass('disabled', state);
+              $scope.triggerSemaphore({
+                networkBusy: state,
+                favoriteLock: state
+              })
             },
             onSuccess: function(result) {
                 if (result.status !== 'ok') {
@@ -154,7 +159,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                 $state.go('login');
             },
             onAnimate: function(state) {
-                $('#loading-indicator').toggle(state);
+              $scope.triggerSemaphore({
+                networkBusy: state
+              })
             },
             onTimerUpdate: function(value) {
                 // @TODO: now not used by app

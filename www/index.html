@@ -60,7 +60,7 @@
             <div class="buttons">
                 <span class="title-text">
                     <button id="menu-button" ng-click="toggleMenu()" class="button button-icon icon ion-navicon"></button>
-                    <button style="display: none;" id="loading-indicator" class="button button-icon icon ion-load-c ion-spin-animation"></button>
+                    <button ng-hide="!isTriggered('networkBusy')" id="loading-indicator" class="button button-icon icon ion-load-c ion-spin-animation"></button>
                 </span>
             </div>
             <div class="title">
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                             <div class="padding">
-                                <button id="login-button" ng-click="login(loginUsername, loginPassword)" class="button button-balanced button-wide icon-right ion-log-in">
+                                <button id="login-button" ng-click="login(loginUsername, loginPassword)" ng-disabled="isTriggered('loginLock')" class="button button-balanced button-wide icon-right ion-log-in">
                                     Login
                                 </button>
                             </div>
@@ -138,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="padding">
-                                <button id="signup-button" ng-click="signup(signupUsername, signupPassword, signupEmail)" class="button button-balanced button-wide icon-right ion-person-add">
+                                <button id="signup-button" ng-click="signup(signupUsername, signupPassword, signupEmail)" ng-disabled="isTriggered('loginLock')" class="button button-balanced button-wide icon-right ion-person-add">
                                     Sign Up!
                                 </button>
                             </div>
@@ -190,15 +190,15 @@
                                 <div class="item item-divider">
                                     <div class="row">
                                       <div class="col">
-                                        <button id="dislike-button" ng-class="{'dislike-active': info.myVote === -1}" ng-click="vote(-1)" class="button button-icon icon ion-thumbsdown"></button>
+                                        <button id="dislike-button" ng-class="{'dislike-active': info.myVote === -1}" ng-click="vote(-1)" ng-disabled="isTriggered('voteLock')" class="button button-icon icon ion-thumbsdown"></button>
                                       </div>
                                       <div class="col">
-                                        <button id="favorite-button" ng-class="{'favorite-active': info.myFavorite === true}" ng-click="favorite()" class="button button-icon icon {{info.myFavorite? 'ion-android-star': 'ion-android-star-outline'}}"></button>
+                                        <button id="favorite-button" ng-class="{'favorite-active': info.myFavorite === true}" ng-click="favorite()" ng-disabled="isTriggered('favoriteLock')" class="button button-icon icon {{info.myFavorite? 'ion-android-star': 'ion-android-star-outline'}}"></button>
                                       </div>
                                       <div class="col">
-                                        <button id="like-button" ng-class="{'like-active': info.myVote === 1}" ng-click="vote(1)" class="button button-icon icon ion-thumbsup"></button>
+                                        <button id="like-button" ng-class="{'like-active': info.myVote === 1}" ng-click="vote(1)" ng-disabled="isTriggered('voteLock')" class="button button-icon icon ion-thumbsup"></button>
                                       </div>
-                                    </div>
+                                    </div
                                 </div>
                             </div>
                             <div class="card">
