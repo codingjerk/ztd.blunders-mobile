@@ -1,6 +1,7 @@
 app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
-    if (token.exist())
+    if (token.exist()) {
       $state.go('training');
+    }
 
     $scope.authInProgress = false;
 

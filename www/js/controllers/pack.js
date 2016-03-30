@@ -69,8 +69,6 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
         })
       }
     })
-
-    pack.restart()
   });
 
 });

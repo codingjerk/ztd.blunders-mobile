@@ -101,13 +101,13 @@ var pack = {};
       var currentBlunder = utils.ensure(200, 5000, function() {
         return module.options == undefined
       }, function() {
-        restart()
+        reloadDatabase()
       }, function(){
         notify.error('Pack engine: local storage error')
       })
     }
 
-    var restart = function() {
+    var reloadDatabase = function() {
       function saveHandler() {
         console.log("saved");
       }
