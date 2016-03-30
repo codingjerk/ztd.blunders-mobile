@@ -1,7 +1,7 @@
-+/*
-+  The idea is, that direct and pack modules provides completely the same
-+  functionality from perspective of board module and just can be replaced
-+*/
+/*
+  The idea is, that direct and pack modules provides completely the same
+  functionality from perspective of board module and just can be replaced
+*/
 
 
 var direct = {};
