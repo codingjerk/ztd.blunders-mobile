@@ -176,6 +176,13 @@ var pack = {};
         }
 
         var parsePackBlunders = function(packs) {
+          // If no packs, request for new random pack
+          if(packs.length == 0) {
+            notify.good("Downloading default random pack from server")
+            module.unlock({typeName: "Random"})
+            return
+          }
+
           // Remove local packs, removed in remote
           module.packsCollection.removeWhere(function(pack) {
             return (packs.indexOf(pack.pack_id) == -1);
