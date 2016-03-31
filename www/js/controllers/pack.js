@@ -71,4 +71,11 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
     })
   });
 
+  $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
+    if (!token.exist())
+      return
+
+    pack.restart()
+  })
+
 });
