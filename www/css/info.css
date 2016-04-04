@@ -2,8 +2,12 @@
     color: #1fa67a;
 }
 
-.favorite-active, .dislike-active, .favorite-active:hover, .dislike-active:hover {
+.dislike-active, .dislike-active:hover {
     color: rgb(217, 83, 79);
+}
+
+.favorite-active, .favorite-active:hover {
+    color: rgb(207,181,59)
 }
 
 .cell-header, .cell-footer {

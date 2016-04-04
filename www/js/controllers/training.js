@@ -1,25 +1,31 @@
-app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout) {
+    $scope.token = function() {
+        //This function redirects to login page if token not exist
+        if(!token.exist())
+          $state.go('login');
+
+        return token.get()
+    }
+
     function updateInfoView(info) {
-        $scope.$apply(function () {
+        $timeout(function () {
             $scope.info = info;
         });
     }
 
     $scope.vote = function(vote) {
-        if (!$scope.blunder_id) return;
+        if (!$scope.blunderId) return;
+        if ($scope.isTriggered('voteLock')) return;
 
-        sync.ajax({
-            url: settings.url('blunder/vote'),
-            crossDomain : true,
-            data: {
-                token: localStorage.getItem('api-token'),
-                blunder_id: $scope.blunder_id,
-                vote: vote
-            },
+        buffer.blunder.vote({
+            token: $scope.token(),
+            blunderId: $scope.blunderId,
+            vote: vote,
             onAnimate: function(state) {
-                $('#loading-indicator').toggle(state);
-                $('#dislike-button').toggleClass('disabled', state);
-                $('#like-button').toggleClass('disabled', state);
+                $scope.triggerSemaphore({
+                  networkBusy: state,
+                  voteLock: state
+                })
             },
             onSuccess: function(result) {
                 if (result.status !== 'ok') {
@@ -36,18 +42,17 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
     }
 
     $scope.favorite = function() {
-        if (!$scope.blunder_id) return;
+        if (!$scope.blunderId) return;
+        if ($scope.isTriggered('favoriteLock')) return;
 
-        sync.ajax({
-            url: settings.url('blunder/favorite'),
-            crossDomain : true,
-            data: {
-                token: localStorage.getItem('api-token'),
-                blunder_id: $scope.blunder_id
-            },
+        buffer.blunder.favorite({
+            token: $scope.token(),
+            blunderId: $scope.blunderId,
             onAnimate: function(state) {
-                $('#loading-indicator').toggle(state);
-                $('#favorite-button').toggleClass('disabled', state);
+              $scope.triggerSemaphore({
+                networkBusy: state,
+                favoriteLock: state
+              })
             },
             onSuccess: function(result) {
                 if (result.status !== 'ok') {
@@ -93,8 +98,10 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
         board.init({
             id: 'board',
             onBlunderChanged: function(blunder) {
-                $scope.$apply(function () {
-                    $scope.blunder_id = blunder.id;
+                $timeout(function () {
+                    $scope.blunderId = blunder.id;
+                    $scope.unlockedInfo = pack.unlockedInfo()
+                    $scope.packBlundersInfo = pack.packBlundersInfo()
                 });
             },
             onStatusChanged: function(statusName) {
@@ -126,9 +133,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
                 };
 
                 if (statusName === 'ready-to-new-game') {
-                    $scope.$apply(function () {
+                    $timeout(function () {
                         $scope.status.onClick = function() {
-                            $scope.blunder_id = null;
+                            $scope.blunderId = null;
 
                             board.nextBlunder();
                         }
@@ -137,7 +144,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
                     return;
                 }
 
-                $scope.$apply(function () {
+                $timeout(function () {
                     $scope.status = stateNameToState[statusName];
                 });
             },
@@ -148,14 +155,18 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
                 updateInfoView(info);
             },
             onTokenRefused: function() {
+                console.log("Token refused") //TODO: check if fail!!!
                 $state.go('login');
             },
             onAnimate: function(state) {
-                $('#loading-indicator').toggle(state);
+              $scope.triggerSemaphore({
+                networkBusy: state
+              })
             },
             onTimerUpdate: function(value) {
                 // @TODO: now not used by app
-            }
+            },
+            token: $scope.token, // This function redirects to login page on fail so need controller state
         });
     };
 
@@ -163,6 +174,14 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate) 
         if (to.name === 'training') {
             $scope.startGame();
         }
+    });
+
+    $scope.$on('$ionicView.enter', function(){
+      //disable accessing side menu by dragging
+      $ionicSideMenuDelegate.canDragContent(false);
+    });
+    $scope.$on('$ionicView.leave', function(){
+        $ionicSideMenuDelegate.canDragContent(true);
     });
 
     window.onresize = function(event) {

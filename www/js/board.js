@@ -3,21 +3,11 @@ var board = {};
 board.init = function(options) {
     var counter = utils.counter(1000, function () {
         var totalSeconds = counter.total();
-        
+
         var formatted = utils.timePrettyFormat(totalSeconds);
 
         options.onTimerUpdate(formatted);
     });
-
-    function getTokenAndRedirectIfNotExist() {
-        var result = localStorage.getItem('api-token');
-
-        if (!result) {
-            options.onTokenRefused();
-        }
-
-        return result;
-    }
 
     function processError(data) {
         if (data.message === 'Invalid API token') {
@@ -29,94 +19,73 @@ board.init = function(options) {
     }
 
     (function updateUserRating() {
-        sync.ajax({
-            url: settings.url('session/rating'),
-            crossDomain : true,
-            data: {
-                token: getTokenAndRedirectIfNotExist()
-            },
-            onSuccess: function(result) {
-                if (result.status !== 'ok') {
-                    return processError(result);
-                }
-
-                options.onUserRatingChanged(result.rating);
-            },
-            onFail: function(result) {
-                notify.error("Can't connect to server.<br>Check your connection");
-            }
+        buffer.session.rating({
+          token: options.token(),
+          onSuccess: function(result) {
+              if (result.status !== 'ok') {
+                  return processError(result);
+              }
+              options.onUserRatingChanged(result.rating);
+          },
+          onFail: function(result) {
+              // Just ignore rating error, leave old rating as is
+              //notify.error("Can't connect to server.<br>Check your connection");
+          }
         });
     })();
 
     (function initGame() {
         function getBlunder(next) {
-            sync.repeat({
-                url: settings.url('blunder/get'),
-                crossDomain : true,
-                data: {
-                    token: getTokenAndRedirectIfNotExist(),
-                    type: 'rated'
-                },
-                onAnimate: options.onAnimate,
-                onSuccess: function(result) {
-                    if (result.status !== 'ok') {
-                        return processError(result);
-                    }
+            buffer.blunder.get({
+              token: options.token(),
+              onSuccess: function(result) {
+                  if (result.status !== 'ok') {
+                      return processError(result);
+                  }
+                  var data = result.data;
 
-                    var data = result.data;
-
-                    sync.repeat({
-                        url: settings.url('blunder/info'),
-                        crossDomain : true,
-                        data: {
-                            token: getTokenAndRedirectIfNotExist(),
-                            blunder_id: data.id
-                        },
-                        onSuccess: function(result) {
-                            if (result.status !== 'ok') {
-                                return processError(result);
-                            }
-
-                            options.onInfoChanged(result.data);
-                        },
-                        onFail: function(result) {
-                            notify.error("Can't connect to server.<br>Check your connection");
+                  buffer.blunder.info({
+                    token: options.token(),
+                    blunderId: data.id,
+                    onSuccess: function(result) {
+                        if (result.status !== 'ok') {
+                            return processError(result);
                         }
-                    });
-
-                    next(data);
-                },
-                onFail: function(result) {
-                    notify.error("Can't connect to server.<br>Check your connection");
-                }
-            });
+                        options.onInfoChanged(result.data);
+                    },
+                    onFail: function(result) {
+                        notify.error("Can't connect to server.<br>Check your connection");
+                    }
+                  })
+                  next(data);
+              },
+              onFail: function(result) {
+                  notify.error("Can't connect to server.<br>Check your connection");
+              },
+              onAnimate: options.onAnimate
+            })
         }
 
         function validateBlunder(pv, blunder, next) {
-            sync.repeat({
-                url: settings.url('blunder/validate'),
-                crossDomain : true,
-                onAnimate: options.onAnimate,
-                data: {
-                    token: getTokenAndRedirectIfNotExist(),
-                    id: blunder.id,
-                    line: pv,
-                    spentTime: counter.total(),
-                    type: 'rated'
-                },
-                onSuccess: function(result) {
-                    if (result.status !== 'ok') {
-                        processError(result);
-                    } else {
-                        options.onUserRatingChanged(result.data.elo);
-                    }
-
-                    next();
-                },
-                onFail: function(result) {
-                    notify.error("Can't connect to server.<br>Check your connection");
+          buffer.blunder.validate({
+            token: options.token(),
+            blunderId: blunder.id,
+            pv: pv,
+            spentTime: counter.total(),
+            onSuccess: function(result) {
+                if (result.status !== 'ok') {
+                    processError(result);
+                } else {
+                    options.onUserRatingChanged(result.data.elo);
                 }
-            });
+
+                next();
+            },
+            onFail:function(result) {
+                notify.error("Can't connect to server.<br>Check your connection");
+            },
+            onAnimate: options.onAnimate
+          })
         }
 
         function startGame(blunder) {
@@ -149,7 +118,7 @@ board.init = function(options) {
 
             var game = new Chess(blunder.fenBefore);
             var chessboard = new Chessboard(
-                options.id, 
+                options.id,
                 {
                     position: blunder.fenBefore,
                     eventHandlers: {

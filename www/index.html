@@ -28,45 +28,54 @@
         <script type="text/javascript" src="third-party/toastr/build/toastr.min.js"></script>
         <script src="third-party/chessboard-js/js/chessboard.min.js"></script>
         <script src="third-party/chess.js/chess.min.js"></script>
+        <script src="third-party/lokijs/build/lokijs.min.js"></script>
+        <script src="third-party/lokijs/build/loki-indexed-adapter.min.js"></script>
+        <script src="third-party/loki-cordova-fs-adapter/bin/loki-cordova-fs-adapter.js"></script>
 
         <!-- Ztd.Team modules as external js -->
         <script src="third-party/ztd.blunders-misc/js/utils.js"></script>
         <script src="third-party/ztd.blunders-misc/js/sync.js"></script>
 
         <!-- Main application js -->
+        <script src="js/pack.js"></script>
         <script src="js/app.js"></script>
 
         <!-- Controllers -->
         <script src="js/controllers/main.js"></script>
         <script src="js/controllers/login.js"></script>
         <script src="js/controllers/training.js"></script>
+        <script src="js/controllers/pack.js"></script>
 
         <!-- Miscellaneous js -->
+        <script src="js/api.js"></script>
+        <script src="js/buffer.js"></script>
         <script src="js/notify.js"></script>
         <script src="js/settings.js"></script>
         <script src="js/board.js"></script>
+        <script src="js/pack.js"></script>
+        <script src="js/token.js"></script>
     </head>
     <body ng-app="Ztd.Blunders Mobile" ng-controller="MainCtrl">
         <div class="bar bar-header bar-positive blue-background">
             <div class="buttons">
                 <span class="title-text">
                     <button id="menu-button" ng-click="toggleMenu()" class="button button-icon icon ion-navicon"></button>
-                    <button style="display: none;" id="loading-indicator" class="button button-icon icon ion-load-c ion-spin-animation"></button>
+                    <button ng-hide="!isTriggered('networkBusy')" id="loading-indicator" class="button button-icon icon ion-load-c ion-spin-animation"></button>
                 </span>
             </div>
             <div class="title">
                 <span class="title-text">
-                    Ztd.Blunders
+                    Chess Blunders
                 </span>
             </div>
-            
+
             <button id="user-elo" class="button button-icon icon ion-university">-</button>
         </div>
 
         <ion-side-menus>
-            <ion-side-menu side="left">
-                <ion-content class="has-header blue-background padding">
-                    <button ng-show="isTokenExist()" ng-click="logout()" class="button button-assertive button-full icon-right ion-log-out">
+            <ion-side-menu side="left" drag-content="false">
+                <ion-content drag-content="false" class="has-header blue-background padding">
+                    <button ng-show="true" ng-click="logout()" class="button button-assertive button-full icon-right ion-log-out">
                         Logout
                     </button>
                 </ion-content>
@@ -77,7 +86,7 @@
             </ion-side-menu-content>
         </ion-side-menus>
 
-        <script id="login.html" type="text/ng-template"> 
+        <script id="login.html" type="text/ng-template">
             <ion-view class="blue-background">
                 <ion-content class="has-header">
                     <ion-slide-box show-pager="false">
@@ -95,14 +104,14 @@
                                 </div>
                             </div>
                             <div class="padding">
-                                <button id="login-button" ng-click="login(loginUsername, loginPassword)" class="button button-balanced button-wide icon-right ion-log-in">
+                                <button id="login-button" ng-click="login(loginUsername, loginPassword)" ng-disabled="isTriggered('loginLock')" class="button button-balanced button-wide icon-right ion-log-in">
                                     Login
                                 </button>
                             </div>
 
                             <div class="padding">
                                 <div class="padding-bottom new-user-greeting">
-                                    Do not have accout yet?
+                                    Do not have account yet?
                                 </div>
 
                                 <button ng-click="goToSignup()" class="button button-outline button-wide button-light icon-right ion-ios-arrow-right">
@@ -129,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="padding">
-                                <button id="signup-button" ng-click="signup(signupUsername, signupPassword, signupEmail)" class="button button-balanced button-wide icon-right ion-person-add">
+                                <button id="signup-button" ng-click="signup(signupUsername, signupPassword, signupEmail)" ng-disabled="isTriggered('loginLock')" class="button button-balanced button-wide icon-right ion-person-add">
                                     Sign Up!
                                 </button>
                             </div>
@@ -143,6 +152,22 @@
             <ion-view class="white-background">
                 <ion-content>
                     <ion-slide-box show-pager="false" class="has-header">
+                        <ion-slide ng-controller="PackCtrl">
+                          <ion-list type="card">
+                            <ion-item class="item item-divider">Packs</ion-item>
+                            <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo track by $index" ng-click="selectPack(pack.pack_id)">
+                              <button ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="button button-icon icon ion-backspace-outline"></button>
+                              <h2>{{pack.description}}</h2>
+                              <p>{{pack.blunders.length}} left</p>
+                              <i ng-hide="!isSelectedPack(pack.pack_id)" class="icon ion-ios-checkmark" ></i>
+                            </ion-item>
+                            <ion-item class="item item-divider">Unlocked packs</ion-item>
+                            <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo track by $index" ng-click="unlockPack({typeName:pack.type_name,args:pack.args})">
+                              <i class="icon ion-ios-plus" ></i>
+                              <h2>{{pack.description}}</h2>
+                            </ion-item>
+                        </ion-list>
+                        </ion-slide>
                         <ion-slide>
                             <div class="card">
                                 <div class="item item-divider">
@@ -165,15 +190,15 @@
                                 <div class="item item-divider">
                                     <div class="row">
                                       <div class="col">
-                                        <button id="dislike-button" ng-class="{'dislike-active': info.myVote === -1}" ng-click="vote(-1)" class="button button-icon icon ion-thumbsdown"></button>
+                                        <button id="dislike-button" ng-class="{'dislike-active': info.myVote === -1}" ng-click="vote(-1)" ng-disabled="isTriggered('voteLock')" class="button button-icon icon ion-thumbsdown"></button>
                                       </div>
                                       <div class="col">
-                                        <button id="favorite-button" ng-class="{'favorite-active': info.myFavorite === true}" ng-click="favorite()" class="button button-icon icon {{info.myFavorite? 'ion-ios-heart': 'ion-ios-heart-outline'}}"></button>
+                                        <button id="favorite-button" ng-class="{'favorite-active': info.myFavorite === true}" ng-click="favorite()" ng-disabled="isTriggered('favoriteLock')" class="button button-icon icon {{info.myFavorite? 'ion-android-star': 'ion-android-star-outline'}}"></button>
                                       </div>
                                       <div class="col">
-                                        <button id="like-button" ng-class="{'like-active': info.myVote === 1}" ng-click="vote(1)" class="button button-icon icon ion-thumbsup"></button>
+                                        <button id="like-button" ng-class="{'like-active': info.myVote === 1}" ng-click="vote(1)" ng-disabled="isTriggered('voteLock')" class="button button-icon icon ion-thumbsup"></button>
                                       </div>
-                                    </div>
+                                    </div
                                 </div>
                             </div>
                             <div class="card">
