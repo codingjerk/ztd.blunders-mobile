@@ -17,6 +17,8 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         if (!$scope.blunderId) return;
         if ($scope.isTriggered('voteLock')) return;
 
+        blunderId = $scope.blunderId
+
         buffer.blunder.vote({
             token: $scope.token(),
             blunderId: $scope.blunderId,
@@ -33,6 +35,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                     return;
                 }
 
+                if (blunderId != $scope.blunderId)
+                    return; // User skipped this blunder, no need to update view
+
                 updateInfoView(result.data);
             },
             onFail: function(result) {
@@ -44,6 +49,8 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
     $scope.favorite = function() {
         if (!$scope.blunderId) return;
         if ($scope.isTriggered('favoriteLock')) return;
+
+        blunderId = $scope.blunderId
 
         buffer.blunder.favorite({
             token: $scope.token(),
@@ -59,6 +66,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                     notify.error(result.message);
                     return;
                 }
+
+                if (blunderId != $scope.blunderId)
+                    return; // User skipped this blunder, no need to update view
 
                 updateInfoView(result.data);
             },
