@@ -62,7 +62,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
 
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
         // No need to show rating when unlogining
-        $('#user-elo').html('-');
+        $scope.setUserRating('-')
     });
 
     $scope.goToSignup = function() {

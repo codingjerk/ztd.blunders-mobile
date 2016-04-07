@@ -159,7 +159,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                 });
             },
             onUserRatingChanged: function(rating) {
-                $('#user-elo').html(rating);
+                $scope.setUserRating(rating)
             },
             onInfoChanged: function(info) {
                 updateInfoView(info);

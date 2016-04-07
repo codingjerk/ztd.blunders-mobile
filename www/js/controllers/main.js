@@ -37,4 +37,18 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
     $scope.isTriggered = function(key) {
       return $scope.lockSemaphore[key] > 0
     }
+
+    $scope.userRating = '-'
+
+    $scope.setUserRating = function(rating) {
+      $timeout(function () {
+        $scope.userRating = rating
+      })
+    }
+
+    $scope.getUserRating = function() {
+      return $scope.userRating
+    }
+
+
 });
