@@ -1,6 +1,4 @@
-app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout) {
-    $scope.analyzeShownStatus = false
-
+app.controller('TrainingCtrl', function($rootScope, $scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout) {
     $scope.token = function() {
         //This function redirects to login page if token not exist
         if(!token.exist())
@@ -111,13 +109,13 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             id: 'board',
             onBlunderChanged: function(blunder) {
                 $timeout(function () {
+                    $rootScope.$emit("analyze.hide");
                     $scope.blunderId = blunder.id;
                     $scope.unlockedInfo = pack.unlockedInfo()
                     $scope.packBlundersInfo = pack.packBlundersInfo()
                 });
             },
             onStatusChanged: function(statusName) {
-                $scope.analyzeShownStatus = false
                 var stateNameToState = {
                     'fail': {
                         viewText: 'Failed. Next',
@@ -147,7 +145,6 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
 
                 if (statusName === 'ready-to-new-game') {
                     $timeout(function () {
-                        $scope.analyzeShownStatus = true
                         $scope.status.onClick = function() {
                             $scope.blunderId = null;
 
@@ -179,6 +176,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             },
             onTimerUpdate: function(value) {
                 // @TODO: now not used by app
+            },
+            showAnalyze: function(boardId, pv) {
+                $rootScope.$emit( "analyze.show", boardId, pv);
             },
             token: $scope.token, // This function redirects to login page on fail so need controller state
         });

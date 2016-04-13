@@ -202,13 +202,13 @@
                               <ion-item class="item-text-wrap" ng-click='analyzeClicked()' ng-show='!isAnalyzed'>
                                 <p>Click to analyze position...</p>
                               </ion-item>
-                              <ion-item ng-show='isAnalyzed'>
-                                <div class="row">
-                                  <div class="col-20">
-                                    <p>1.26</p>
+                              <ion-item class="no-padding item-text-wrap" ng-show='isAnalyzed'>
+                                <div ng-repeat="element in analyzedData" class="row">
+                                  <div class="col-20 col-center">
+                                    <b>{{element.score}}</b>
                                   </div>
                                   <div class="col-80">
-                                    <p>1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5</p>
+                                    <p align="left">{{element.pv}}</p>
                                   </div>
                                 </div>
                               </ion-item>

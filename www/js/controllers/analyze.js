@@ -1,4 +1,8 @@
-app.controller('AnalyzeCtrl', function($scope, $state, $ionicSlideBoxDelegate, $timeout) {
+app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $ionicSlideBoxDelegate, $timeout) {
+    $scope.boardId = undefined
+    $scope.pv = undefined
+
+    $scope.analyzeShownStatus = false
     $scope.isAnalyzed = false
     $scope.analyzedData = [{
         'score': 1.44,
@@ -15,7 +19,27 @@ app.controller('AnalyzeCtrl', function($scope, $state, $ionicSlideBoxDelegate, $
     $scope.analyzeClicked = function() {
 
       console.log("Analyze clicked")
+      setTimeout(function() {
+          $timeout(function() {
+            $scope.isAnalyzed = true
+            console.log($scope.boardId, $scope.pv)
+          })
+      }, 5000)
 
-      $scope.isAnalyzed = true
     }
+
+    $rootScope.$on("analyze.hide",function() {
+      console.log("HIDE")
+      $scope.analyzeShownStatus = false
+      $scope.isAnalyzed = false
+    })
+
+    $rootScope.$on("analyze.show",function(event, boardId, pv) {
+      $scope.boardId = boardId
+      $scope.pv = pv
+      console.log("SHOW")
+      $scope.analyzeShownStatus = true
+      $scope.isAnalyzed = false
+    })
+
 })
