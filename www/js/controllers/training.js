@@ -1,4 +1,6 @@
 app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout) {
+    $scope.analyzeShownStatus = false
+
     $scope.token = function() {
         //This function redirects to login page if token not exist
         if(!token.exist())
@@ -115,6 +117,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                 });
             },
             onStatusChanged: function(statusName) {
+                $scope.analyzeShownStatus = false
                 var stateNameToState = {
                     'fail': {
                         viewText: 'Failed. Next',
@@ -144,6 +147,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
 
                 if (statusName === 'ready-to-new-game') {
                     $timeout(function () {
+                        $scope.analyzeShownStatus = true
                         $scope.status.onClick = function() {
                             $scope.blunderId = null;
 

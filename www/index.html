@@ -44,6 +44,7 @@
         <script src="js/controllers/main.js"></script>
         <script src="js/controllers/login.js"></script>
         <script src="js/controllers/training.js"></script>
+        <script src="js/controllers/analyze.js"></script>
         <script src="js/controllers/pack.js"></script>
 
         <!-- Miscellaneous js -->
@@ -196,6 +197,21 @@
                                         {{status.viewText}} <i ng-show="status.terminate === true" class="icon ion-ios-arrow-right"></i>
                                     </button>
                                 </div>
+                            </div>
+                            <div class="card" ng-show='analyzeShownStatus' ng-controller='AnalyzeCtrl'>
+                              <ion-item class="item-text-wrap" ng-click='analyzeClicked()' ng-show='!isAnalyzed'>
+                                <p>Click to analyze position...</p>
+                              </ion-item>
+                              <ion-item ng-show='isAnalyzed'>
+                                <div class="row">
+                                  <div class="col-20">
+                                    <p>1.26</p>
+                                  </div>
+                                  <div class="col-80">
+                                    <p>1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5</p>
+                                  </div>
+                                </div>
+                              </ion-item>
                             </div>
                         </ion-slide>
                         <ion-slide>
