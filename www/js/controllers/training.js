@@ -177,8 +177,8 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             onTimerUpdate: function(value) {
                 // @TODO: now not used by app
             },
-            showAnalyze: function(boardId, pv) {
-                $scope.$emit( "analyze.show", boardId, pv);
+            showAnalyze: function(blunderId, pv) {
+                $scope.$emit( "analyze.show", blunderId, pv);
             },
             token: $scope.token, // This function redirects to login page on fail so need controller state
         });

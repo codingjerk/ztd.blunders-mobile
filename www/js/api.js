@@ -167,4 +167,27 @@ var api = {};
       })
     }
   }
+  module.analyze = {
+    position: function(args){
+      // TEMPORARY, simulates server
+      result = [{
+          'score': 1.44,
+          'pv'   : '1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 ',
+          'css'  : 'success'
+        },
+        {
+          'score': -5.32,
+          'pv'   : '1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 ',
+          'css'  : 'fail'
+        }
+      ]
+
+      args.onAnimate(true)
+      setTimeout(function() {
+            args.onSuccess(result)
+            console.log(args)
+            args.onAnimate(false)
+      }, 5000)
+    }
+  }
 })(api);
