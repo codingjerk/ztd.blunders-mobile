@@ -16,7 +16,8 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
       voteLock: 0,
       favoriteLock: 0,
       loginLock: 0,
-      packLock: 0
+      packLock: 0,
+      analyzeBusy: 0
     }
 
     $scope.triggerSemaphore = function(status) {
@@ -31,6 +32,8 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
           $scope.lockSemaphore['loginLock'] += (status['loginLock'] ? 1 : -1)
         if('packLock' in status)
           $scope.lockSemaphore['packLock'] += (status['packLock'] ? 1 : -1)
+        if('analyzeBusy' in status)
+          $scope.lockSemaphore['analyzeBusy'] += (status['analyzeBusy'] ? 1 : -1)
       })
     }
 

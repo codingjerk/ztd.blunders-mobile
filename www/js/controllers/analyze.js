@@ -16,13 +16,28 @@ app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $ionicSlideBo
       }
     ]
 
+    $scope.analizeInProgress = function() {
+      return $scope.isTriggered('analyzeBusy');
+    }
+
     $scope.analyzeClicked = function() {
+      if ($scope.analizeInProgress()) return;
+
+      $scope.triggerSemaphore({
+        networkBusy: true,
+        analyzeBusy: true
+      })
 
       console.log("Analyze clicked")
       setTimeout(function() {
           $timeout(function() {
             $scope.isAnalyzed = true
             console.log($scope.boardId, $scope.pv)
+
+            $scope.triggerSemaphore({
+              networkBusy: false,
+              analyzeBusy: false
+            })
           })
       }, 5000)
 

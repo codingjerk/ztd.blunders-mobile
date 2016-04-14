@@ -199,10 +199,11 @@
                                 </div>
                             </div>
                             <div class="card" ng-show='analyzeShownStatus' ng-controller='AnalyzeCtrl'>
-                              <ion-item class="item-text-wrap" ng-click='analyzeClicked()' ng-show='!isAnalyzed'>
-                                <p>Click to analyze position...</p>
+                              <ion-item class="item-text-wrap" ng-click='analyzeClicked()' ng-if='!isAnalyzed'>
+                                <button ng-if="analizeInProgress()" class="button button-icon icon ion-load-c ion-spin-animation"></button>
+                                <p ng-if="!analizeInProgress()">Click to analyze position...</p>
                               </ion-item>
-                              <ion-item class="no-padding item-text-wrap" ng-show='isAnalyzed'>
+                              <ion-item class="no-padding item-text-wrap" ng-if='isAnalyzed'>
                                 <div ng-repeat="element in analyzedData" class="row">
                                   <div class="col-20 col-center">
                                     <b>{{element.score}}</b>
