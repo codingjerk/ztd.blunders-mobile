@@ -1,4 +1,4 @@
-app.controller('TrainingCtrl', function($rootScope, $scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout) {
+app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout) {
     $scope.token = function() {
         //This function redirects to login page if token not exist
         if(!token.exist())
@@ -109,7 +109,7 @@ app.controller('TrainingCtrl', function($rootScope, $scope, $state, $ionicSlideB
             id: 'board',
             onBlunderChanged: function(blunder) {
                 $timeout(function () {
-                    $rootScope.$emit("analyze.hide");
+                    $scope.$emit("analyze.hide");
                     $scope.blunderId = blunder.id;
                     $scope.unlockedInfo = pack.unlockedInfo()
                     $scope.packBlundersInfo = pack.packBlundersInfo()
@@ -178,7 +178,7 @@ app.controller('TrainingCtrl', function($rootScope, $scope, $state, $ionicSlideB
                 // @TODO: now not used by app
             },
             showAnalyze: function(boardId, pv) {
-                $rootScope.$emit( "analyze.show", boardId, pv);
+                $scope.$emit( "analyze.show", boardId, pv);
             },
             token: $scope.token, // This function redirects to login page on fail so need controller state
         });
