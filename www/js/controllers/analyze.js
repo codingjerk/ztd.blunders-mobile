@@ -13,13 +13,18 @@ app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $ionicSlideBo
     $scope.analyzeClicked = function() {
       if ($scope.analizeInProgress()) return;
 
-      api.analyze.position({
+      api.blunder.analyze({
         token: $scope.token(),
         blunderId: $scope.blunderId,
         line: $scope.pv,
         onSuccess: function(result) {
+          if (result.status !== 'ok') {
+              notify.error(result.message);
+              return;
+          }
+
           $scope.isAnalyzed = true
-          $scope.analyzedData = result
+          $scope.analyzedData = result.data.calculations;
         },
         onFail: function(result) {
           notify.error("Can't connect to server.<br>Check your connection");

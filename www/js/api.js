@@ -70,6 +70,20 @@ var api = {};
           onFail:   args.onFail,
           onAnimate: args.onAnimate
       });
+    },
+    analyze: function(args){
+      sync.ajax({
+        url: settings.url('blunder/analyze'),
+        crossDomain: true,
+        data: {
+          token: args.token,
+          blunder_id: args.blunderId,
+          line: args.line
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
     }
   };
   module.session = {
@@ -165,29 +179,6 @@ var api = {};
         onFail: args.onFail,
         onAnimate: args.onAnimate
       })
-    }
-  }
-  module.analyze = {
-    position: function(args){
-      // TEMPORARY, simulates server
-      result = [{
-          'score': 1.44,
-          'pv'   : '1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 ',
-          'css'  : 'success'
-        },
-        {
-          'score': -5.32,
-          'pv'   : '1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 1. e2-e4 2. d7-d5 ',
-          'css'  : 'fail'
-        }
-      ]
-
-      args.onAnimate(true)
-      setTimeout(function() {
-            args.onSuccess(result)
-            console.log(args)
-            args.onAnimate(false)
-      }, 5000)
     }
   }
 })(api);
