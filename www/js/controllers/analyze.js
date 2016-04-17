@@ -10,6 +10,33 @@ app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $ionicSlideBo
       return $scope.isTriggered('analyzeBusy');
     }
 
+    var toViewFormat = function(variation) {
+      var scoreToString = function(variation) {
+        var score = variation.score;
+        mate = score['mate']
+        cp = score['cp']
+
+        if(mate != null) {
+          if(mate > 0) return "M" + Math.abs(mate)
+          if(mate < 0) return "-M" + Math.abs(mate)
+        }
+        if(cp != null)
+          return float(cp) / 100
+
+        return '-'
+      }
+
+      var lineToString = function(variation) {
+        var line = variation.line
+        return line.join(" ")
+      }
+
+      return {
+        'score' : scoreToString(variation),
+        'line' : lineToString(variation)
+      }
+    }
+
     $scope.analyzeClicked = function() {
       if ($scope.analizeInProgress()) return;
 
@@ -24,7 +51,7 @@ app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $ionicSlideBo
           }
 
           $scope.isAnalyzed = true
-          $scope.analyzedData = result.data.calculations;
+          $scope.analyzedData = result.data.variations.map(toViewFormat);
         },
         onFail: function(result) {
           notify.error("Can't connect to server.<br>Check your connection");
