@@ -203,7 +203,7 @@
                                 <button ng-if="analizeInProgress()" class="button button-icon icon ion-load-c ion-spin-animation"></button>
                                 <p ng-if="!analizeInProgress()">Click to analyze position...</p>
                               </ion-item>
-                              <ion-item class="no-padding item-text-wrap" ng-if='isAnalyzed'>
+                              <ion-item class="no-padding" ng-if='isAnalyzed'>
                                 <div ng-repeat="element in analyzedData" class="row">
                                   <div class="col-20 col-center">
                                     <b>{{element.score}}</b>

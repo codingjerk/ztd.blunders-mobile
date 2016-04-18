@@ -21,7 +21,7 @@ app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $ionicSlideBo
           if(mate < 0) return "-M" + Math.abs(mate)
         }
         if(cp != null)
-          return float(cp) / 100
+          return (cp / 100).toString(); 
 
         return '-'
       }
