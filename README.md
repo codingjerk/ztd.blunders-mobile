@@ -1,7 +1,7 @@
 # Ztd.Blunders Mobile
 
 ## Try it
-Ztd.Blunders available on [blunders.ztd.io](https://blunders.ztd.io) and this is our main server.
+Ztd.Blunders available on [chessblunders.org](https://chessblunders.org) and this is our main server.
 
 Also you can find us on Google Play and (soon) on App Store.
 
