@@ -198,21 +198,26 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="card" ng-show='analyzeShownStatus' ng-controller='AnalyzeCtrl'>
-                              <ion-item class="item-text-wrap" ng-click='analyzeClicked()' ng-if='!isAnalyzed'>
-                                <button ng-if="analizeInProgress()" class="button button-icon icon ion-load-c ion-spin-animation"></button>
-                                <p ng-if="!analizeInProgress()">Click to analyze position...</p>
-                              </ion-item>
-                              <ion-item class="no-padding" ng-if='isAnalyzed'>
-                                <div ng-repeat="element in analyzedData" class="row">
-                                  <div class="col-20 col-center" ng-class='element.status'>
-                                    <b>{{element.score}}</b>
-                                  </div>
-                                  <div class="col-80">
-                                    <p align="left" class="red">{{element.line}}</p>
-                                  </div>
+
+                            <div ng-show='analyzeShownStatus' ng-controller='AnalyzeCtrl'>
+                              <div ng-if='!isAnalyzed' class="card pading">
+                                <div class="item-text-wrap" ng-click='analyzeClicked()' ng-if='!isAnalyzed'>
+                                  <button ng-if="analizeInProgress()" class="button button-icon icon ion-load-c ion-spin-animation"></button>
+                                  <p ng-if="!analizeInProgress()">Click to analyze position...</p>
                                 </div>
-                              </ion-item>
+                              </div>
+                              <ion-list>
+                                <ion-item ng-repeat="element in analyzedData" ng-if='isAnalyzed'>
+                                  <div class="row">
+                                    <span class="col-20 col-center" ng-class='element.status'>
+                                      <b>{{element.score}}</b>
+                                    </span>
+                                    <span class="col-80 col-center item-text-wrap">
+                                      <p align="left">{{element.line}}</p>
+                                    </span>
+                                  </div>
+                                </ion-item>
+                              </ion-list>
                             </div>
                         </ion-slide>
                         <ion-slide>
