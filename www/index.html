@@ -205,11 +205,11 @@
                               </ion-item>
                               <ion-item class="no-padding" ng-if='isAnalyzed'>
                                 <div ng-repeat="element in analyzedData" class="row">
-                                  <div class="col-20 col-center">
+                                  <div class="col-20 col-center" ng-class='element.status'>
                                     <b>{{element.score}}</b>
                                   </div>
                                   <div class="col-80">
-                                    <p align="left">{{element.line}}</p>
+                                    <p align="left" class="red">{{element.line}}</p>
                                   </div>
                                 </div>
                               </ion-item>

@@ -21,7 +21,7 @@ app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $ionicSlideBo
           if(mate < 0) return "-M" + Math.abs(mate)
         }
         if(cp != null)
-          return (cp / 100).toString(); 
+          return (cp / 100).toString();
 
         return '-'
       }
@@ -31,9 +31,19 @@ app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $ionicSlideBo
         return line.join(" ")
       }
 
+      var lineColor = function(variation) {
+        var status = variation.status
+        if(status === "correct")
+          return "balanced"
+        if(status === "wrong")
+          return "assertive"
+          return ""
+      }
+
       return {
         'score' : scoreToString(variation),
-        'line' : lineToString(variation)
+        'line' : lineToString(variation),
+        'status': lineColor(variation)
       }
     }
 
