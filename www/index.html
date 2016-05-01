@@ -203,21 +203,21 @@
                               <div ng-if='!isAnalyzed' class="card padding">
                                 <div class="item-text-wrap" ng-click='analyzeClicked()' ng-if='!isAnalyzed'>
                                   <button ng-if="analizeInProgress()" class="button button-icon icon ion-load-c ion-spin-animation"></button>
-                                  <p ng-if="!analizeInProgress()">Click to analyze position...</p>
+                                  <span ng-if="!analizeInProgress()">Click to analyze position...</span>
                                 </div>
                               </div>
-                              <ion-list>
-                                <ion-item ng-repeat="element in analyzedData" ng-if='isAnalyzed'>
-                                  <div class="row">
-                                    <span class="col-20 col-center" ng-class='element.status'>
-                                      <b>{{element.score}}</b>
-                                    </span>
-                                    <span class="col-80 col-center item-text-wrap">
-                                      <p align="left">{{element.line}}</p>
-                                    </span>
-                                  </div>
-                                </ion-item>
-                              </ion-list>
+                              <div class="card" ng-if='isAnalyzed'>
+                                <table>
+                                  <tr ng-repeat="element in analyzedData">
+                                       <td class="padding-horizontal" ng-class='element.status'>
+                                         <b style="white-space: nowrap;">{{element.score}}</b>
+                                       </td>
+                                       <td  class="padding-horizontal" align="left">
+                                         <span style="word-break: break-words;">{{element.line}}</span>
+                                       </td>
+                                  </tr>
+                                </table>
+                              </div>
                             </div>
                         </ion-slide>
                         <ion-slide>
