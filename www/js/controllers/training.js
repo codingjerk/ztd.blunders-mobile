@@ -81,9 +81,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
     $scope.successRate = function(info) {
         var result = 0;
 
-        if (info && info.totalTries) result = info.successTries / info.totalTries;
+        if (info && info.totalTries) result = 100*(info.successTries / info.totalTries);
 
-        return result.toFixed(1);
+        return result.toFixed(0);
     }
 
     $scope.player = function(info, color) {
