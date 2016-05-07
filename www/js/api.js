@@ -70,6 +70,20 @@ var api = {};
           onFail:   args.onFail,
           onAnimate: args.onAnimate
       });
+    },
+    analyze: function(args){
+      sync.ajax({
+        url: settings.url('blunder/analyze'),
+        crossDomain: true,
+        data: {
+          token: args.token,
+          blunder_id: args.blunderId,
+          line: args.line
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
     }
   };
   module.session = {

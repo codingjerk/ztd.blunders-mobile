@@ -17,6 +17,8 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         if (!$scope.blunderId) return;
         if ($scope.isTriggered('voteLock')) return;
 
+        blunderId = $scope.blunderId
+
         buffer.blunder.vote({
             token: $scope.token(),
             blunderId: $scope.blunderId,
@@ -33,6 +35,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                     return;
                 }
 
+                if (blunderId != $scope.blunderId)
+                    return; // User skipped this blunder, no need to update view
+
                 updateInfoView(result.data);
             },
             onFail: function(result) {
@@ -44,6 +49,8 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
     $scope.favorite = function() {
         if (!$scope.blunderId) return;
         if ($scope.isTriggered('favoriteLock')) return;
+
+        blunderId = $scope.blunderId
 
         buffer.blunder.favorite({
             token: $scope.token(),
@@ -60,6 +67,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                     return;
                 }
 
+                if (blunderId != $scope.blunderId)
+                    return; // User skipped this blunder, no need to update view
+
                 updateInfoView(result.data);
             },
             onFail: function(result) {
@@ -71,9 +81,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
     $scope.successRate = function(info) {
         var result = 0;
 
-        if (info && info.totalTries) result = info.successTries / info.totalTries;
+        if (info && info.totalTries) result = 100*(info.successTries / info.totalTries);
 
-        return result.toFixed(1);
+        return result.toFixed(0);
     }
 
     $scope.player = function(info, color) {
@@ -99,6 +109,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             id: 'board',
             onBlunderChanged: function(blunder) {
                 $timeout(function () {
+                    $scope.$emit("analyze.hide");
                     $scope.blunderId = blunder.id;
                     $scope.unlockedInfo = pack.unlockedInfo()
                     $scope.packBlundersInfo = pack.packBlundersInfo()
@@ -149,7 +160,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
                 });
             },
             onUserRatingChanged: function(rating) {
-                $('#user-elo').html(rating);
+                $scope.setUserRating(rating)
             },
             onInfoChanged: function(info) {
                 updateInfoView(info);
@@ -165,6 +176,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             },
             onTimerUpdate: function(value) {
                 // @TODO: now not used by app
+            },
+            showAnalyze: function(blunderId, pv) {
+                $scope.$emit( "analyze.show", blunderId, pv);
             },
             token: $scope.token, // This function redirects to login page on fail so need controller state
         });

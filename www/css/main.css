@@ -31,3 +31,7 @@ label, button {
 
     border: 1px solid #bbb;
 }
+
+.no-padding {
+    padding: 0px !important;
+}

@@ -1,7 +1,7 @@
 var settings = {
     server: {
-        protocol: 'https',
-        hostname: 'prod.chessblunders.org',
+        protocol: 'http',
+        hostname: '37.48.109.169:8089',
         pathToApi: 'api/mobile'
     },
 

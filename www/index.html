@@ -44,6 +44,7 @@
         <script src="js/controllers/main.js"></script>
         <script src="js/controllers/login.js"></script>
         <script src="js/controllers/training.js"></script>
+        <script src="js/controllers/analyze.js"></script>
         <script src="js/controllers/pack.js"></script>
 
         <!-- Miscellaneous js -->
@@ -60,7 +61,7 @@
             <div class="buttons">
                 <span class="title-text">
                     <button id="menu-button" ng-click="toggleMenu()" class="button button-icon icon ion-navicon"></button>
-                    <button ng-hide="!isTriggered('networkBusy')" id="loading-indicator" class="button button-icon icon ion-load-c ion-spin-animation"></button>
+                    <button ng-hide="!isTriggered('networkBusy')" class="button button-icon icon ion-load-c ion-spin-animation"></button>
                 </span>
             </div>
             <div class="title">
@@ -69,7 +70,7 @@
                 </span>
             </div>
 
-            <button id="user-elo" class="button button-icon icon ion-university">-</button>
+            <button class="button button-icon icon ion-university">{{getUserRating()}}</button>
         </div>
 
         <ion-side-menus>
@@ -118,6 +119,7 @@
                                     Sign Up!
                                 </button>
                             </div>
+
                         </ion-slide>
                         <ion-slide>
                             <div class="list list-inset blue-background">
@@ -143,6 +145,18 @@
                                 </button>
                             </div>
                         </ion-slide>
+                        <ion-slide>
+                          <div class="list list-inset blue-background">
+                              <div class="padding-bottom new-user-greeting">
+                                  Enter the email for your account <br> and
+                              </div>
+                              <div class="padding">
+                                  <label class="fixed-label item item-input">
+                                      <input ng-model="signupEmail" type="email" placeholder="Optional email">
+                                  </label>
+                              </div>
+                          </div>
+                        </ion-slide>
                     </ion-slide-box>
                 </ion-content>
             </ion-view>
@@ -154,7 +168,7 @@
                     <ion-slide-box show-pager="false" class="has-header">
                         <ion-slide ng-controller="PackCtrl">
                           <ion-list type="card">
-                            <ion-item class="item item-divider">Packs</ion-item>
+                            <ion-item class="item item-divider">My Packs</ion-item>
                             <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo track by $index" ng-click="selectPack(pack.pack_id)">
                               <button ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="button button-icon icon ion-backspace-outline"></button>
                               <h2>{{pack.description}}</h2>
@@ -183,6 +197,27 @@
                                         {{status.viewText}} <i ng-show="status.terminate === true" class="icon ion-ios-arrow-right"></i>
                                     </button>
                                 </div>
+                            </div>
+
+                            <div ng-show='analyzeShownStatus' ng-controller='AnalyzeCtrl'>
+                              <div ng-if='!isAnalyzed' class="card padding">
+                                <div class="item-text-wrap" ng-click='analyzeClicked()' ng-if='!isAnalyzed'>
+                                  <button ng-if="analizeInProgress()" class="button button-icon icon ion-load-c ion-spin-animation"></button>
+                                  <span ng-if="!analizeInProgress()">Click to analyze position...</span>
+                                </div>
+                              </div>
+                              <div class="card" ng-if='isAnalyzed'>
+                                <table>
+                                  <tr ng-repeat="element in analyzedData">
+                                       <td class="padding-horizontal" ng-class='element.status'>
+                                         <b style="white-space: nowrap;">{{element.score}}</b>
+                                       </td>
+                                       <td  class="padding-horizontal" align="left">
+                                         <span style="word-break: break-words;">{{element.line}}</span>
+                                       </td>
+                                  </tr>
+                                </table>
+                              </div>
                             </div>
                         </ion-slide>
                         <ion-slide>

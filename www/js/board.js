@@ -138,6 +138,7 @@ board.init = function(options) {
                 options.onStatusChanged(statusName);
 
                 if (status.terminate) {
+                    options.showAnalyze(blunder.id, game.history())
                     validateBlunder(game.history(), blunder, function() {
                         counter.stop();
                         options.onStatusChanged('ready-to-new-game');
