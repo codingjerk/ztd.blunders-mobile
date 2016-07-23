@@ -86,6 +86,23 @@ var api = {};
       })
     }
   };
+  module.comment = {
+    send: function(args) {
+      sync.ajax({
+        url: settings.url('comment/send'),
+        crossDomain: true,
+        data: {
+          token: args.token,
+          blunder_id: args.blunderId,
+          comment_id: args.commentId,
+          user_input: args.userInput
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
+    }
+  };
   module.session = {
     rating: function(args) {
       sync.ajax({

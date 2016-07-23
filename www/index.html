@@ -111,13 +111,19 @@
                             </div>
 
                             <div class="padding">
-                                <div class="padding-bottom new-user-greeting">
+                                <div class="padding-bottom login-page-text">
                                     Do not have account yet?
                                 </div>
 
                                 <button ng-click="goToSignup()" class="button button-outline button-wide button-light icon-right ion-ios-arrow-right">
                                     Sign Up!
                                 </button>
+                            </div>
+
+                            <div class="padding">
+                              <div class="padding-bottom login-page-text">
+                                <b>Visit us on chessblunders.org</b>
+                              </div>
                             </div>
 
                         </ion-slide>
@@ -214,6 +220,9 @@
                                     <div class="row">
                                       <div class="col">
                                         <button id="dislike-button" ng-class="{'dislike-active': info.myVote === -1}" ng-click="vote(-1)" ng-disabled="isTriggered('voteLock')" class="button button-icon icon ion-thumbsdown"></button>
+                                      </div>
+                                      <div class="col">
+                                        <button id="comment-button" ng-click="comment()" class="button button-icon icon ion-compose"></button>
                                       </div>
                                       <div class="col">
                                         <button id="favorite-button" ng-class="{'favorite-active': info.myFavorite === true}" ng-click="favorite()" ng-disabled="isTriggered('favoriteLock')" class="button button-icon icon {{info.myFavorite? 'ion-android-star': 'ion-android-star-outline'}}"></button>
