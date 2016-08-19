@@ -6,7 +6,7 @@ Ztd.Blunders available on [chessblunders.org](https://chessblunders.org) and thi
 Also you can find us on Google Play and (soon) on App Store.
 
 ## Mobile client
-Ztd.Blunders Mobile is just cross-platform mobile client, written on JavaScript with [Ionic Framework](http://ionicframework.com). As a [Ztd.Blunders Web](https://bitbucket.org/ziltoidteam/ztd.blunders-web) is a client to our server.
+Ztd.Blunders Mobile is just cross-platform mobile client, written on JavaScript with [Ionic Framework](http://ionicframework.com). To use this client you need working [Ztd.Blunders Web](https://bitbucket.org/ziltoidteam/ztd.blunders-web) server.
 
 ## Installation
 You can compile application if you want to:
