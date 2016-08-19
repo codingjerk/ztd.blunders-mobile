@@ -15,6 +15,7 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
       networkBusy: 0,
       voteLock: 0,
       favoriteLock: 0,
+      commentLock:0,
       loginLock: 0,
       packLock: 0,
       analyzeBusy: 0
@@ -28,6 +29,8 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
           $scope.lockSemaphore['voteLock'] += (status['voteLock'] ? 1 : -1)
         if('favoriteLock' in status)
           $scope.lockSemaphore['favoriteLock'] += (status['favoriteLock'] ? 1 : -1)
+        if('commentLock' in status)
+          $scope.lockSemaphore['commentLock'] += (status['commentLock'] ? 1 : -1)
         if('loginLock' in status)
           $scope.lockSemaphore['loginLock'] += (status['loginLock'] ? 1 : -1)
         if('packLock' in status)

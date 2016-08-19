@@ -1,4 +1,4 @@
-app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout) {
+app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicPopup, $timeout) {
     $scope.token = function() {
         //This function redirects to login page if token not exist
         if(!token.exist())
@@ -78,6 +78,69 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         });
     }
 
+    $scope.comment = function() {
+      if (!$scope.blunderId) return;
+      if ($scope.isTriggered('commentLock')) return;
+
+      blunderId = $scope.blunderId
+
+      $scope.commentData = {};
+
+      // An elaborate, custom popup
+      var popupComment = $ionicPopup.show({
+        template: '<textarea rows="5" ng_model="commentData.text" placeholder="What do you think about this position?">',
+        title: 'Comment',
+        //subTitle: 'What do you think about this position?',
+        scope: $scope,
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: '<b>Post</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              if (!$scope.commentData.text) {
+                //don't allow the user to close unless he enters wifi password
+                e.preventDefault();
+              } else {
+                return $scope.commentData.text;
+              }
+            }
+          }
+        ]
+      });
+
+      popupComment.then(function(res) {
+        if(res == undefined) return;
+
+        buffer.comment.send({
+          token: $scope.token(),
+          blunderId: $scope.blunderId,
+          commentId: 0, // This is father comment, not supported yet for mobile
+          userInput: res,
+          onAnimate: function(state) {
+            $scope.triggerSemaphore({
+              networkBusy: state,
+              commentLock: state
+            })
+          },
+          onSuccess: function(result) {
+              if (result.status !== 'ok') {
+                  notify.error(result.message);
+                  return;
+              }
+
+              if (blunderId != $scope.blunderId)
+                  return; // User skipped this blunder, no need to update view
+
+              updateInfoView(result.data);
+          },
+          onFail: function(result) {
+              notify.error("Can't connect to server.<br>Check your connection");
+          }
+        })
+      });
+     };
+
     $scope.successRate = function(info) {
         var result = 0;
 
@@ -102,6 +165,42 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         if (!result) return '?';
 
         return result;
+    }
+
+    $scope.popupPromotion = function(){
+
+      return new Promise(function(resolve) {
+          var popupPromotion = $ionicPopup.show({
+            template: '',
+            scope: $scope,
+            buttons: [
+              {
+                text: '<i class = "no-padding icon"><img src="img/pieces/wN.svg"></i>',
+                onTap: function(e) {
+                  resolve('n');
+                }
+              },
+              {
+                text: '<i class = "button-full icon"><img src="img/pieces/wB.svg"></i>',
+                onTap: function(e) {
+                  resolve('b');
+                }
+              },
+              {
+                text: '<i class = "icon"><img src="img/pieces/wR.svg"></i>',
+                onTap: function(e) {
+                  resolve('r');
+                }
+              },
+              {
+                text: '<i class = "icon"><img src="img/pieces/wQ.svg"></i>',
+                onTap: function(e) {
+                  resolve('q');
+                }
+              },
+            ]
+          });
+        });
     }
 
     $scope.startGame = function() {
@@ -179,6 +278,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             },
             showAnalyze: function(blunderId, pv) {
                 $scope.$emit( "analyze.show", blunderId, pv);
+            },
+            popupPromotion: function() {
+              return $scope.popupPromotion()
             },
             token: $scope.token, // This function redirects to login page on fail so need controller state
         });

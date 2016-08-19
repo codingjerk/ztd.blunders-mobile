@@ -9,3 +9,14 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+/* Displaying promotion selection dialog
+   Removing title and changind width
+*/
+.popup-container .popup-head {
+  display: none;
+}
+
+.popup-container .popup {
+  min-width: 90%;
+}

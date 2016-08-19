@@ -26,6 +26,11 @@ var direct = {};
         api.blunder.favorite(args)
       }
     }
+    module.comment = {
+      send: function(args) {
+        api.comment.send(args)
+      }
+    }
     module.session = {
       rating: function(args) {
         api.blunder.rating(args)
@@ -58,6 +63,11 @@ var buffer = {};
       },
       favorite: function(args) {
         pack.favoriteCurrentBlunder(args)
+      }
+    }
+    module.comment = {
+      send: function(args) {
+        api.comment.send(args)
       }
     }
     module.session = {
