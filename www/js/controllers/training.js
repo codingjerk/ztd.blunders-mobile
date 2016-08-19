@@ -87,7 +87,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
       $scope.commentData = {};
 
       // An elaborate, custom popup
-      var myPopup = $ionicPopup.show({
+      var popupComment = $ionicPopup.show({
         template: '<textarea rows="5" ng_model="commentData.text" placeholder="What do you think about this position?">',
         title: 'Comment',
         //subTitle: 'What do you think about this position?',
@@ -109,7 +109,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         ]
       });
 
-      myPopup.then(function(res) {
+      popupComment.then(function(res) {
         if(res == undefined) return;
 
         buffer.comment.send({
@@ -165,6 +165,42 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         if (!result) return '?';
 
         return result;
+    }
+
+    $scope.popupPromotion = function(){
+
+      return new Promise(function(resolve) {
+          var popupPromotion = $ionicPopup.show({
+            template: '',
+            scope: $scope,
+            buttons: [
+              {
+                text: '<i class = "no-padding icon"><img src="img/pieces/wN.svg"></i>',
+                onTap: function(e) {
+                  resolve('n');
+                }
+              },
+              {
+                text: '<i class = "button-full icon"><img src="img/pieces/wB.svg"></i>',
+                onTap: function(e) {
+                  resolve('b');
+                }
+              },
+              {
+                text: '<i class = "icon"><img src="img/pieces/wR.svg"></i>',
+                onTap: function(e) {
+                  resolve('r');
+                }
+              },
+              {
+                text: '<i class = "icon"><img src="img/pieces/wQ.svg"></i>',
+                onTap: function(e) {
+                  resolve('q');
+                }
+              },
+            ]
+          });
+        });
     }
 
     $scope.startGame = function() {
@@ -242,6 +278,9 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             },
             showAnalyze: function(blunderId, pv) {
                 $scope.$emit( "analyze.show", blunderId, pv);
+            },
+            popupPromotion: function() {
+              return $scope.popupPromotion()
             },
             token: $scope.token, // This function redirects to login page on fail so need controller state
         });

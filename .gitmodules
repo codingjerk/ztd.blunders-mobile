@@ -1,6 +1,6 @@
 [submodule "www/third-party/chessboard-js"]
 	path = www/third-party/chessboard-js
-	url = https://github.com/caustique/chessboard-js.git
+	url = https://github.com/jackalsh/chessboard-js.git
 [submodule "www/third-party/ztd.blunders-misc"]
 	path = www/third-party/ztd.blunders-misc
 	url = https://jackalsh@bitbucket.org/ziltoidteam/ztd.blunders-misc.git
