@@ -188,15 +188,23 @@ var pack = {};
             return (packs.indexOf(pack.pack_id) == -1);
           })
 
+          var isAlreadyExist = function(pack_id) {
+            if(module.packsCollection.find({pack_id:packId}).length > 0)
+              return true
+            return false
+          }
+
           // New packs from remote
           packs.forEach(function(packId){
-            if(module.packsCollection.find({pack_id:packId}).length > 0)
-              return; // Already exist
+            if(isAlreadyExist(packId))
+              return;
 
             api.pack.get({
               token: module.options.token(),
               packId: packId,
               onSuccess: function(result) {
+                  if(isAlreadyExist(packId)) // Long time has passed, need to recheck
+                    return;
                   module.packsCollection.insert(result.data)
                   module.options.onPacksChanged()
               },
