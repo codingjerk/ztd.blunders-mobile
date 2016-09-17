@@ -188,7 +188,7 @@ var pack = {};
             return (packs.indexOf(pack.pack_id) == -1);
           })
 
-          var isAlreadyExist = function(pack_id) {
+          var isAlreadyExist = function(packId) {
             if(module.packsCollection.find({pack_id:packId}).length > 0)
               return true
             return false
