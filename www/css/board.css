@@ -1,0 +1,165 @@
+#board {
+    border: 3px solid #0f6bb4;
+    width: 100%;
+}
+
+/* square colors */
+div.chess_board div.chess_square_light {
+    background-color: #afcbe4 !important;
+}
+
+div.chess_board div.chess_square_dark {
+    background-color: #0f6bb4 !important;
+}
+
+div.chess_board div.chess_square_valid_move {
+    box-shadow: 0 0 100em 100em rgba(10,235,50,0.2) inset !important;
+}
+
+div.chess_board div.chess_square_light.chess_square_selected {
+    background-color: #afcbe4 !important;
+}
+
+div.chess_board div.chess_square_dark.chess_square_selected {
+    background-color: #0f6bb4 !important;
+}
+
+/* labels for white squares */
+div.chess_board div.chess_square_light div.chess_label_column,
+div.chess_board div.chess_square_light div.chess_label_row {
+    color: #0f6bb4 !important;
+    opacity: 0.6 !important;
+}
+
+/* labels for black squares */
+div.chess_board div.chess_square_dark div.chess_label_column,
+div.chess_board div.chess_square_dark div.chess_label_row {
+    color: #8fbbd4 !important;
+    opacity: 0.6 !important;
+}
+
+/* white pieces */
+div.chess_board div.chess_player_white.chess_piece_pawn:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_white.chess_piece_pawn {
+    background-image: url('../img/pieces/wP.svg');
+}
+
+div.chess_board div.chess_player_white.chess_piece_knight:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_white.chess_piece_knight {
+    background-image: url('../img/pieces/wN.svg');
+}
+
+div.chess_board div.chess_player_white.chess_piece_bishop:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_white.chess_piece_bishop {
+    background-image: url('../img/pieces/wB.svg');
+}
+
+div.chess_board div.chess_player_white.chess_piece_rook:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_white.chess_piece_rook {
+    background-image: url('../img/pieces/wR.svg');
+}
+
+div.chess_board div.chess_player_white.chess_piece_queen:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_white.chess_piece_queen {
+    background-image: url('../img/pieces/wQ.svg');
+}
+
+div.chess_board div.chess_player_white.chess_piece_king:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_white.chess_piece_king {
+    background-image: url('../img/pieces/wK.svg');
+}
+
+/* black pieces */
+div.chess_board div.chess_player_black.chess_piece_pawn:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_black.chess_piece_pawn {
+    background-image: url('../img/pieces/bP.svg');
+}
+
+div.chess_board div.chess_player_black.chess_piece_knight:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_black.chess_piece_knight {
+    background-image: url('../img/pieces/bN.svg');
+}
+
+div.chess_board div.chess_player_black.chess_piece_bishop:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_black.chess_piece_bishop {
+    background-image: url('../img/pieces/bB.svg');
+}
+
+div.chess_board div.chess_player_black.chess_piece_rook:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_black.chess_piece_rook {
+    background-image: url('../img/pieces/bR.svg');
+}
+
+div.chess_board div.chess_player_black.chess_piece_queen:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_black.chess_piece_queen {
+    background-image: url('../img/pieces/bQ.svg');
+}
+
+div.chess_board div.chess_player_black.chess_piece_king:after {
+    content: '' !important;
+}
+
+div.chess_board div.chess_player_black.chess_piece_king {
+    background-image: url('../img/pieces/bK.svg');
+}
+
+div.chess_board div.chess_square_light.ai-move-hightlight {
+    background-color: #dfdba4 !important;
+}
+
+div.chess_board div.chess_square_dark.ai-move-hightlight {
+    background-color: #cfcb94 !important;
+}
+
+div.chess_board div.chess_square_light.player-move-hightlight {
+    background-color: #dfdba4 !important;
+}
+
+div.chess_board div.chess_square_dark.player-move-hightlight {
+    background-color: #bfbba4 !important;
+}
+
+.fail-move-hightlight {
+    box-shadow: 0 0 100em 100em rgba(238,51,51,0.7) inset !important;
+}
+
+div.chess_board div.chess_square_light.success-move-hightlight {
+    background-color: #2fb68a !important;
+}
+
+div.chess_board div.chess_square_dark.success-move-hightlight {
+    background-color: #1fa67a !important;
+}
