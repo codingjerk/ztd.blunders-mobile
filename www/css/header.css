@@ -9,7 +9,7 @@
 
 .bar-header {
     color: #dedede;
-    border-bottom: 1px solid #0f4b94 !important;
+    border-bottom: 0px solid #0f4b94 !important;
 }
 
 .title, .buttons {

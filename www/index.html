@@ -156,6 +156,56 @@
             </ion-view>
         </script>
 
+
+        <script id="training.html" type="text/ng-template">
+          <ion-tabs class="tabs-positive tabs-striped tabs-top tabs-positive tabs-icon-top">
+
+          <ion-tab title="Play" icon-on="ion-ios-clock" icon-off="ion-ios-clock-outline">
+              <ion-view class="white-background">
+                  <ion-content>
+                      <div class="card">
+                          <div class="item item-divider">
+                              <div id="game-header" class="padding">
+                                  {{player(info, 'white')}} - {{player(info, 'black')}}
+                              </div>
+                          </div>
+                          <div class="item item-text-wrap">
+                              <div id="board"></div>
+                          </div>
+                          <div class="game-status-container item item-divider">
+                              <button ng-click="status.onClick()" class="{{status.viewClass}} game-status button button-full">
+                                  {{status.viewText}} <i ng-show="status.terminate === true" class="icon ion-ios-arrow-right"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </content>
+              </ion-view>
+          </ion-tab>
+
+          <ion-tab title="Packs" icon-on="ion-ios-filing" icon-off="ion-ios-filing-outline" ng-controller="PackCtrl">
+            <ion-view class="white-background">
+                <ion-content>
+                    <ion-list type="card">
+                      <ion-item class="item item-divider">My Packs</ion-item>
+                      <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo track by $index" ng-click="selectPack(pack.pack_id)">
+                        <button ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="button button-icon icon ion-backspace-outline"></button>
+                        <h2>{{pack.description}}</h2>
+                        <p>{{pack.blunders.length}} left</p>
+                        <i ng-hide="!isSelectedPack(pack.pack_id)" class="icon ion-ios-checkmark" ></i>
+                      </ion-item>
+                      <ion-item class="item item-divider">Unlocked packs</ion-item>
+                      <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo track by $index" ng-click="unlockPack({typeName:pack.type_name,args:pack.args})">
+                        <i class="icon ion-ios-plus" ></i>
+                        <h2>{{pack.description}}</h2>
+                      </ion-item>
+                  </ion-list>
+                </content>
+            </ion-view>
+          </ion-tab>
+
+          </ion-tabs>
+        </script>
+        <!--
         <script id="training.html" type="text/ng-template">
             <ion-view class="white-background">
                 <ion-content>
@@ -310,5 +360,6 @@
                 </ion-content>
             </ion-view>
         </script>
+      -->
     </body>
 </html>
