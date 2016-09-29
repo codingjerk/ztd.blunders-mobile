@@ -303,4 +303,11 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
     window.onresize = function(event) {
         $ionicSlideBoxDelegate.update();
     };
+
+    $scope.onPlayTabSelected = function() {
+      // Important method, which updates board when user goes into play tab
+      // Without this board will be looking very weird
+      // https://github.com/jtblin/angular-chart.js/issues/29
+      $timeout(function(){ window.dispatchEvent(new Event('resize')); });
+    }
 });
