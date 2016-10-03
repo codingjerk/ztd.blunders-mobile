@@ -1,4 +1,4 @@
-app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $ionicSlideBoxDelegate, $timeout) {
+app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $timeout) {
     $scope.blunderId = undefined
     $scope.pv = undefined
 

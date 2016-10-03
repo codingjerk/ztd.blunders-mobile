@@ -1,11 +1,4 @@
 app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicPopup, $timeout) {
-    $scope.token = function() {
-        //This function redirects to login page if token not exist
-        if(!token.exist())
-          $state.go('login');
-
-        return token.get()
-    }
 
     function updateInfoView(info) {
         $timeout(function () {
@@ -264,10 +257,6 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             onInfoChanged: function(info) {
                 updateInfoView(info);
             },
-            onTokenRefused: function() {
-                console.log("Token refused") //TODO: check if fail!!!
-                $state.go('login');
-            },
             onAnimate: function(state) {
               $scope.triggerSemaphore({
                 networkBusy: state
@@ -287,7 +276,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
     };
 
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
-        if (to.name === 'training') {
+        if (to.name === 'training') { // Why this is needed?
             $scope.startGame();
         }
     });
@@ -300,14 +289,17 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
         $ionicSideMenuDelegate.canDragContent(true);
     });
 
-    window.onresize = function(event) {
-        $ionicSlideBoxDelegate.update();
-    };
 
+    /*
+     * Chessboard.js uses jQuery to update the board model.
+     * This bad for ionic, so we need this function to be called each time
+     * Play tab is shown to refresh the model.
+     * Without this hack, board will be looking very weird
+     * https://github.com/jtblin/angular-chart.js/issues/29
+     */
     $scope.onPlayTabSelected = function() {
-      // Important method, which updates board when user goes into play tab
-      // Without this board will be looking very weird
-      // https://github.com/jtblin/angular-chart.js/issues/29
-      $timeout(function(){ window.dispatchEvent(new Event('resize')); });
+      $timeout(function(){
+        window.dispatchEvent(new Event('resize'));
+      });
     }
 });

@@ -46,6 +46,7 @@
         <script src="js/controllers/training.js"></script>
         <script src="js/controllers/analyze.js"></script>
         <script src="js/controllers/pack.js"></script>
+        <script src="js/controllers/board.js"></script>
 
         <!-- Miscellaneous js -->
         <script src="js/api.js"></script>
@@ -183,7 +184,7 @@
 
           <ion-tab title="Play" icon-on="ion-play" icon-off="ion-play" on-select="onPlayTabSelected()">
               <ion-view class="white-background">
-                  <ion-content>
+                  <ion-content ng-controller='BoardCtrl'>
                       <div class="card text-center">
                           <div class="item item-divider">
                               <div id="game-header" class="padding">
