@@ -1,4 +1,4 @@
-app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicPopup, $ionicPlatform, $timeout) {
+app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $ionicPopup, $ionicPlatform, $timeout) {
   $scope.unlockedInfo = pack.unlockedInfo()
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
@@ -57,7 +57,7 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
           });
       },
       goChessboardSlide: function() {
-        $ionicSlideBoxDelegate.slide(1)
+        $ionicTabsDelegate.select(1)
       },
       reloadGame: function() {
         $scope.startGame()

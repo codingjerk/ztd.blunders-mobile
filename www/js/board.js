@@ -91,7 +91,6 @@ board.init = function(options) {
         }
       }
 
-      console.log("LLLLLLLLLLLLLLL")
       var game = new Chess(blunder.fenBefore);
       var chessboard = new Chessboard(
         options.id, {

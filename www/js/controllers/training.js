@@ -1,4 +1,4 @@
-app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicPopup, $timeout) {
+app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicPopup, $timeout) {
 
     function updateInfoView(info) {
         $timeout(function () {
