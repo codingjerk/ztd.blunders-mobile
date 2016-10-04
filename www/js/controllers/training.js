@@ -276,7 +276,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
     };
 
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
-        if (to.name === 'training') { // Why this is needed?
+        if (to.name === 'training') {
             $scope.startGame();
         }
     });
@@ -298,8 +298,15 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
      * https://github.com/jtblin/angular-chart.js/issues/29
      */
     $scope.onPlayTabSelected = function() {
-      $timeout(function(){
-        window.dispatchEvent(new Event('resize'));
-      });
+      if($("#board").hasOwnProperty(length) == false) {
+        $timeout(function(){
+          $scope.startGame()
+        });
+      }
+      else {
+        $timeout(function(){
+          window.dispatchEvent(new Event('resize'));
+        });
+      }
     }
 });
