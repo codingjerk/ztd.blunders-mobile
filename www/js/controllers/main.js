@@ -77,7 +77,7 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
      * This funtion handles case when some error has thrown
      * Simpliest behaviour is to show an alert
      */
-    function processError(data) {
+    $scope.processError = function(data) {
       if (data.message === 'Invalid API token') {
         $state.go('login');
         return;
@@ -92,7 +92,10 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
      * On fail we do not trigger an error, because this have negative
      * effect on user expirience
      */
-    (function updateUserRating() {
+    $scope.updateUserRating = function() {
+      if(!token.exist())
+        return;
+
       buffer.session.rating({
         token: $scope.token(),
         onSuccess: function(result) {
@@ -106,6 +109,8 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
           //notify.error("Can't connect to server.<br>Check your connection");
         }
       });
-    })();
+    }
+
+    $scope.updateUserRating()
 
 });
