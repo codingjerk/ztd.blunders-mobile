@@ -63,6 +63,9 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
         // No need to show rating when unlogining
         if (to.name === 'login') {
+          // cannot get to side menu by swapping left
+          $ionicSideMenuDelegate.canDragContent(false);
+
           $scope.setUserRating('-')
         }
     });

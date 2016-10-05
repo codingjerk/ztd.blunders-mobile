@@ -302,18 +302,21 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
 
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
         if (to.name === 'training') {
+            // cannot get to side menu by swapping left
+            $ionicSideMenuDelegate.canDragContent(false);
+
             $scope.updateUserRating()
             $scope.startGame();
         }
     });
 
-    $scope.$on('$ionicView.enter', function(){
+    /*$scope.$on('$ionicView.enter', function(){
       //disable accessing side menu by dragging
       $ionicSideMenuDelegate.canDragContent(false);
     });
     $scope.$on('$ionicView.leave', function(){
         $ionicSideMenuDelegate.canDragContent(true);
-    });
+    });*/
 
 
     /*
