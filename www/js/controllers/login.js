@@ -3,7 +3,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
       $state.go('training');
     }
 
-    $scope.authInProgress = false;
+    $scope.authInProgress = false;  //TODO: is needed????
 
     $scope.login = function(username, password) {
         if ($scope.isTriggered('loginLock')) return;
@@ -62,7 +62,9 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
 
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
         // No need to show rating when unlogining
-        $scope.setUserRating('-')
+        if (to.name === 'login') {
+          $scope.setUserRating('-')
+        }
     });
 
     $scope.goToSignup = function() {

@@ -16,11 +16,13 @@ KEY=$1
 rm -f build/*.apk
 
 cordova platform add android
-cordova build --release android
 # Enabling FS adapter for LokiJS
 # If not installed well, will not show permission for Local storage during installation
 bower install lokijs --save
 cordova plugin add cordova-plugin-file
+ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git
+
+cordova build --release android
 
 cp ./platforms/android/build/outputs/apk/android-release-unsigned.apk build/
 

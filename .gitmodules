@@ -1,0 +1,18 @@
+[submodule "www/third-party/chessboard-js"]
+	path = www/third-party/chessboard-js
+	url = https://github.com/jackalsh/chessboard-js.git
+[submodule "www/third-party/ztd.blunders-misc"]
+	path = www/third-party/ztd.blunders-misc
+	url = https://jackalsh@bitbucket.org/ziltoidteam/ztd.blunders-misc.git
+[submodule "www/third-party/chess.js"]
+	path = www/third-party/chess.js
+	url = https://github.com/jhlywa/chess.js.git
+[submodule "www/third-party/toastr"]
+	path = www/third-party/toastr
+	url = https://github.com/CodeSeven/toastr
+[submodule "www/third-party/lokijs"]
+	path = www/third-party/lokijs
+	url = https://github.com/techfort/LokiJS.git
+[submodule "www/third-party/loki-cordova-fs-adapter"]
+	path = www/third-party/loki-cordova-fs-adapter
+	url = https://github.com/cosmith/loki-cordova-fs-adapter.git

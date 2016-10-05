@@ -85,32 +85,4 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
 
       notify.error(data.message);
     }
-
-    /*
-     * Set up user rating when application starts
-     * This function is self and once called when application starts
-     * On fail we do not trigger an error, because this have negative
-     * effect on user expirience
-     */
-    $scope.updateUserRating = function() {
-      if(!token.exist())
-        return;
-
-      buffer.session.rating({
-        token: $scope.token(),
-        onSuccess: function(result) {
-          if (result.status !== 'ok') {
-            return $scope.processError(result);
-          }
-          $scope.setUserRating(result.rating);
-        },
-        onFail: function(result) {
-          // Just ignore rating error, leave old rating as is
-          //notify.error("Can't connect to server.<br>Check your connection");
-        }
-      });
-    }
-
-    $scope.updateUserRating()
-
 });
