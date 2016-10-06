@@ -24,6 +24,7 @@ ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git
 cordova plugin add https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git
 
 cordova prepare
+ionic setup sass
 
 cordova build --release android
 
