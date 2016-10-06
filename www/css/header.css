@@ -1,0 +1,31 @@
+.ion-university {
+    color: #dedede;
+    font-size: 100% !important;
+}
+
+.ion-navicon {
+    color: #dedede;
+}
+
+.bar-header {
+    color: #dedede;
+    border-bottom: 0px solid #0f4b94 !important;
+}
+
+.title, .buttons {
+    text-align: center;
+    display: table !important;
+    height: 100%;
+}
+
+.title {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.title-text {
+    text-align: center;
+
+    display: table-cell !important;
+    vertical-align: middle !important;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="io.ztd.blunders" version="1.6.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Ztd.Blunders</name>
+  <description>
+      Mobile client for Chess Blunders service (www.chessblunders.org)
+  </description>
+  <author email="ztd.team.dev@gmail.com" href="https://chessblunders.org">
+      Ztd Team
+  </author>
+  <content src="index.html"/>
+  <access origin="*"/>
+  <preference name="webviewbounce" value="false"/>
+  <preference name="UIWebViewBounce" value="false"/>
+  <preference name="DisallowOverscroll" value="true"/>
+  <preference name="android-minSdkVersion" value="16"/>
+  <preference name="BackupWebStorage" value="none"/>
+  <preference name="StatusBarBackgroundColor" value="#0f6bb4"/>
+  <preference name="SplashScreen" value="none"/>
+  <preference name="orientation" value="portrait"/>
+  <feature name="StatusBar">
+    <param name="ios-package" value="CDVStatusBar" onload="true"/>
+  </feature>
+  <platform name="android">
+    <icon src="resources/android/icon/icon-36-ldpi.png" density="ldpi"/>
+    <icon src="resources/android/icon/icon-48-mdpi.png" density="mdpi"/>
+    <icon src="resources/android/icon/icon-72-hdpi.png" density="hdpi"/>
+    <icon src="resources/android/icon/icon-96-xhdpi.png" density="xhdpi"/>
+    <icon src="resources/android/icon/icon-144-xxhdpi.png" density="xxhdpi"/>
+    <icon src="resources/android/icon/icon-192-xxxhdpi.png" density="xxxhdpi"/>
+  </platform>
+</widget>
