@@ -26,6 +26,10 @@ cordova plugin add https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.gi
 cordova prepare
 ionic setup sass
 
+# Following files are more then 2M each. We delete them so they will not be included in APK
+rm -rf www/third-party/lokijs/docs
+rm -rf www/lib/lokijs/docs
+
 cordova build --release android
 
 cp ./platforms/android/build/outputs/apk/android-release-unsigned.apk build/
