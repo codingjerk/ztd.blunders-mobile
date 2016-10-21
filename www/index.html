@@ -219,13 +219,6 @@
                           </table>
                         </div>
                       </div>
-                  </content>
-              </ion-view>
-          </ion-tab>
-
-          <ion-tab title="Info" icon-on="ion-ios-information" icon-off="ion-ios-information-outline">
-              <ion-view class="white-background">
-                  <ion-content>
                       <div class="card text-center">
                           <div class="item item-divider">
                               <div class="row">
@@ -241,9 +234,17 @@
                                 <div class="col">
                                   <button id="like-button" ng-class="{'like-active': info.myVote === 1}" ng-click="vote(1)" ng-disabled="isTriggered('voteLock')" class="button button-icon icon ion-thumbsup"></button>
                                 </div>
-                              </div
+                              </div>
                           </div>
                       </div>
+                  </content>
+              </ion-view>
+          </ion-tab>
+
+          <ion-tab title="Info" icon-on="ion-ios-information" icon-off="ion-ios-information-outline">
+              <ion-view class="white-background">
+                  <ion-content>
+
                       <div class="card">
                           <div class="item item-divider">
                               Blunder
