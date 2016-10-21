@@ -1,4 +1,4 @@
-app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $ionicPopup, $ionicPlatform, $timeout) {
+app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $ionicLoading, $ionicPopup, $ionicPlatform, $timeout) {
   $scope.unlockedInfo = pack.unlockedInfo()
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
@@ -38,6 +38,23 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
     return pack.canRemove(packId)
   }
 
+  /*
+   * This method blocks user input until no packs in local database.
+   * It can confuse new user when he starts the application for the first time
+   * without internet connection.
+   */
+  $scope.showNoPacksPopup = function() {
+    // Setup the loader
+    $ionicLoading.show({
+      template: '<p>Downloading puzzles from central server...</p><p>Make sure you connected to internet.</p><div class="ion-load-c ion-spin-animation text-300p"></div>',
+      content: 'Loading',
+      animation: 'fade-in',
+      showBackdrop: true,
+      maxWidth: 200,
+      showDelay: 0
+    });
+  }
+
   /* We must ensure cordova is properly loaded and then lunch this code,
      which will trigger database loading from the disk if needed.
      See loki-cordova-fs-adapter.
@@ -61,6 +78,16 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
       },
       reloadGame: function() {
         $scope.startGame()
+      },
+      onEmptyDatabase: function(state) {
+        if(state) {
+          $scope.showNoPacksPopup()
+        }
+        else {
+          $timeout(function () {
+            $ionicLoading.hide();
+          })
+        }
       },
       onAnimate: function(state) {
         $scope.triggerSemaphore({

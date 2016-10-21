@@ -310,15 +310,6 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
         }
     });
 
-    /*$scope.$on('$ionicView.enter', function(){
-      //disable accessing side menu by dragging
-      $ionicSideMenuDelegate.canDragContent(false);
-    });
-    $scope.$on('$ionicView.leave', function(){
-        $ionicSideMenuDelegate.canDragContent(true);
-    });*/
-
-
     /*
      * Chessboard.js uses jQuery to update the board model.
      * This bad for ionic, so we need this function to be called each time

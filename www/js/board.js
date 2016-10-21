@@ -235,8 +235,6 @@ board.init = function(options) {
       getBlunder(startGame);
     };
 
-    //new Chessboard('board', ChessUtils.FEN.emptyId);
-
     board.nextBlunder();
   })();
 }

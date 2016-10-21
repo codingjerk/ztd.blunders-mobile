@@ -134,6 +134,20 @@ var pack = {};
         module.unlockedDynamicView = module.unlockedCollection.addDynamicView('unlocked_packs');
         module.unlockedDynamicView.applyFind( { } )
 
+
+        // Code, which blocks user input until blunder exist
+        if(module.packsCollection.find({}).length == 0) {
+          module.options.onEmptyDatabase(true)
+          var currentBlunder = utils.ensure(200, 1000000/*infinite*/, function() {
+            console.log(existCurrentBlunder())
+            return !existCurrentBlunder()
+          }, function() {
+            module.options.onEmptyDatabase(false)
+          }, function(){
+            // Never reach here
+          })
+        }
+
         module.options.onPacksChanged();
         module.sync()
       }
@@ -223,6 +237,8 @@ var pack = {};
             module.options.onPacksChanged()
           },
           onFail: function(result) {
+            // Run once more to after small delay
+            utils.delay(1000, module.sync)
             //notify.error("Can't connect to server.<br>Check your connection");
           }
         })
@@ -279,6 +295,11 @@ var pack = {};
           status: 'error',
           message: 'Pack local storage engine error'
         })
+        /* This make same work as sync.repeat.
+         * We must repeat querying for blunder because otherwise application
+         * will be in inconsistent state
+         */
+        module.getCurrentBlunder(args)
       })
     }
 
@@ -295,6 +316,11 @@ var pack = {};
           status: 'error',
           message: 'Pack local storage engine error'
         })
+        /* This make same work as sync.repeat.
+         * We must repeat querying for blunder because otherwise application
+         * will be in inconsistent state
+         */
+        module.getCurrentBlunderInfo(args)
       })
     }
 
