@@ -23,6 +23,11 @@
         <script src="lib/ionic/js/ionic.bundle.js"></script>
         <script src="cordova.js"></script>
 
+        <script src="lib/d3/d3.js"></script>
+        <script src="lib/nvd3/build/nv.d3.js"></script> <!-- or use another assembly -->
+        <script src="lib/angular-nvd3/dist/angular-nvd3.js"></script>
+        <link rel="stylesheet" href="lib/nvd3/build/nv.d3.css">
+
         <!-- Third-party modules -->
         <script type="text/javascript" src="third-party/jquery/2.1.0/jquery.min.js"></script>
         <script type="text/javascript" src="third-party/toastr/build/toastr.min.js"></script>
@@ -325,6 +330,14 @@
           <ion-tab title="Statistic" icon-on="ion-archive" icon-off="ion-archive" on-select="reloadStatisticTab()" ng-controller="StatisticTabCtrl">
             <ion-view class="white-background">
                 <ion-content>
+                  <div class="card text-center">
+                      <div class="item item-divider">
+                          Game
+                      </div>
+                      <div class="item item-wrap">
+                          <nvd3 options="graph.options" data="graph.data"></nvd3>
+                      </div>
+                  </div>
                 </ion-content>
             </ion-view>
           </ion-tab>

@@ -1,4 +1,4 @@
-var app = angular.module('Ztd.Blunders Mobile', ['ionic']);
+var app = angular.module('Ztd.Blunders Mobile', ['ionic','nvd3']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider.state('login', {
