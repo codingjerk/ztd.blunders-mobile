@@ -1,4 +1,4 @@
-app.controller('PlayCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $timeout) {
+app.controller('PlayTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $timeout) {
 
   $scope.reloadPlayTab = function() {
     /*

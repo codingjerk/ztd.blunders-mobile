@@ -45,9 +45,9 @@
         <script src="js/controllers/login.js"></script>
         <script src="js/controllers/training.js"></script>
         <script src="js/controllers/analyze.js"></script>
-        <script src="js/controllers/pack.js"></script>
-        <script src="js/controllers/play.js"></script>
-        <script src="js/controllers/statistic.js"></script>
+        <script src="js/controllers/tabs/pack.js"></script>
+        <script src="js/controllers/tabs/play.js"></script>
+        <script src="js/controllers/tabs/statistic.js"></script>
 
         <!-- Miscellaneous js -->
         <script src="js/api.js"></script>
@@ -162,7 +162,7 @@
         <script id="training.html" type="text/ng-template">
           <ion-tabs class="tabs-positive tabs-striped tabs-top tabs-positive tabs-icon-top">
 
-          <ion-tab title="Packs" icon-on="ion-archive" icon-off="ion-archive" ng-controller="PackCtrl">
+          <ion-tab title="Packs" icon-on="ion-archive" icon-off="ion-archive" ng-controller="PackTabCtrl">
             <ion-view class="white-background">
                 <ion-content>
                     <ion-list type="card" class="text-center">
@@ -184,7 +184,7 @@
             </ion-view>
           </ion-tab>
 
-          <ion-tab title="Play" icon-on="ion-play" icon-off="ion-play" on-select="reloadPlayTab()" ng-controller="PlayCtrl">
+          <ion-tab title="Play" icon-on="ion-play" icon-off="ion-play" on-select="reloadPlayTab()" ng-controller="PlayTabCtrl">
               <ion-view class="white-background">
                   <ion-content>
                       <div class="card text-center">
@@ -322,7 +322,7 @@
                   </content>
               </ion-view>
           </ion-tab>
-          <ion-tab title="Statistic" icon-on="ion-archive" icon-off="ion-archive" on-select="reloadStatisticTab()" ng-controller="StatisticCtrl">
+          <ion-tab title="Statistic" icon-on="ion-archive" icon-off="ion-archive" on-select="reloadStatisticTab()" ng-controller="StatisticTabCtrl">
             <ion-view class="white-background">
                 <ion-content>
                 </ion-content>
