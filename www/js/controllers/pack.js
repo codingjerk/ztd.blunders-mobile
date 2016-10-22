@@ -2,6 +2,8 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
   $scope.unlockedInfo = pack.unlockedInfo()
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
+  $scope.unlockedSpinning = undefined
+
   $scope.removePack = function(packId) {
     if ($scope.isTriggered('packLock')) return;
 
@@ -20,9 +22,11 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
    });
   }
 
-  $scope.unlockPack = function(meta) {
+  $scope.unlockPack = function(selected) {
     if ($scope.isTriggered('packLock')) return;
+    meta = {typeName:selected.type_name,args:selected.args}
 
+    $scope.unlockedSpinning = selected.$loki
     pack.unlock(meta)
   }
 
@@ -71,6 +75,7 @@ app.controller('PackCtrl', function($scope, $state, $ionicSideMenuDelegate, $ion
           $timeout(function () {
               $scope.unlockedInfo = pack.unlockedInfo()
               $scope.packBlundersInfo = pack.packBlundersInfo()
+              $scope.unlockedSpinning = undefined
           });
       },
       goChessboardSlide: function() {

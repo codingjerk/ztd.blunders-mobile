@@ -172,9 +172,10 @@
                         <i ng-hide="!isSelectedPack(pack.pack_id)" class="icon ion-ios-checkmark" ></i>
                       </ion-item>
                       <ion-item class="item item-divider">Unlocked packs</ion-item>
-                      <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo track by $index" ng-click="unlockPack({typeName:pack.type_name,args:pack.args})">
+                      <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo track by $index" ng-click="unlockPack(pack)">
                         <i class="icon ion-ios-plus" ></i>
                         <h2>{{pack.description}}</h2>
+                        <i ng-hide="pack.$loki != unlockedSpinning" class="icon ion-load-c ion-spin-animation" ></i>
                       </ion-item>
                   </ion-list>
                 </content>
