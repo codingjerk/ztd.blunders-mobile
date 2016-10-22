@@ -1,4 +1,4 @@
-app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+app.controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate) {
     if (token.exist()) {
       $state.go('training');
     }
