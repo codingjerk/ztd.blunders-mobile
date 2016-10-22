@@ -22,6 +22,7 @@ bower install lokijs --save
 cordova plugin add cordova-plugin-file
 ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git
 cordova plugin add https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git
+npm install angular-chart.js --save
 
 cordova prepare
 ionic setup sass
