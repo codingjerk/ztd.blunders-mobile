@@ -198,4 +198,19 @@ var api = {};
       })
     }
   }
+  module.user = {
+    ratingByDate: function(args){
+      sync.ajax({
+        url: settings.url('user/rating-by-date'),
+        crossDomain: true,
+        data: {
+          token: args.token,
+          username: args.username
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
+    }
+  }
 })(api);
