@@ -1,92 +1,144 @@
 app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $timeout) {
 
   $scope.charts = {
-    'ratingByDate': {}
+    'ratingByDate': {},
+    'blundersByDate': {}
   }
-  //console.log($scope.charts.ratingByDate.data)
 
   $scope.ratingByDateReloadChart = function(result) {
     $scope.charts.ratingByDate.options = {
                 chart: {
                     type: 'stackedAreaChart',
-                    height: 450,
+                    height: 250,
                     margin : {
                         top: 20,
                         right: 20,
                         bottom: 40,
                         left: 70
                     },
-                    zoom : {
-                      enabled: true,
-                      scaleExtent: [1,10],
-                      useFixedDomain: false,
-                      useNiceScale: false,
-                      horizontalOff: false,
-                      verticalOff: true,
-                      unzoomEventType: "dblclick.zoom",
-                    },
                     showControls: false,
                     showLegend: false,
                     forceY: 1500,
-                    interpolate: "bundle", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
+                    interpolate: "cardinal", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
                     x: function(d){ return d.x; },
                     y: function(d){ return d.y; },
-                    useInteractiveGuideline: true,
-                    dispatch: {
-                        stateChange: function(e){ console.log("stateChange"); },
-                        changeState: function(e){ console.log("changeState"); },
-                        tooltipShow: function(e){ console.log("tooltipShow"); },
-                        tooltipHide: function(e){ console.log("tooltipHide"); }
-                    },
+                    useInteractiveGuideline: false,
                     xAxis: {
                         axisLabel: 'Date',
+                        showMaxMin: false,
                         tickFormat: function(d) {
-                            console.log(d)
-                            //console.log(new Date(d))
-                            return d3.time.format('%y/%m/%d')(new Date(d))
+                            return d3.time.format('%b %d')(new Date(d))
                         },
                     },
                     yAxis: {
                         axisLabel: 'Elo rating',
                         tickFormat: function(d){
-                            return d3.format('.d')(d);
+                            return d3.format('d')(d);
                         },
                         axisLabelDistance: -10
-                    },
-                    callback: function(chart){
-                        console.log("!!! lineChart callback !!!");
                     }
                 }
-    };
+      };
+
+      var series = result.data["rating-statistic"].map(function(elem){
+        return {x:new Date(elem[0]), y:elem[1]}
+      })
+
+      $scope.charts.ratingByDate.data = [
+                {
+                    values: series,      //values - represents the array of {x,y} data points
+                    //key: 'JackalSh'//, //key  - the name of the series.
+                    //color: '#0000FF'  //color - optional: choose your own line color.
+                }];
+    }
+
+    $scope.blundersByDateReloadChart = function(result) {
+      $scope.charts.blundersByDate.options = {
+                  chart: {
+                      type: 'stackedAreaChart',
+                      height: 250,
+                      margin : {
+                          top: 20,
+                          right: 20,
+                          bottom: 40,
+                          left: 70
+                      },
+                      showControls: false,
+                      showLegend: false,
+                      interpolate: "cardinal", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
+                      x: function(d){ return d.x; },
+                      y: function(d){ return d.y; },
+                      useInteractiveGuideline: false,
+                      showControls: true,
+                      controlOptions: ['Stacked', 'Expanded'],
+                      xAxis: {
+                          axisLabel: 'Date',
+                          showMaxMin: false,
+                          tickFormat: function(d) {
+                              return d3.time.format('%b %d')(new Date(d))
+                          },
+                      },
+                      yAxis: {
+                          axisLabel: 'Elo rating',
+                          tickFormat: function(d){
+                              return d3.format('d')(d);
+                          },
+                          axisLabelDistance: -10
+                      }
+                  }
+      };
 
 
-    var data1 = result.data["rating-statistic"].map(function(elem){
+    var seriesSolved = result.data["blunder-count-statistic"].solved.map(function(elem){
       return {x:new Date(elem[0]), y:elem[1]}
-    }).sort(function(a,b) {
-      return b.x - a.x;
     })
 
-    console.log(data1)
-    $scope.charts.ratingByDate.data = [
-              {
-                  values: data1,      //values - represents the array of {x,y} data points
-                  key: 'JackalSh'//, //key  - the name of the series.
-                  //color: '#0000FF'  //color - optional: choose your own line color.
-              }];
+    var seriesFailed = result.data["blunder-count-statistic"].failed.map(function(elem){
+      return {x:new Date(elem[0]), y:elem[1]}
+    })
 
-    console.log($scope.charts.ratingByDate)
+    $scope.charts.blundersByDate.data = [
+              {
+                  values: seriesSolved,      //values - represents the array of {x,y} data points
+                  key: 'Succesful solved'//, //key  - the name of the series.
+                  //color: '#0000FF'  //color - optional: choose your own line color.
+              },
+              {
+                  values: seriesFailed,      //values - represents the array of {x,y} data points
+                  key: 'Failed to solve',//, //key  - the name of the series.
+                  color: '#DD0000'  //color - optional: choose your own line color.
+              }];
+    console.log($scope.charts.blundersByDate.data)
+  }
+
+  $scope.GGG = function() {
+    console.log($scope.charts.blundersByDate.data)
   }
 
   $scope.reloadStatisticTab = function() {
 
     api.user.ratingByDate({
       token: $scope.token(),
-      username: "JackalSh",
+      interval: 'last-month',
       onSuccess: function(result) {
         if (result.status !== 'ok') {
           return $scope.processError(result);
         }
         $timeout(function(){ $scope.ratingByDateReloadChart(result) })
+      },
+      onFail: function(result) {
+        notify.error("Can't connect to server.<br>Check your connection");
+      }
+    });
+
+    api.user.blundersByDate({
+      token: $scope.token(),
+      interval: 'last-month',
+      onSuccess: function(result) {
+        if (result.status !== 'ok') {
+          return $scope.processError(result);
+        }
+        $timeout(function(){ $scope.blundersByDateReloadChart(result) })
       },
       onFail: function(result) {
         notify.error("Can't connect to server.<br>Check your connection");

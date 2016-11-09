@@ -205,7 +205,20 @@ var api = {};
         crossDomain: true,
         data: {
           token: args.token,
-          username: args.username
+          interval: args.interval
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
+    },
+    blundersByDate: function(args){
+      sync.ajax({
+        url: settings.url('user/blunders-by-date'),
+        crossDomain: true,
+        data: {
+          token: args.token,
+          interval: args.interval
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
