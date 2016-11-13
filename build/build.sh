@@ -8,7 +8,7 @@
 
 if [ -z "$1" ]; then
     echo "Argument missed - google key"
-    exit 1
+    return 1
 fi
 
 KEY=$1

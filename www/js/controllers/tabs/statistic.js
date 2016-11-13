@@ -19,7 +19,7 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                     showControls: false,
                     showLegend: false,
                     forceY: 1500,
-                    interpolate: "cardinal", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
+                    interpolate: "Linear", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
                     x: function(d){ return d.x; },
                     y: function(d){ return d.y; },
                     useInteractiveGuideline: false,
@@ -63,14 +63,13 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                           bottom: 40,
                           left: 70
                       },
-                      showControls: false,
-                      showLegend: false,
-                      interpolate: "cardinal", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
                       x: function(d){ return d.x; },
                       y: function(d){ return d.y; },
-                      useInteractiveGuideline: false,
-                      showControls: true,
+                      interpolate: "Linear", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
+                      showControls: false,
+                      showLegend: false,
                       controlOptions: ['Stacked', 'Expanded'],
+                      useInteractiveGuideline: true,
                       xAxis: {
                           axisLabel: 'Date',
                           showMaxMin: false,
@@ -79,13 +78,13 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                           },
                       },
                       yAxis: {
-                          axisLabel: 'Elo rating',
+                          axisLabel: 'Number of blunders',
                           tickFormat: function(d){
                               return d3.format('d')(d);
                           },
                           axisLabelDistance: -10
                       }
-                  }
+                    }
       };
 
 
@@ -108,11 +107,6 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                   key: 'Failed to solve',//, //key  - the name of the series.
                   color: '#DD0000'  //color - optional: choose your own line color.
               }];
-    console.log($scope.charts.blundersByDate.data)
-  }
-
-  $scope.GGG = function() {
-    console.log($scope.charts.blundersByDate.data)
   }
 
   $scope.reloadStatisticTab = function() {
