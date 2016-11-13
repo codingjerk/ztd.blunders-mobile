@@ -22,7 +22,6 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                     interpolate: "Linear", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
                     x: function(d){ return d.x; },
                     y: function(d){ return d.y; },
-                    useInteractiveGuideline: false,
                     xAxis: {
                         axisLabel: 'Date',
                         showMaxMin: false,
@@ -55,7 +54,7 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
     $scope.blundersByDateReloadChart = function(result) {
       $scope.charts.blundersByDate.options = {
                   chart: {
-                      type: 'stackedAreaChart',
+                      type: "multiBarChart",
                       height: 250,
                       margin : {
                           top: 20,
@@ -63,13 +62,9 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                           bottom: 40,
                           left: 70
                       },
-                      x: function(d){ return d.x; },
-                      y: function(d){ return d.y; },
-                      interpolate: "Linear", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
-                      showControls: false,
+                      clipEdge: true,
+                      stacked: true,
                       showLegend: false,
-                      controlOptions: ['Stacked', 'Expanded'],
-                      useInteractiveGuideline: true,
                       xAxis: {
                           axisLabel: 'Date',
                           showMaxMin: false,
