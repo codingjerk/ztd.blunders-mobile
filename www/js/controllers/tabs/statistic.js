@@ -2,7 +2,8 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
 
   $scope.charts = {
     'ratingByDate': {},
-    'blundersByDate': {}
+    'blundersByDate': {},
+    'blundersCount': {}
   }
 
   $scope.ratingByDateReloadChart = function(result) {
@@ -107,7 +108,7 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
 
   $scope.reloadStatisticTab = function() {
 
-    api.user.ratingByDate({
+    direct.user.ratingByDate({
       token: $scope.token(),
       interval: 'last-month',
       onSuccess: function(result) {
@@ -121,7 +122,7 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
       }
     });
 
-    api.user.blundersByDate({
+    direct.user.blundersByDate({
       token: $scope.token(),
       interval: 'last-month',
       onSuccess: function(result) {
@@ -131,6 +132,21 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
         $timeout(function(){ $scope.blundersByDateReloadChart(result) })
       },
       onFail: function(result) {
+        notify.error("Can't connect to server.<br>Check your connection");
+      }
+    });
+
+    direct.user.blundersCount({
+      token: $scope.token(),
+      onSuccess: function(result) {
+        if (result.status !== 'ok') {
+          return $scope.processError(result);
+        }
+        $timeout(function(){
+          $scope.charts.blundersCount = result.data;
+         })
+      },
+      onFail: function(result) { //OnAnimate???
         notify.error("Can't connect to server.<br>Check your connection");
       }
     });

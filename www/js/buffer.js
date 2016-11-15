@@ -42,6 +42,17 @@ var direct = {};
         api.blunder.signup(args)
       }
     };
+    module.user = {
+      ratingByDate: function(args) {
+        api.user.ratingByDate(args)
+      },
+      blundersByDate: function(args) {
+        api.user.blundersByDate(args)
+      },
+      blundersCount: function(args) {
+        api.user.blundersCount(args)
+      }
+    }
 })(direct)
 
 var buffer = {};
@@ -81,4 +92,15 @@ var buffer = {};
         api.session.signup(args)
       }
     };
+    module.user = { //TODO: Some application side caching?
+      ratingByDate: function(args) {
+        api.user.ratingByDate(args)
+      },
+      blundersByDate: function(args) {
+        api.user.blundersByDate(args)
+      },
+      blundersCount: function(args) {
+        api.user.blundersCount(args)
+      }
+    }
 })(buffer)

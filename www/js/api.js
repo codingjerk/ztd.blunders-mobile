@@ -224,6 +224,18 @@ var api = {};
         onFail: args.onFail,
         onAnimate: args.onAnimate
       })
+    },
+    blundersCount: function(args){
+      sync.ajax({
+        url: settings.url('user/blunders-count'),
+        crossDomain: true,
+        data: {
+          token: args.token
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
     }
   }
 })(api);
