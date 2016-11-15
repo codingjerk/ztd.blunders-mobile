@@ -19,6 +19,10 @@ $dark:                            #444 !default;
  * Changing positive color to feet our blue gamma
  * Run:"ionic setup sass" to rebuild ionic css
  */
+@font-face {
+  font-family: 'Artifica-Regular';
+  src: url("../fonts/artifika-regular/artifika-regular.ttf"); }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

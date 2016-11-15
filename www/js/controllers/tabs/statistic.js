@@ -156,7 +156,7 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
           $scope.charts.blundersCount = result.data;
          })
       },
-      onFail: function(result) { //OnAnimate???
+      onFail: function(result) {
         notify.error("Can't connect to server.<br>Check your connection");
       },
       onAnimate: function(state) {
