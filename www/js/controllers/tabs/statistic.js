@@ -14,7 +14,7 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                         top: 20,
                         right: 20,
                         bottom: 40,
-                        left: 70
+                        left: 50
                     },
                     showControls: false,
                     showLegend: false,
@@ -60,10 +60,11 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                           top: 20,
                           right: 20,
                           bottom: 40,
-                          left: 70
+                          left: 50
                       },
                       clipEdge: true,
                       stacked: true,
+                      showControls: true,
                       showLegend: false,
                       xAxis: {
                           axisLabel: 'Date',
