@@ -16,6 +16,14 @@ KEY=$1
 rm -f build/*.apk
 
 cordova platform add android
+
+# Installing splash screen
+# Different splash screens generated authomatically based on resources/android/screen.png image
+# according to orientation and resolutions specified and config.xml
+# https://github.com/apache/cordova-plugin-splashscreen
+cordova plugin add cordova-plugin-splashscreen
+ionic resources --splash
+
 # Enabling FS adapter for LokiJS
 # If not installed well, will not show permission for Local storage during installation
 bower install lokijs --save

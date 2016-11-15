@@ -23,6 +23,8 @@ app.run(function($ionicPlatform, $ionicPopup, $state) {
         }, function() {
             notify.error("Can't keep screen on, please dont be upset.");
         });
+        //Hide Splash screen
+        navigator.splashscreen.hide();
     }, false);
 
     if(token.exist()) {
