@@ -119,6 +119,11 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
       },
       onFail: function(result) {
         notify.error("Can't connect to server.<br>Check your connection");
+      },
+      onAnimate: function(state) {
+        $scope.triggerSemaphore({
+          networkBusy: state
+        })
       }
     });
 
@@ -133,6 +138,11 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
       },
       onFail: function(result) {
         notify.error("Can't connect to server.<br>Check your connection");
+      },
+      onAnimate: function(state) {
+        $scope.triggerSemaphore({
+          networkBusy: state
+        })
       }
     });
 
@@ -148,6 +158,11 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
       },
       onFail: function(result) { //OnAnimate???
         notify.error("Can't connect to server.<br>Check your connection");
+      },
+      onAnimate: function(state) {
+        $scope.triggerSemaphore({
+          networkBusy: state
+        })
       }
     });
 
