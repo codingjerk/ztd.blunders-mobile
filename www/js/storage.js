@@ -2,11 +2,20 @@ var storage = {};
 
 (function(module) {
     module.db = null;
+
+    // Defining collections
+    module._packsCollection = null
+    module._unlockedCollection = null
+
     module.options = null
     module.readyFlag = false
 
-    module.get = function() {
-      return module.db
+    module.packsCollection = function() {
+      return module._packsCollection
+    }
+
+    module.unlockedCollection = function() {
+      return module._unlockedCollection
     }
 
     module.ready = function() {
@@ -45,6 +54,16 @@ var storage = {};
       }
 
       var loadHandler = function() {
+        // if database did not exist it will be empty so I will intitialize here
+        module._packsCollection = module.db.getCollection('blunders');
+        if (module._packsCollection === null) {
+          module._packsCollection = module.db.addCollection('blunders');
+        }
+        module._unlockedCollection = module.db.getCollection('unlocked');
+        if (module._unlockedCollection === null) {
+          module._unlockedCollection = module.db.addCollection('unlocked');
+        }
+
         module.readyFlag = true
       }
 
@@ -52,7 +71,6 @@ var storage = {};
         // Empty
       }
 
-      console.log('blunders-user-' + module.options.token() + '.json')
       module.db = new loki('blunders-user-' + module.options.token() + '.json',
         {
           autoload: true,

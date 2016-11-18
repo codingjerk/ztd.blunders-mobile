@@ -4,8 +4,6 @@ var pack = {};
     module.options = null
 
     module.db = null;
-    module.packsCollection = null
-    module.unlockedCollection = null
     module.selectedPack = null
 
     module.packsDynamicView = null
@@ -20,7 +18,7 @@ var pack = {};
            * remove the blunder from local database later. But we want to reload
            * so game will move to other blunder quickly. So we need to remove it
            * manually */
-          module.packsCollection.removeWhere({pack_id:packId})
+          storage.packsCollection().removeWhere({pack_id:packId})
           if(module.selectedPack == packId)
             module.options.reloadGame()
 
@@ -69,7 +67,7 @@ var pack = {};
     }
 
     var getPackById = function(pack_id) {
-      packs = module.packsCollection.find({pack_id:pack_id})
+      packs = storage.packsCollection().find({pack_id:pack_id})
       if(packs == null)
         return null
 
@@ -108,30 +106,20 @@ var pack = {};
     }
 
     var reloadDatabase = function() {
-      // if database did not exist it will be empty so I will intitialize here
-      module.packsCollection = storage.get().getCollection('blunders');
-      if (module.packsCollection === null) {
-        module.packsCollection = storage.get().addCollection('blunders');
-      }
-      module.unlockedCollection = storage.get().getCollection('unlocked');
-      if (module.unlockedCollection === null) {
-        module.unlockedCollection = storage.get().addCollection('unlocked');
-      }
-
       // Prepare dynamic views
-      module.packsDynamicView = module.packsCollection.addDynamicView('blunder_packs');
+      module.packsDynamicView = storage.packsCollection().addDynamicView('blunder_packs');
       module.packsDynamicView.applyFind( { } )
       // Sort in order to provide exactly the same behaviour on all devices
       module.packsDynamicView.applySort( function(left, right) {
         return left.pack_id.localeCompare(right.pack_id)
       });
 
-      module.unlockedDynamicView = module.unlockedCollection.addDynamicView('unlocked_packs');
+      module.unlockedDynamicView = storage.unlockedCollection().addDynamicView('unlocked_packs');
       module.unlockedDynamicView.applyFind( { } )
 
 
       // Code, which blocks user input until blunder exist
-      if(module.packsCollection.find({}).length == 0) {
+      if(storage.packsCollection().find({}).length == 0) {
         module.options.onEmptyDatabase(true)
         utils.ensure(200, 1000000/*infinite*/, function() {
           return existCurrentBlunder()
@@ -151,9 +139,9 @@ var pack = {};
     */
     module.sync = function() {
         var parseUnlocked = function(unlocked) {
-          module.unlockedCollection.removeWhere(function(doc){return true;})
+          storage.unlockedCollection().removeWhere(function(doc){return true;})
           unlocked.forEach(function(unlocked_pack){
-            module.unlockedCollection.insert(unlocked_pack)
+            storage.unlockedCollection().insert(unlocked_pack)
             module.options.onPacksChanged()
           })
         }
@@ -167,12 +155,12 @@ var pack = {};
           }
 
           // Remove local packs, removed in remote
-          module.packsCollection.removeWhere(function(pack) {
+          storage.packsCollection().removeWhere(function(pack) {
             return (packs.indexOf(pack.pack_id) == -1);
           })
 
           var isAlreadyExist = function(packId) {
-            if(module.packsCollection.find({pack_id:packId}).length > 0)
+            if(storage.packsCollection().find({pack_id:packId}).length > 0)
               return true
             return false
           }
@@ -188,7 +176,7 @@ var pack = {};
               onSuccess: function(result) {
                   if(isAlreadyExist(packId)) // Long time has passed, need to recheck
                     return;
-                  module.packsCollection.insert(result.data)
+                  storage.packsCollection().insert(result.data)
                   module.options.onPacksChanged()
               },
               onFail: function(result) {
@@ -299,7 +287,7 @@ var pack = {};
      */
     var updateInfoViewLocalOnSuccess = function(args) {
       utils.injectOnSuccess(args, function(result){
-        module.packsCollection.chain().update(function(pack) { //TODO: slow solution?
+        storage.packsCollection().chain().update(function(pack) { //TODO: slow solution?
           //We don't use map to make selective edit
           var updateOnNeed = function(blunder) {
             if(blunder.get.id != args.blunderId)
@@ -317,7 +305,7 @@ var pack = {};
         if(result.status == 'ok') return;
           // Some error in pack consistency.
           // Remove it from local and reload
-          module.packsCollection.removeWhere({pack_id:module.selectedPack})
+          storage.packsCollection().removeWhere({pack_id:module.selectedPack})
           module.sync()
       })
     }
@@ -328,7 +316,7 @@ var pack = {};
 
         // Remove validated blunder from pack
         var removeCurrentBlunderFromPack = function() {
-          module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
+          storage.packsCollection().chain().find({'pack_id':module.selectedPack}).update(function(pack) {
             var blunderMatch = function(blunder) {
               return blunder.get.id != args.blunderId;
             }
@@ -348,11 +336,11 @@ var pack = {};
           /* Need to sync only if any packs got empty.
              Sync is needed to update unlock list which might be empty
              LokiJS don't support count so we make some hacking */
-          var emptyPacks = module.packsCollection.chain().where(isPackEmpty).data()
+          var emptyPacks = storage.packsCollection().chain().where(isPackEmpty).data()
           if(emptyPacks.length == 0) //TODO: optimize?
             return
 
-          module.packsCollection.removeWhere(isPackEmpty)
+          storage.packsCollection().removeWhere(isPackEmpty)
           module.sync()
         }
 
