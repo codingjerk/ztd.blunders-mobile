@@ -6,6 +6,7 @@ var storage = {};
     // Defining collections
     module._packsCollection = null
     module._unlockedCollection = null
+    module._cacheCollection = null
 
     module.options = null
     module.readyFlag = false
@@ -16,6 +17,10 @@ var storage = {};
 
     module.unlockedCollection = function() {
       return module._unlockedCollection
+    }
+
+    module.cacheCollection = function() {
+      return module._cacheCollection
     }
 
     module.ready = function() {
@@ -62,6 +67,10 @@ var storage = {};
         module._unlockedCollection = module.db.getCollection('unlocked');
         if (module._unlockedCollection === null) {
           module._unlockedCollection = module.db.addCollection('unlocked');
+        }
+        module._cacheCollection = module.db.getCollection('cache');
+        if (module._cacheCollection === null) {
+          module._cacheCollection = module.db.addCollection('cache');
         }
 
         module.readyFlag = true

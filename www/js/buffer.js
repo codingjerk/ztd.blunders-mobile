@@ -55,6 +55,29 @@ var direct = {};
     }
 })(direct)
 
+var cache = function(tag, callback, args, minutes) {
+  cached = storage.cacheCollection().where(function(el) {
+    console.log((new Date() - new Date(el['date']))/1000/60)
+    if(el['tag'] != tag) return false;
+    if((new Date() - new Date(el['date']))/1000/60 > minutes) return false // minutes
+    return true;
+  })
+
+  if(cached.length > 0) { // is good to use
+    result = cached[0]['result']
+    args.onSuccess(result)
+    console.log('exist')
+  }
+  else {
+    storage.cacheCollection().removeWhere({'tag':tag})
+    utils.injectOnSuccess(args, function(result){
+      storage.cacheCollection().insert({'tag':tag, 'result': result, 'date':new Date()})
+    })
+    callback(args)
+    console.log('not exist')
+  }
+}
+
 var buffer = {};
 
 (function(module) {
@@ -94,13 +117,13 @@ var buffer = {};
     };
     module.user = { //TODO: Some application side caching?
       ratingByDate: function(args) {
-        api.user.ratingByDate(args)
+        cache('ratingByDate',api.user.ratingByDate, args, 1)
       },
       blundersByDate: function(args) {
-        api.user.blundersByDate(args)
+        cache('blundersByDate',api.user.blundersByDate, args, 1)
       },
       blundersCount: function(args) {
-        api.user.blundersCount(args)
+        cache('blundersCount',api.user.blundersCount, args, 1)
       }
     }
 })(buffer)

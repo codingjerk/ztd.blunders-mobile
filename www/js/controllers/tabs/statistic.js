@@ -108,7 +108,7 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
 
   $scope.reloadStatisticTab = function() {
 
-    direct.user.ratingByDate({
+    buffer.user.ratingByDate({
       token: $scope.token(),
       interval: 'last-month',
       onSuccess: function(result) {
@@ -127,7 +127,7 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
       }
     });
 
-    direct.user.blundersByDate({
+    buffer.user.blundersByDate({
       token: $scope.token(),
       interval: 'last-month',
       onSuccess: function(result) {
@@ -146,7 +146,7 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
       }
     });
 
-    direct.user.blundersCount({
+    buffer.user.blundersCount({
       token: $scope.token(),
       onSuccess: function(result) {
         if (result.status !== 'ok') {
