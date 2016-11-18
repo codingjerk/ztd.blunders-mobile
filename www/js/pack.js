@@ -98,8 +98,8 @@ var pack = {};
     }
 
     module.restart = function() {
-      var currentBlunder = utils.ensure(200, 5000, function() {
-        return module.options != undefined
+      utils.ensure(200, 5000, function() {
+        return module.options != undefined && storage.ready()
       }, function() {
         reloadDatabase()
       }, function(){
@@ -108,72 +108,42 @@ var pack = {};
     }
 
     var reloadDatabase = function() {
-      function saveHandler() {
-        console.log("saved");
+      // if database did not exist it will be empty so I will intitialize here
+      module.packsCollection = storage.get().getCollection('blunders');
+      if (module.packsCollection === null) {
+        module.packsCollection = storage.get().addCollection('blunders');
+      }
+      module.unlockedCollection = storage.get().getCollection('unlocked');
+      if (module.unlockedCollection === null) {
+        module.unlockedCollection = storage.get().addCollection('unlocked');
       }
 
-      function loadHandler() {
-        // if database did not exist it will be empty so I will intitialize here
-        module.packsCollection = module.db.getCollection('blunders');
-        if (module.packsCollection === null) {
-          module.packsCollection = module.db.addCollection('blunders');
-        }
-        module.unlockedCollection = module.db.getCollection('unlocked');
-        if (module.unlockedCollection === null) {
-          module.unlockedCollection = module.db.addCollection('unlocked');
-        }
+      // Prepare dynamic views
+      module.packsDynamicView = module.packsCollection.addDynamicView('blunder_packs');
+      module.packsDynamicView.applyFind( { } )
+      // Sort in order to provide exactly the same behaviour on all devices
+      module.packsDynamicView.applySort( function(left, right) {
+        return left.pack_id.localeCompare(right.pack_id)
+      });
 
-        // Prepare dynamic views
-        module.packsDynamicView = module.packsCollection.addDynamicView('blunder_packs');
-        module.packsDynamicView.applyFind( { } )
-        // Sort in order to provide exactly the same behaviour on all devices
-        module.packsDynamicView.applySort( function(left, right) {
-          return left.pack_id.localeCompare(right.pack_id)
-        });
-
-        module.unlockedDynamicView = module.unlockedCollection.addDynamicView('unlocked_packs');
-        module.unlockedDynamicView.applyFind( { } )
+      module.unlockedDynamicView = module.unlockedCollection.addDynamicView('unlocked_packs');
+      module.unlockedDynamicView.applyFind( { } )
 
 
-        // Code, which blocks user input until blunder exist
-        if(module.packsCollection.find({}).length == 0) {
-          module.options.onEmptyDatabase(true)
-          var currentBlunder = utils.ensure(200, 1000000/*infinite*/, function() {
-            return existCurrentBlunder()
-          }, function() {
-            module.options.onEmptyDatabase(false)
-          }, function(){
-            // Never reach here
-          })
-        }
-
-        module.options.onPacksChanged();
-        module.sync()
+      // Code, which blocks user input until blunder exist
+      if(module.packsCollection.find({}).length == 0) {
+        module.options.onEmptyDatabase(true)
+        utils.ensure(200, 1000000/*infinite*/, function() {
+          return existCurrentBlunder()
+        }, function() {
+          module.options.onEmptyDatabase(false)
+        }, function(){
+          // Never reach here
+        })
       }
 
-      var idbAdapter = null
-      /*
-       * When using in browser, IndexedAdapter is great. Hovewer,
-         on Android device we have an issue when database initialises, load handler not called.
-         http://stackoverflow.com/questions/27735568/phonegap-web-sql-database-creation-error-no-such-table-cachegroups
-         For cordova, running on device, we use another adapter, as suggested here
-         http://gonehybrid.com/how-to-use-lokijs-for-local-storage-in-your-ionic-app/
-       */
-      if(window.cordova) // TODO:is this the best way to check this?
-        idbAdapter = new LokiCordovaFSAdapter({"prefix": "loki"});
-      else {
-        idbAdapter = new LokiIndexedAdapter({"prefix": "loki"});
-      }
-
-      module.db = new loki('blunders-user-' + module.options.token() + '.json',
-        {
-          autoload: true,
-          autoloadCallback : loadHandler,
-          autosave: true,
-          autosaveCallback: saveHandler,
-          autosaveInterval: 1000,
-          adapter: idbAdapter
-        });
+      module.options.onPacksChanged();
+      module.sync()
     }
 
     /**
@@ -271,7 +241,7 @@ var pack = {};
     }
 
     var ensureSelectedBlunder = function(onSuccess, onFail) {
-      var currentBlunder = utils.ensure(200, 5000, function() {
+      utils.ensure(200, 5000, function() {
         module.selectAnyIfNot()
         return existCurrentBlunder() // What if pack empty - check!!!
       }, function() {

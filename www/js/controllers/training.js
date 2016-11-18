@@ -301,10 +301,19 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
       });
     }
 
+    var initStorage = function() {
+        storage.init({
+          token: $scope.token
+        })
+        storage.restart()
+    }
+
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
         if (to.name === 'training') {
             // cannot get to side menu by swapping left
             $ionicSideMenuDelegate.canDragContent(false);
+
+            initStorage()
 
             $scope.updateUserRating()
             $scope.startGame();
