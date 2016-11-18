@@ -51,4 +51,4 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${KEY} ./build/
 echo 'We assume sdk root directory is /opt/android-sdk, as is in Arch linux. Change if needed'
 /opt/android-sdk/build-tools/23.0.2/zipalign -v 4 ./build/android-release-unsigned.apk ./build/blunders-signed.apk
 
-telegram-cli -W -e "send_document @jackalsh ./build/blunders-signed.apk"
+telegram-cli --disable-output -W -e "send_document @jackalsh ./build/blunders-signed.apk"
