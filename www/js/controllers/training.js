@@ -271,6 +271,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
             popupPromotion: function() {
               return $scope.popupPromotion()
             },
+            processError: $scope.processError,
             token: $scope.token, // This function redirects to login page on fail so need controller state
         });
     };

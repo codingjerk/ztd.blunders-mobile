@@ -15,7 +15,7 @@ board.init = function(options) {
         token: options.token(),
         onSuccess: function(result) {
           if (result.status !== 'ok') {
-            return processError(result);
+            return options.processError(result);
           }
           var data = result.data;
 
@@ -24,7 +24,7 @@ board.init = function(options) {
             blunderId: data.id,
             onSuccess: function(result) {
               if (result.status !== 'ok') {
-                return processError(result);
+                return options.processError(result);
               }
               options.onInfoChanged(result.data);
             },
@@ -49,7 +49,7 @@ board.init = function(options) {
         spentTime: counter.total(),
         onSuccess: function(result) {
           if (result.status !== 'ok') {
-            processError(result);
+            options.processError(result);
           } else {
             options.onUserRatingChanged(result.data.elo);
           }

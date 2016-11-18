@@ -8,7 +8,7 @@
 
 if [ -z "$1" ]; then
     echo "Argument missed - google key"
-    exit 1
+    return 1
 fi
 
 KEY=$1
@@ -16,13 +16,21 @@ KEY=$1
 rm -f build/*.apk
 
 cordova platform add android
+
+# Installing splash screen
+# Different splash screens generated authomatically based on resources/android/screen.png image
+# according to orientation and resolutions specified and config.xml
+# https://github.com/apache/cordova-plugin-splashscreen
+cordova plugin add cordova-plugin-splashscreen
+ionic resources --splash
+
 # Enabling FS adapter for LokiJS
 # If not installed well, will not show permission for Local storage during installation
 bower install lokijs --save
 cordova plugin add cordova-plugin-file
 ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git
 cordova plugin add https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git
-npm install angular-chart.js --save
+bower install angular-nvd3 --save
 
 cordova prepare
 ionic setup sass

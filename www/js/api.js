@@ -198,4 +198,44 @@ var api = {};
       })
     }
   }
+  module.user = {
+    ratingByDate: function(args){
+      sync.ajax({
+        url: settings.url('user/rating-by-date'),
+        crossDomain: true,
+        data: {
+          token: args.token,
+          interval: args.interval
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
+    },
+    blundersByDate: function(args){
+      sync.ajax({
+        url: settings.url('user/blunders-by-date'),
+        crossDomain: true,
+        data: {
+          token: args.token,
+          interval: args.interval
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
+    },
+    blundersCount: function(args){
+      sync.ajax({
+        url: settings.url('user/blunders-count'),
+        crossDomain: true,
+        data: {
+          token: args.token
+        },
+        onSuccess: args.onSuccess,
+        onFail: args.onFail,
+        onAnimate: args.onAnimate
+      })
+    }
+  }
 })(api);
