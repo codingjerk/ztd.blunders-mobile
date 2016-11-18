@@ -15,6 +15,8 @@ KEY=$1
 
 rm -f build/*.apk
 
+git submodule init && git submodule update
+
 cordova platform add android
 
 # Installing splash screen

@@ -99,7 +99,7 @@ var pack = {};
 
     module.restart = function() {
       var currentBlunder = utils.ensure(200, 5000, function() {
-        return module.options == undefined
+        return module.options != undefined
       }, function() {
         reloadDatabase()
       }, function(){
@@ -139,8 +139,7 @@ var pack = {};
         if(module.packsCollection.find({}).length == 0) {
           module.options.onEmptyDatabase(true)
           var currentBlunder = utils.ensure(200, 1000000/*infinite*/, function() {
-            console.log(existCurrentBlunder())
-            return !existCurrentBlunder()
+            return existCurrentBlunder()
           }, function() {
             module.options.onEmptyDatabase(false)
           }, function(){
@@ -274,7 +273,7 @@ var pack = {};
     var ensureSelectedBlunder = function(onSuccess, onFail) {
       var currentBlunder = utils.ensure(200, 5000, function() {
         module.selectAnyIfNot()
-        return !existCurrentBlunder() // What if pack empty - check!!!
+        return existCurrentBlunder() // What if pack empty - check!!!
       }, function() {
         onSuccess()
       }, function(){
