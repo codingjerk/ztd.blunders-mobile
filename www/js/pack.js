@@ -1,3 +1,5 @@
+"use strict";
+
 var pack = {};
 
 (function(module) {
@@ -34,7 +36,7 @@ var pack = {};
     }
 
     module.unlock = function(meta) {
-      args = {
+      var args = {
         token: module.options.token(),
         typeName: meta.typeName,
         args: meta.args,
@@ -67,7 +69,7 @@ var pack = {};
     }
 
     var getPackById = function(pack_id) {
-      packs = lstorage.packsCollection().find({pack_id:pack_id})
+      var packs = lstorage.packsCollection().find({pack_id:pack_id})
       if(packs == null)
         return null
 
@@ -205,7 +207,7 @@ var pack = {};
       if(module.selectedPack != null && getPackById(module.selectedPack) != null)
         return;
 
-      packs = module.packBlundersInfo();
+      var packs = module.packBlundersInfo();
       if(packs.length == 0)
         return;
       module.selectedPack = packs[0]['pack_id']
@@ -241,8 +243,8 @@ var pack = {};
 
     module.getCurrentBlunder = function(args) {
       ensureSelectedBlunder(function() {
-        selectedPack = getPackById(module.selectedPack)
-        currentBlunder = selectedPack.blunders[0].get;
+        var selectedPack = getPackById(module.selectedPack)
+        var currentBlunder = selectedPack.blunders[0].get;
         args.onSuccess({
           status:'ok',
           data: currentBlunder
@@ -262,8 +264,8 @@ var pack = {};
 
     module.getCurrentBlunderInfo = function(args) {
       ensureSelectedBlunder(function() {
-        selectedPack = getPackById(module.selectedPack)
-        currentBlunder = selectedPack.blunders[0].info;
+        var selectedPack = getPackById(module.selectedPack)
+        var currentBlunder = selectedPack.blunders[0].info;
         args.onSuccess({
           status:'ok',
           data: currentBlunder

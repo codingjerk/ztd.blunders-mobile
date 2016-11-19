@@ -1,3 +1,5 @@
+"use strict";
+
 app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $timeout) {
 
   $scope.charts = {

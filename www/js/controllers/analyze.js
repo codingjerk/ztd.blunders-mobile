@@ -1,3 +1,5 @@
+"use strict";
+
 app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $timeout) {
     $scope.blunderId = undefined
     $scope.pv = undefined

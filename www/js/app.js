@@ -1,3 +1,5 @@
+"use strict";
+
 var app = angular.module('Ztd.Blunders Mobile', ['ionic','nvd3']);
 
 app.config(function($stateProvider, $urlRouterProvider) {

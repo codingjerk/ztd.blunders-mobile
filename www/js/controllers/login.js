@@ -1,3 +1,5 @@
+"use strict";
+
 app.controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate) {
     if (token.exist()) {
       $state.go('training');

@@ -1,3 +1,5 @@
+"use strict";
+
 var lstorage = {};
 
 (function(module) {

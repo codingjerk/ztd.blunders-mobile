@@ -1,3 +1,5 @@
+"use strict";
+
 app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $ionicLoading, $ionicPopup, $ionicPlatform, $timeout) {
   $scope.unlockedInfo = pack.unlockedInfo()
   $scope.packBlundersInfo = pack.packBlundersInfo()
@@ -24,7 +26,7 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
 
   $scope.unlockPack = function(selected) {
     if ($scope.isTriggered('packLock')) return;
-    meta = {typeName:selected.type_name,args:selected.args}
+    var meta = {typeName:selected.type_name,args:selected.args}
 
     $scope.unlockedSpinning = selected.$loki
     pack.unlock(meta)

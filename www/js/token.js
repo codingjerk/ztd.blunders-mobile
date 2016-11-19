@@ -1,3 +1,5 @@
+"use strict";
+
 var token = {};
 
 (function(module) {

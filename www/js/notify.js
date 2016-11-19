@@ -1,3 +1,5 @@
+"use strict";
+
 var notify = {
     error: function(text) {
         toastr.options = {

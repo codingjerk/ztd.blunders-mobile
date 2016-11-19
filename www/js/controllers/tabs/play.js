@@ -1,3 +1,5 @@
+"use strict";
+
 app.controller('PlayTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $timeout) {
 
   $scope.reloadPlayTab = function() {
