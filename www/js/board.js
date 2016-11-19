@@ -9,38 +9,13 @@ board.init = function(options) {
     options.onTimerUpdate(formatted);
   });
 
-  function processError(data) {
-    if (data.message === 'Invalid API token') {
-      options.onTokenRefused();
-      return;
-    }
-
-    notify.error(data.message);
-  }
-
-  (function updateUserRating() {
-    buffer.session.rating({
-      token: options.token(),
-      onSuccess: function(result) {
-        if (result.status !== 'ok') {
-          return processError(result);
-        }
-        options.onUserRatingChanged(result.rating);
-      },
-      onFail: function(result) {
-        // Just ignore rating error, leave old rating as is
-        //notify.error("Can't connect to server.<br>Check your connection");
-      }
-    });
-  })();
-
   (function initGame() {
     function getBlunder(next) {
       buffer.blunder.get({
         token: options.token(),
         onSuccess: function(result) {
           if (result.status !== 'ok') {
-            return processError(result);
+            return options.processError(result);
           }
           var data = result.data;
 
@@ -49,7 +24,7 @@ board.init = function(options) {
             blunderId: data.id,
             onSuccess: function(result) {
               if (result.status !== 'ok') {
-                return processError(result);
+                return options.processError(result);
               }
               options.onInfoChanged(result.data);
             },
@@ -74,7 +49,7 @@ board.init = function(options) {
         spentTime: counter.total(),
         onSuccess: function(result) {
           if (result.status !== 'ok') {
-            processError(result);
+            options.processError(result);
           } else {
             options.onUserRatingChanged(result.data.elo);
           }
@@ -259,8 +234,6 @@ board.init = function(options) {
     board.nextBlunder = function() {
       getBlunder(startGame);
     };
-
-    new Chessboard('board', ChessUtils.FEN.emptyId);
 
     board.nextBlunder();
   })();

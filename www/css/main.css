@@ -1,3 +1,18 @@
+
+/* Font section */
+body,h2,button,.tab-title {
+  font-family: Artifica-Regular !important;
+}
+
+.nvd3 text, .nvd3 .title {
+  font: normal 12px Artifica-Regular !important;
+}
+
+.nvtooltip {
+  font-family: Artifica-Regular !important;
+}
+/* End of font section */
+
 .blue-background {
     background-color: #0f6bb4 !important;
 }
@@ -19,10 +34,6 @@ label, button {
 
 .slider {
     height: 100%;
-}
-
-.slider-slide {
-    text-align: center;
 }
 
 .button-white {

@@ -1,9 +1,9 @@
-app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+app.controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicSlideBoxDelegate) {
     if (token.exist()) {
       $state.go('training');
     }
 
-    $scope.authInProgress = false;
+    $scope.authInProgress = false;  //TODO: is needed????
 
     $scope.login = function(username, password) {
         if ($scope.isTriggered('loginLock')) return;
@@ -62,7 +62,12 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
 
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
         // No need to show rating when unlogining
-        $scope.setUserRating('-')
+        if (to.name === 'login') {
+          // cannot get to side menu by swapping left
+          $ionicSideMenuDelegate.canDragContent(false);
+
+          $scope.setUserRating('-')
+        }
     });
 
     $scope.goToSignup = function() {

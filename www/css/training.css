@@ -20,3 +20,7 @@
 .popup-container .popup {
   min-width: 90%;
 }
+
+.text-300p {
+  font-size: 300%;
+}

@@ -15,4 +15,4 @@
 	url = https://github.com/techfort/LokiJS.git
 [submodule "www/third-party/loki-cordova-fs-adapter"]
 	path = www/third-party/loki-cordova-fs-adapter
-	url = https://github.com/cosmith/loki-cordova-fs-adapter.git
+	url = https://github.com/jackalsh/loki-cordova-fs-adapter.git

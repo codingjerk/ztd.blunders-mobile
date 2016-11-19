@@ -15,9 +15,19 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
+/*
+ * Changing positive color to feet our blue gamma
+ * Run:"ionic setup sass" to rebuild ionic css
+ */
+$positive:                        #0f6bb4 !default;
+
+// Downloaded from https://www.fontsquirrel.com/fonts/artifika
+@font-face {
+  font-family: 'Artifica-Regular';
+  src: url('../fonts/artifika-regular/artifika-regular.ttf');
+}
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
-

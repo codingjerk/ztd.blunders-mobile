@@ -1,11 +1,4 @@
-app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicPopup, $timeout) {
-    $scope.token = function() {
-        //This function redirects to login page if token not exist
-        if(!token.exist())
-          $state.go('login');
-
-        return token.get()
-    }
+app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicPopup, $timeout) {
 
     function updateInfoView(info) {
         $timeout(function () {
@@ -264,10 +257,6 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             onInfoChanged: function(info) {
                 updateInfoView(info);
             },
-            onTokenRefused: function() {
-                console.log("Token refused") //TODO: check if fail!!!
-                $state.go('login');
-            },
             onAnimate: function(state) {
               $scope.triggerSemaphore({
                 networkBusy: state
@@ -282,25 +271,52 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSlideBoxDelegate, 
             popupPromotion: function() {
               return $scope.popupPromotion()
             },
+            processError: $scope.processError,
             token: $scope.token, // This function redirects to login page on fail so need controller state
         });
     };
 
+    /*
+     * Set up user rating when application starts
+     * This function is self and once called when application starts
+     * On fail we do not trigger an error, because this have negative
+     * effect on user expirience
+     */
+    $scope.updateUserRating = function() {
+      if(!token.exist())
+        return;
+
+      buffer.session.rating({
+        token: $scope.token(),
+        onSuccess: function(result) {
+          if (result.status !== 'ok') {
+            return $scope.processError(result);
+          }
+          $scope.setUserRating(result.rating);
+        },
+        onFail: function(result) {
+          // Just ignore rating error, leave old rating as is
+          //notify.error("Can't connect to server.<br>Check your connection");
+        }
+      });
+    }
+
+    var initStorage = function() {
+        lstorage.init({
+          token: $scope.token
+        })
+        lstorage.restart()
+    }
+
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
         if (to.name === 'training') {
+            // cannot get to side menu by swapping left
+            $ionicSideMenuDelegate.canDragContent(false);
+
+            initStorage()
+
+            $scope.updateUserRating()
             $scope.startGame();
         }
     });
-
-    $scope.$on('$ionicView.enter', function(){
-      //disable accessing side menu by dragging
-      $ionicSideMenuDelegate.canDragContent(false);
-    });
-    $scope.$on('$ionicView.leave', function(){
-        $ionicSideMenuDelegate.canDragContent(true);
-    });
-
-    window.onresize = function(event) {
-        $ionicSlideBoxDelegate.update();
-    };
 });

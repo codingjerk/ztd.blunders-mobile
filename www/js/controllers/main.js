@@ -11,6 +11,10 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
         $ionicSideMenuDelegate.toggleLeft(false);
     };
 
+    /*
+     * This code is common mechanism handles semaphore(lock) API
+     * for various uses in the application
+     */
     $scope.lockSemaphore = {
       networkBusy: 0,
       voteLock: 0,
@@ -56,5 +60,29 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
       return $scope.userRating
     }
 
+    /*
+     * Function returns current user token stored in local cache
+     * If for some reason this token is not available, user is being
+     * redirected to the login screen
+     */
+    $scope.token = function() {
+        //This function redirects to login page if token not exist
+        if(!token.exist())
+          $state.go('login');
 
+        return token.get()
+    }
+
+    /*
+     * This funtion handles case when some error has thrown
+     * Simpliest behaviour is to show an alert
+     */
+    $scope.processError = function(data) {
+      if (data.message === 'Invalid API token') {
+        $state.go('login');
+        return;
+      }
+
+      notify.error(data.message);
+    }
 });

@@ -4,8 +4,6 @@ var pack = {};
     module.options = null
 
     module.db = null;
-    module.packsCollection = null
-    module.unlockedCollection = null
     module.selectedPack = null
 
     module.packsDynamicView = null
@@ -20,7 +18,7 @@ var pack = {};
            * remove the blunder from local database later. But we want to reload
            * so game will move to other blunder quickly. So we need to remove it
            * manually */
-          module.packsCollection.removeWhere({pack_id:packId})
+          lstorage.packsCollection().removeWhere({pack_id:packId})
           if(module.selectedPack == packId)
             module.options.reloadGame()
 
@@ -69,7 +67,7 @@ var pack = {};
     }
 
     var getPackById = function(pack_id) {
-      packs = module.packsCollection.find({pack_id:pack_id})
+      packs = lstorage.packsCollection().find({pack_id:pack_id})
       if(packs == null)
         return null
 
@@ -98,8 +96,8 @@ var pack = {};
     }
 
     module.restart = function() {
-      var currentBlunder = utils.ensure(200, 5000, function() {
-        return module.options == undefined
+      utils.ensure(200, 5000, function() {
+        return module.options != undefined && lstorage.ready()
       }, function() {
         reloadDatabase()
       }, function(){
@@ -108,59 +106,32 @@ var pack = {};
     }
 
     var reloadDatabase = function() {
-      function saveHandler() {
-        console.log("saved");
+      // Prepare dynamic views
+      module.packsDynamicView = lstorage.packsCollection().addDynamicView('blunder_packs');
+      module.packsDynamicView.applyFind( { } )
+      // Sort in order to provide exactly the same behaviour on all devices
+      module.packsDynamicView.applySort( function(left, right) {
+        return left.pack_id.localeCompare(right.pack_id)
+      });
+
+      module.unlockedDynamicView = lstorage.unlockedCollection().addDynamicView('unlocked_packs');
+      module.unlockedDynamicView.applyFind( { } )
+
+
+      // Code, which blocks user input until blunder exist
+      if(lstorage.packsCollection().find({}).length == 0) {
+        module.options.onEmptyDatabase(true)
+        utils.ensure(200, 1000000/*infinite*/, function() {
+          return existCurrentBlunder()
+        }, function() {
+          module.options.onEmptyDatabase(false)
+        }, function(){
+          // Never reach here
+        })
       }
 
-      function loadHandler() {
-        // if database did not exist it will be empty so I will intitialize here
-        module.packsCollection = module.db.getCollection('blunders');
-        if (module.packsCollection === null) {
-          module.packsCollection = module.db.addCollection('blunders');
-        }
-        module.unlockedCollection = module.db.getCollection('unlocked');
-        if (module.unlockedCollection === null) {
-          module.unlockedCollection = module.db.addCollection('unlocked');
-        }
-
-        // Prepare dynamic views
-        module.packsDynamicView = module.packsCollection.addDynamicView('blunder_packs');
-        module.packsDynamicView.applyFind( { } )
-        // Sort in order to provide exactly the same behaviour on all devices
-        module.packsDynamicView.applySort( function(left, right) {
-          return left.pack_id.localeCompare(right.pack_id)
-        });
-
-        module.unlockedDynamicView = module.unlockedCollection.addDynamicView('unlocked_packs');
-        module.unlockedDynamicView.applyFind( { } )
-
-        module.options.onPacksChanged();
-        module.sync()
-      }
-
-      var idbAdapter = null
-      /*
-       * When using in browser, IndexedAdapter is great. Hovewer,
-         on Android device we have an issue when database initialises, load handler not called.
-         http://stackoverflow.com/questions/27735568/phonegap-web-sql-database-creation-error-no-such-table-cachegroups
-         For cordova, running on device, we use another adapter, as suggested here
-         http://gonehybrid.com/how-to-use-lokijs-for-local-storage-in-your-ionic-app/
-       */
-      if(window.cordova) // TODO:is this the best way to check this?
-        idbAdapter = new LokiCordovaFSAdapter({"prefix": "loki"});
-      else {
-        idbAdapter = new LokiIndexedAdapter({"prefix": "loki"});
-      }
-
-      module.db = new loki('blunders-user-' + module.options.token() + '.json',
-        {
-          autoload: true,
-          autoloadCallback : loadHandler,
-          autosave: true,
-          autosaveCallback: saveHandler,
-          autosaveInterval: 1000,
-          adapter: idbAdapter
-        });
+      module.options.onPacksChanged();
+      module.sync()
     }
 
     /**
@@ -168,9 +139,9 @@ var pack = {};
     */
     module.sync = function() {
         var parseUnlocked = function(unlocked) {
-          module.unlockedCollection.removeWhere(function(doc){return true;})
+          lstorage.unlockedCollection().removeWhere(function(doc){return true;})
           unlocked.forEach(function(unlocked_pack){
-            module.unlockedCollection.insert(unlocked_pack)
+            lstorage.unlockedCollection().insert(unlocked_pack)
             module.options.onPacksChanged()
           })
         }
@@ -184,12 +155,12 @@ var pack = {};
           }
 
           // Remove local packs, removed in remote
-          module.packsCollection.removeWhere(function(pack) {
+          lstorage.packsCollection().removeWhere(function(pack) {
             return (packs.indexOf(pack.pack_id) == -1);
           })
 
           var isAlreadyExist = function(packId) {
-            if(module.packsCollection.find({pack_id:packId}).length > 0)
+            if(lstorage.packsCollection().find({pack_id:packId}).length > 0)
               return true
             return false
           }
@@ -205,7 +176,7 @@ var pack = {};
               onSuccess: function(result) {
                   if(isAlreadyExist(packId)) // Long time has passed, need to recheck
                     return;
-                  module.packsCollection.insert(result.data)
+                  lstorage.packsCollection().insert(result.data)
                   module.options.onPacksChanged()
               },
               onFail: function(result) {
@@ -223,6 +194,8 @@ var pack = {};
             module.options.onPacksChanged()
           },
           onFail: function(result) {
+            // Run once more to after small delay
+            utils.delay(1000, module.sync)
             //notify.error("Can't connect to server.<br>Check your connection");
           }
         })
@@ -256,9 +229,9 @@ var pack = {};
     }
 
     var ensureSelectedBlunder = function(onSuccess, onFail) {
-      var currentBlunder = utils.ensure(200, 5000, function() {
+      utils.ensure(200, 5000, function() {
         module.selectAnyIfNot()
-        return !existCurrentBlunder() // What if pack empty - check!!!
+        return existCurrentBlunder() // What if pack empty - check!!!
       }, function() {
         onSuccess()
       }, function(){
@@ -279,6 +252,11 @@ var pack = {};
           status: 'error',
           message: 'Pack local storage engine error'
         })
+        /* This make same work as sync.repeat.
+         * We must repeat querying for blunder because otherwise application
+         * will be in inconsistent state
+         */
+        module.getCurrentBlunder(args)
       })
     }
 
@@ -295,6 +273,11 @@ var pack = {};
           status: 'error',
           message: 'Pack local storage engine error'
         })
+        /* This make same work as sync.repeat.
+         * We must repeat querying for blunder because otherwise application
+         * will be in inconsistent state
+         */
+        module.getCurrentBlunderInfo(args)
       })
     }
 
@@ -304,7 +287,7 @@ var pack = {};
      */
     var updateInfoViewLocalOnSuccess = function(args) {
       utils.injectOnSuccess(args, function(result){
-        module.packsCollection.chain().update(function(pack) { //TODO: slow solution?
+        lstorage.packsCollection().chain().update(function(pack) { //TODO: slow solution?
           //We don't use map to make selective edit
           var updateOnNeed = function(blunder) {
             if(blunder.get.id != args.blunderId)
@@ -322,7 +305,7 @@ var pack = {};
         if(result.status == 'ok') return;
           // Some error in pack consistency.
           // Remove it from local and reload
-          module.packsCollection.removeWhere({pack_id:module.selectedPack})
+          lstorage.packsCollection().removeWhere({pack_id:module.selectedPack})
           module.sync()
       })
     }
@@ -333,7 +316,7 @@ var pack = {};
 
         // Remove validated blunder from pack
         var removeCurrentBlunderFromPack = function() {
-          module.packsCollection.chain().find({'pack_id':module.selectedPack}).update(function(pack) {
+          lstorage.packsCollection().chain().find({'pack_id':module.selectedPack}).update(function(pack) {
             var blunderMatch = function(blunder) {
               return blunder.get.id != args.blunderId;
             }
@@ -353,11 +336,11 @@ var pack = {};
           /* Need to sync only if any packs got empty.
              Sync is needed to update unlock list which might be empty
              LokiJS don't support count so we make some hacking */
-          var emptyPacks = module.packsCollection.chain().where(isPackEmpty).data()
+          var emptyPacks = lstorage.packsCollection().chain().where(isPackEmpty).data()
           if(emptyPacks.length == 0) //TODO: optimize?
             return
 
-          module.packsCollection.removeWhere(isPackEmpty)
+          lstorage.packsCollection().removeWhere(isPackEmpty)
           module.sync()
         }
 

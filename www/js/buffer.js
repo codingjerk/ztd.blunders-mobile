@@ -42,7 +42,41 @@ var direct = {};
         api.blunder.signup(args)
       }
     };
+    module.user = {
+      ratingByDate: function(args) {
+        api.user.ratingByDate(args)
+      },
+      blundersByDate: function(args) {
+        api.user.blundersByDate(args)
+      },
+      blundersCount: function(args) {
+        api.user.blundersCount(args)
+      }
+    }
 })(direct)
+
+var cache = function(tag, callback, args, minutes) {
+  cached = lstorage.cacheCollection().where(function(el) {
+    console.log((new Date() - new Date(el['date']))/1000/60)
+    if(el['tag'] != tag) return false;
+    if((new Date() - new Date(el['date']))/1000/60 > minutes) return false // minutes
+    return true;
+  })
+
+  if(cached.length > 0) { // is good to use
+    result = cached[0]['result']
+    args.onSuccess(result)
+    //console.log('exist')
+  }
+  else {
+    lstorage.cacheCollection().removeWhere({'tag':tag})
+    utils.injectOnSuccess(args, function(result){
+      lstorage.cacheCollection().insert({'tag':tag, 'result': result, 'date':new Date()})
+    })
+    callback(args)
+    //console.log('not exist')
+  }
+}
 
 var buffer = {};
 
@@ -81,4 +115,15 @@ var buffer = {};
         api.session.signup(args)
       }
     };
+    module.user = {
+      ratingByDate: function(args) {
+        cache('ratingByDate',api.user.ratingByDate, args, 10)
+      },
+      blundersByDate: function(args) {
+        cache('blundersByDate',api.user.blundersByDate, args, 10)
+      },
+      blundersCount: function(args) {
+        cache('blundersCount',api.user.blundersCount, args, 10)
+      }
+    }
 })(buffer)

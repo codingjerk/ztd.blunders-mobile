@@ -1,4 +1,4 @@
-var app = angular.module('Ztd.Blunders Mobile', ['ionic']);
+var app = angular.module('Ztd.Blunders Mobile', ['ionic','nvd3']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider.state('login', {
@@ -23,6 +23,8 @@ app.run(function($ionicPlatform, $ionicPopup, $state) {
         }, function() {
             notify.error("Can't keep screen on, please dont be upset.");
         });
+        //Hide Splash screen
+        navigator.splashscreen.hide();
     }, false);
 
     if(token.exist()) {

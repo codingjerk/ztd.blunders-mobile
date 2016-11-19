@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="io.ztd.blunders" version="1.5.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.ztd.blunders" version="1.6.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Ztd.Blunders</name>
   <description>
       Mobile client for Chess Blunders service (www.chessblunders.org)
@@ -9,16 +9,16 @@
   </author>
   <content src="index.html"/>
   <access origin="*"/>
-
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
-  <preference name="StatusBarBackgroundColor" value="#0f6bb4" />
-  <preference name="SplashScreen" value="none"/>
-  <preference name="orientation" value="portrait" />
-
+  <preference name="StatusBarBackgroundColor" value="#0f6bb4"/>
+  <preference name="orientation" value="portrait"/>
+  <preference name="SplashScreen" value="screen"/>
+  <preference name="AutoHideSplashScreen" value="false"/>
+  <preference name="SplashScreenDelay" value="3000"/>
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
@@ -29,5 +29,11 @@
     <icon src="resources/android/icon/icon-96-xhdpi.png" density="xhdpi"/>
     <icon src="resources/android/icon/icon-144-xxhdpi.png" density="xxhdpi"/>
     <icon src="resources/android/icon/icon-192-xxxhdpi.png" density="xxxhdpi"/>
+    <splash src="resources/android/splash/drawable-port-ldpi-screen.png" density="port-ldpi"/>
+    <splash src="resources/android/splash/drawable-port-mdpi-screen.png" density="port-mdpi"/>
+    <splash src="resources/android/splash/drawable-port-hdpi-screen.png" density="port-hdpi"/>
+    <splash src="resources/android/splash/drawable-port-xhdpi-screen.png" density="port-xhdpi"/>
+    <splash src="resources/android/splash/drawable-port-xxhdpi-screen.png" density="port-xxhdpi"/>
+    <splash src="resources/android/splash/drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi"/>
   </platform>
 </widget>
