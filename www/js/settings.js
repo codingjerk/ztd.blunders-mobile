@@ -9,12 +9,21 @@ var settings = {
 
     url: function(command) {
         return '{0}://{1}/{2}/{3}'.format(settings.server.protocol, settings.server.hostname, settings.server.pathToApi, command);
-    }
+    },
 
     timeout: {
-      step: 200,        // Used as timeout step waiting for some event
-      short: 5000,      // Ordinary wait
-      long: 60000,      // Long wait for some slow event
-      inginite: 1000000 // Very very long time, relativelly longer, then universe life time :)
+      client: { // in seconds
+        step: 200,    // Used as timeout step waiting for some event
+        short: 1000,
+        normal: 5000
+      },
+      ajax: {  // in seconds
+        normal: 5000, // Normal Ajax requests.
+        long: 30000
+      },
+      cache: { // in minutes
+        normal: 10
+      },
+      infinite: 1000000 // Very very long time, relativelly longer, then universe life time :)
     }
 };

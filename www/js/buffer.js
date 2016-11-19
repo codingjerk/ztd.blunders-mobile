@@ -116,13 +116,13 @@ var buffer = {};
     };
     module.user = {
       ratingByDate: function(args) {
-        cache('ratingByDate',api.user.ratingByDate, args, 10)
+        cache('ratingByDate',api.user.ratingByDate, args, settings.timeout.cache.normal)
       },
       blundersByDate: function(args) {
-        cache('blundersByDate',api.user.blundersByDate, args, 10)
+        cache('blundersByDate',api.user.blundersByDate, args, settings.timeout.cache.normal)
       },
       blundersCount: function(args) {
-        cache('blundersCount',api.user.blundersCount, args, 10)
+        cache('blundersCount',api.user.blundersCount, args, settings.timeout.cache.normal)
       }
     }
 })(buffer)

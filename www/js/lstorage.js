@@ -34,7 +34,7 @@ var lstorage = {};
     }
 
     module.restart = function() {
-      utils.ensure(200, 5000, function() {
+      utils.ensure(settings.timeout.client.step, settings.timeout.client.normal, function() {
         return module.options != undefined
       }, function() {
         reloadDatabase()
@@ -88,7 +88,7 @@ var lstorage = {};
           autoloadCallback : loadHandler,
           autosave: true,
           autosaveCallback: saveHandler,
-          autosaveInterval: 1000,
+          autosaveInterval: settings.timeout.client.short,
           adapter: idbAdapter
         });
     }

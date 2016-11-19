@@ -98,7 +98,7 @@ var pack = {};
     }
 
     module.restart = function() {
-      utils.ensure(200, 5000, function() {
+      utils.ensure(settings.timeout.client.step, settings.timeout.client.normal, function() {
         return module.options != undefined && lstorage.ready()
       }, function() {
         reloadDatabase()
@@ -123,7 +123,7 @@ var pack = {};
       // Code, which blocks user input until blunder exist
       if(lstorage.packsCollection().find({}).length == 0) {
         module.options.onEmptyDatabase(true)
-        utils.ensure(200, 1000000/*infinite*/, function() {
+        utils.ensure(settings.timeout.client.step, settings.timeout.client.infinite, function() {
           return existCurrentBlunder()
         }, function() {
           module.options.onEmptyDatabase(false)
@@ -197,7 +197,7 @@ var pack = {};
           },
           onFail: function(result) {
             // Run once more to after small delay
-            utils.delay(1000, module.sync)
+            utils.delay(settings.timeout.client.short, module.sync)
             //notify.error("Can't connect to server.<br>Check your connection");
           }
         })
@@ -231,7 +231,7 @@ var pack = {};
     }
 
     var ensureSelectedBlunder = function(onSuccess, onFail) {
-      utils.ensure(200, 5000, function() {
+      utils.ensure(settings.timeout.client.step, settings.timeout.client.normal, function() {
         module.selectAnyIfNot()
         return existCurrentBlunder() // What if pack empty - check!!!
       }, function() {
