@@ -56,7 +56,7 @@ var direct = {};
 })(direct)
 
 var cache = function(tag, callback, args, minutes) {
-  cached = storage.cacheCollection().where(function(el) {
+  cached = lstorage.cacheCollection().where(function(el) {
     console.log((new Date() - new Date(el['date']))/1000/60)
     if(el['tag'] != tag) return false;
     if((new Date() - new Date(el['date']))/1000/60 > minutes) return false // minutes
@@ -66,15 +66,15 @@ var cache = function(tag, callback, args, minutes) {
   if(cached.length > 0) { // is good to use
     result = cached[0]['result']
     args.onSuccess(result)
-    console.log('exist')
+    //console.log('exist')
   }
   else {
-    storage.cacheCollection().removeWhere({'tag':tag})
+    lstorage.cacheCollection().removeWhere({'tag':tag})
     utils.injectOnSuccess(args, function(result){
-      storage.cacheCollection().insert({'tag':tag, 'result': result, 'date':new Date()})
+      lstorage.cacheCollection().insert({'tag':tag, 'result': result, 'date':new Date()})
     })
     callback(args)
-    console.log('not exist')
+    //console.log('not exist')
   }
 }
 
@@ -115,15 +115,15 @@ var buffer = {};
         api.session.signup(args)
       }
     };
-    module.user = { //TODO: Some application side caching?
+    module.user = {
       ratingByDate: function(args) {
-        cache('ratingByDate',api.user.ratingByDate, args, 1)
+        cache('ratingByDate',api.user.ratingByDate, args, 10)
       },
       blundersByDate: function(args) {
-        cache('blundersByDate',api.user.blundersByDate, args, 1)
+        cache('blundersByDate',api.user.blundersByDate, args, 10)
       },
       blundersCount: function(args) {
-        cache('blundersCount',api.user.blundersCount, args, 1)
+        cache('blundersCount',api.user.blundersCount, args, 10)
       }
     }
 })(buffer)

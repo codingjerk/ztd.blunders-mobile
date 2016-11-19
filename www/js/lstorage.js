@@ -1,4 +1,4 @@
-var storage = {};
+var lstorage = {};
 
 (function(module) {
     module.db = null;
@@ -91,4 +91,4 @@ var storage = {};
         });
     }
 
-})(storage)
+})(lstorage)

@@ -302,10 +302,10 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
     }
 
     var initStorage = function() {
-        storage.init({
+        lstorage.init({
           token: $scope.token
         })
-        storage.restart()
+        lstorage.restart()
     }
 
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
