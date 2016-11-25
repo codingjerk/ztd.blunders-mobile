@@ -103,8 +103,6 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
         })
       }
     })
-
-    pack.restart()
   };
 
   /* Here is the entrypoint to all the application.
@@ -121,8 +119,7 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
 
     lstorage.init({
       token: $scope.token
-    })
-    lstorage.restart(function(){
+    },function(){
       $scope.startPacks();
       $scope.startGame()
     })

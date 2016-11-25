@@ -24,22 +24,12 @@ var lstorage = {};
       return module._cacheCollection
     }
 
-    module.init = function(options) {
+    module.init = function(options, callback) {
         module.options = options
-    }
-
-    module.restart = function(callback) {
-      utils.ensure(settings.timeout.client.step, settings.timeout.client.normal, function() {
-        return module.options != undefined
-      }, function() {
         reloadDatabase(callback)
-      }, function(){
-        notify.error('Storage engine: local storage error')
-      })
     }
 
     var reloadDatabase = function(callback) {
-
       var idbAdapter = null
       /*
        * When using in browser, IndexedAdapter is great. Hovewer,

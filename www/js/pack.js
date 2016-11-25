@@ -95,16 +95,7 @@ var pack = {};
 
     module.init = function(options) {
         module.options = options
-    }
-
-    module.restart = function() {
-      utils.ensure(settings.timeout.client.step, settings.timeout.client.normal, function() {
-        return module.options != undefined
-      }, function() {
         reloadDatabase()
-      }, function(){
-        notify.error('Pack engine: local storage error')
-      })
     }
 
     var reloadDatabase = function() {
