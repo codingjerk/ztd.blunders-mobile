@@ -8,7 +8,12 @@ var settings = {
     },
 
     url: function(command) {
-        return '{0}://{1}/{2}/{3}'.format(settings.server.protocol, settings.server.hostname, settings.server.pathToApi, command);
+        return '{0}://{1}/{2}/{3}'.format(
+          settings.server.protocol,
+          settings.server.hostname,
+          settings.server.pathToApi,
+          command
+        );
     },
 
     timeout: {
@@ -19,7 +24,7 @@ var settings = {
       },
       ajax: {  // in seconds
         normal: 5000, // Normal Ajax requests.
-        long: 30000
+        long: 30000   // Long Ajax requests, heavy calculations on server side.
       },
       cache: { // in minutes
         normal: 10

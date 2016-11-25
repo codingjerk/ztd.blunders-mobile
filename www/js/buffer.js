@@ -65,7 +65,6 @@ var cache = function(tag, callback, args, minutes) {
   if(cached.length > 0) { // is good to use
     var result = cached[0]['result']
     args.onSuccess(result)
-    //console.log('exist')
   }
   else {
     lstorage.cacheCollection().removeWhere({'tag':tag})
@@ -73,7 +72,6 @@ var cache = function(tag, callback, args, minutes) {
       lstorage.cacheCollection().insert({'tag':tag, 'result': result, 'date':new Date()})
     })
     callback(args)
-    //console.log('not exist')
   }
 }
 

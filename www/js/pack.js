@@ -110,7 +110,6 @@ var pack = {};
       module.unlockedDynamicView = lstorage.unlockedCollection().addDynamicView('unlocked_packs');
       module.unlockedDynamicView.applyFind( { } )
 
-
       // Code, which blocks user input until blunder exist
       if(lstorage.packsCollection().find({}).length == 0) {
         module.options.onEmptyDatabase(true)
