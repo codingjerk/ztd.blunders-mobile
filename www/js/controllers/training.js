@@ -304,22 +304,12 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
       });
     }
 
-    var initLokiStorage = function() {
-        lstorage.init({
-          token: $scope.token
-        })
-        lstorage.restart()
-    }
-
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
         if (to.name === 'training') {
             // cannot get to side menu by swapping left
             $ionicSideMenuDelegate.canDragContent(false);
 
-            initLokiStorage()
-
             $scope.updateUserRating()
-            $scope.startGame();
         }
     });
 });

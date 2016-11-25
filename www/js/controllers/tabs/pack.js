@@ -67,7 +67,7 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
      If we will use stateChangeSuccess to trigger this, database will failed to
      in the case user starts the application with token existing
    */
-  $ionicPlatform.ready(function() {
+  $scope.startPacks = function() {
     if (!token.exist()) // TODO: may be redirect to login?
       return
 
@@ -103,13 +103,29 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
         })
       }
     })
-  });
 
-  $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
+    pack.restart()
+  };
+
+  /* Here is the entrypoint to all the application.
+   * There is huge difference between running in browser and
+   * mobile device, because we use different lokijs storage engine.
+   * We need to wait for ionic platform readyness to initialize
+   * loki storage, otherwise it will simply fail.
+   * After this we call for pack driver, which use lokijs as dependence.
+   * ionic readiness -> pack driver -> application controllers
+   */
+  $ionicPlatform.ready(function() {
     if (!token.exist())
       return
 
-    pack.restart()
+    lstorage.init({
+      token: $scope.token
+    })
+    lstorage.restart(function(){
+      $scope.startPacks();
+      $scope.startGame()
+    })
   })
 
 });

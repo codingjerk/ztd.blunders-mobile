@@ -11,7 +11,6 @@ var lstorage = {};
     module._cacheCollection = null
 
     module.options = null
-    module.readyFlag = false
 
     module.packsCollection = function() {
       return module._packsCollection
@@ -25,26 +24,21 @@ var lstorage = {};
       return module._cacheCollection
     }
 
-    module.ready = function() {
-      return module.readyFlag == true;
-    }
-
     module.init = function(options) {
         module.options = options
     }
 
-    module.restart = function() {
+    module.restart = function(callback) {
       utils.ensure(settings.timeout.client.step, settings.timeout.client.normal, function() {
         return module.options != undefined
       }, function() {
-        reloadDatabase()
+        reloadDatabase(callback)
       }, function(){
         notify.error('Storage engine: local storage error')
       })
     }
 
-    var reloadDatabase = function() {
-      module.readyFlag = false;
+    var reloadDatabase = function(callback) {
 
       var idbAdapter = null
       /*
@@ -75,7 +69,7 @@ var lstorage = {};
           module._cacheCollection = module.db.addCollection('cache');
         }
 
-        module.readyFlag = true
+        callback()
       }
 
       var saveHandler = function() {

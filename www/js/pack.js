@@ -99,7 +99,7 @@ var pack = {};
 
     module.restart = function() {
       utils.ensure(settings.timeout.client.step, settings.timeout.client.normal, function() {
-        return module.options != undefined && lstorage.ready()
+        return module.options != undefined
       }, function() {
         reloadDatabase()
       }, function(){
