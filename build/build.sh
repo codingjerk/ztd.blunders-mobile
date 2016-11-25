@@ -23,15 +23,15 @@ cordova platform add android
 # Different splash screens generated authomatically based on resources/android/screen.png image
 # according to orientation and resolutions specified and config.xml
 # https://github.com/apache/cordova-plugin-splashscreen
-cordova plugin add cordova-plugin-splashscreen
+cordova plugin add cordova-plugin-splashscreen --save
 ionic resources --splash
 
 # Enabling FS adapter for LokiJS
 # If not installed well, will not show permission for Local storage during installation
 bower install lokijs --save
-cordova plugin add cordova-plugin-file
+cordova plugin add cordova-plugin-file --save
 ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git
-cordova plugin add https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git
+cordova plugin add https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git --save
 bower install angular-nvd3 --save
 
 cordova prepare

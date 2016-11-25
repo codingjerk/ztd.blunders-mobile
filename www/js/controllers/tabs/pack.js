@@ -49,16 +49,22 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
    * It can confuse new user when he starts the application for the first time
    * without internet connection.
    */
-  $scope.showNoPacksPopup = function() {
-    // Setup the loader
-    $ionicLoading.show({
-      template: '<p>Downloading puzzles from central server...</p><p>Make sure you connected to internet.</p><div class="ion-load-c ion-spin-animation text-300p"></div>',
-      content: 'Loading',
-      animation: 'fade-in',
-      showBackdrop: true,
-      maxWidth: 200,
-      showDelay: 0
-    });
+  $scope.showNoPacksPopup = function(state) {
+    if(state) {
+      $ionicLoading.show({
+        template: '<p>Downloading puzzles from central server...</p><p>Make sure you connected to internet.</p><div class="ion-load-c ion-spin-animation text-300p"></div>',
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+      });
+    }
+    else {
+      $timeout(function () {
+        $ionicLoading.hide();
+      })
+    }
   }
 
   /* We must ensure cordova is properly loaded and then lunch this code,
@@ -87,14 +93,7 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
         $scope.startGame()
       },
       onEmptyDatabase: function(state) {
-        if(state) {
-          $scope.showNoPacksPopup()
-        }
-        else {
-          $timeout(function () {
-            $ionicLoading.hide();
-          })
-        }
+        $scope.showNoPacksPopup(state)
       },
       onAnimate: function(state) {
         $scope.triggerSemaphore({
