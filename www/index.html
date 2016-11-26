@@ -172,7 +172,7 @@
             <ion-view class="white-background">
                 <ion-content>
                     <ion-list type="card" class="text-center">
-                      <ion-item class="item item-divider">My Packs</ion-item>
+                      <ion-item class="item item-divider" ng-show="packBlundersInfo.length > 0">My Packs</ion-item>
                       <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo track by $index" ng-click="selectPack(pack.pack_id)">
                         <button ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="button button-icon icon ion-backspace-outline"></button>
                         <h2>{{pack.description}}</h2>
