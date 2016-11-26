@@ -172,14 +172,14 @@
             <ion-view class="white-background">
                 <ion-content>
                     <ion-list type="card" class="text-center">
-                      <ion-item class="item item-divider">My Packs</ion-item>
+                      <ion-item class="item item-divider" ng-show="packBlundersInfo.length > 0">My Packs</ion-item>
                       <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo track by $index" ng-click="selectPack(pack.pack_id)">
                         <button ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="button button-icon icon ion-backspace-outline"></button>
                         <h2>{{pack.description}}</h2>
                         <p>{{pack.blunders.length}} left</p>
                         <i ng-hide="!isSelectedPack(pack.pack_id)" class="icon ion-ios-checkmark" ></i>
                       </ion-item>
-                      <ion-item class="item item-divider">Unlocked packs</ion-item>
+                      <ion-item class="item item-divider" ng-show="unlockedInfo.length > 0">Unlocked packs</ion-item>
                       <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo track by $index" ng-click="unlockPack(pack)">
                         <i class="icon ion-ios-plus" ></i>
                         <h2>{{pack.description}}</h2>
@@ -328,7 +328,7 @@
                   </content>
               </ion-view>
           </ion-tab>
-          <ion-tab title="Statistic" icon-on="ion-archive" icon-off="ion-archive" on-select="reloadStatisticTab()" ng-controller="StatisticTabCtrl">
+          <ion-tab title="Statistic" icon-on="ion-stats-bars" icon-off="ion-stats-bars" on-select="reloadStatisticTab()" ng-controller="StatisticTabCtrl">
             <ion-view class="white-background">
                 <ion-content>
                   <div class="card text-center">

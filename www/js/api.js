@@ -1,3 +1,5 @@
+"use strict";
+
 var api = {};
 
 (function(module) {
@@ -12,7 +14,8 @@ var api = {};
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
-        onAnimate: args.onAnimate
+        onAnimate: args.onAnimate,
+        timeout: settings.timeout.ajax.normal
       });
     },
     info: function(args) {
@@ -25,7 +28,8 @@ var api = {};
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,
-          onAnimate: args.onAnimate
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.normal
       });
     },
     validate: function(args) {
@@ -41,7 +45,8 @@ var api = {};
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,
-          onAnimate: args.onAnimate
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.normal
       });
     },
     vote: function(args) {
@@ -55,7 +60,8 @@ var api = {};
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,
-          onAnimate: args.onAnimate
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.normal
       });
     },
     favorite: function(args) {
@@ -68,7 +74,8 @@ var api = {};
           },
           onSuccess: args.onSuccess,
           onFail:   args.onFail,
-          onAnimate: args.onAnimate
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.normal
       });
     },
     analyze: function(args){
@@ -82,7 +89,8 @@ var api = {};
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
-        onAnimate: args.onAnimate
+        onAnimate: args.onAnimate,
+        timeout: settings.timeout.ajax.long
       })
     }
   };
@@ -99,7 +107,8 @@ var api = {};
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
-        onAnimate: args.onAnimate
+        onAnimate: args.onAnimate,
+        timeout: settings.timeout.ajax.normal
       })
     }
   };
@@ -113,7 +122,8 @@ var api = {};
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
-        onAnimate: args.onAnimate
+        onAnimate: args.onAnimate,
+        timeout: settings.timeout.ajax.normal
       });
     },
     login: function(args) {
@@ -126,7 +136,8 @@ var api = {};
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,
-          onAnimate: args.onAnimate
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.normal
       });
     },
     signup: function(args) {
@@ -140,7 +151,8 @@ var api = {};
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,
-          onAnimate: args.onAnimate
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.normal
       });
     }
   };
@@ -154,7 +166,8 @@ var api = {};
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,
-          onAnimate: args.onAnimate
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.normal
       });
     },
     get: function(args) {
@@ -167,7 +180,8 @@ var api = {};
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,
-          onAnimate: args.onAnimate
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.long
       });
     },
     new: function(args){
@@ -181,7 +195,8 @@ var api = {};
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,
-          onAnimate: args.onAnimate
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.long
       });
     },
     remove: function(args){
@@ -194,7 +209,8 @@ var api = {};
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
-        onAnimate: args.onAnimate
+        onAnimate: args.onAnimate,
+        timeout: settings.timeout.ajax.normal
       })
     }
   }
@@ -209,7 +225,8 @@ var api = {};
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
-        onAnimate: args.onAnimate
+        onAnimate: args.onAnimate,
+        timeout: settings.timeout.ajax.normal
       })
     },
     blundersByDate: function(args){
@@ -222,7 +239,8 @@ var api = {};
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
-        onAnimate: args.onAnimate
+        onAnimate: args.onAnimate,
+        timeout: settings.timeout.ajax.normal
       })
     },
     blundersCount: function(args){
@@ -234,7 +252,8 @@ var api = {};
         },
         onSuccess: args.onSuccess,
         onFail: args.onFail,
-        onAnimate: args.onAnimate
+        onAnimate: args.onAnimate,
+        timeout: settings.timeout.ajax.normal
       })
     }
   }

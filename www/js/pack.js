@@ -1,3 +1,5 @@
+"use strict";
+
 var pack = {};
 
 (function(module) {
@@ -34,7 +36,7 @@ var pack = {};
     }
 
     module.unlock = function(meta) {
-      args = {
+      var args = {
         token: module.options.token(),
         typeName: meta.typeName,
         args: meta.args,
@@ -67,7 +69,7 @@ var pack = {};
     }
 
     var getPackById = function(pack_id) {
-      packs = lstorage.packsCollection().find({pack_id:pack_id})
+      var packs = lstorage.packsCollection().find({pack_id:pack_id})
       if(packs == null)
         return null
 
@@ -93,16 +95,7 @@ var pack = {};
 
     module.init = function(options) {
         module.options = options
-    }
-
-    module.restart = function() {
-      utils.ensure(200, 5000, function() {
-        return module.options != undefined && lstorage.ready()
-      }, function() {
         reloadDatabase()
-      }, function(){
-        notify.error('Pack engine: local storage error')
-      })
     }
 
     var reloadDatabase = function() {
@@ -117,11 +110,10 @@ var pack = {};
       module.unlockedDynamicView = lstorage.unlockedCollection().addDynamicView('unlocked_packs');
       module.unlockedDynamicView.applyFind( { } )
 
-
       // Code, which blocks user input until blunder exist
       if(lstorage.packsCollection().find({}).length == 0) {
         module.options.onEmptyDatabase(true)
-        utils.ensure(200, 1000000/*infinite*/, function() {
+        utils.ensure(settings.timeout.client.step, settings.timeout.client.infinite, function() {
           return existCurrentBlunder()
         }, function() {
           module.options.onEmptyDatabase(false)
@@ -195,7 +187,7 @@ var pack = {};
           },
           onFail: function(result) {
             // Run once more to after small delay
-            utils.delay(1000, module.sync)
+            utils.delay(settings.timeout.client.short, module.sync)
             //notify.error("Can't connect to server.<br>Check your connection");
           }
         })
@@ -205,7 +197,7 @@ var pack = {};
       if(module.selectedPack != null && getPackById(module.selectedPack) != null)
         return;
 
-      packs = module.packBlundersInfo();
+      var packs = module.packBlundersInfo();
       if(packs.length == 0)
         return;
       module.selectedPack = packs[0]['pack_id']
@@ -229,7 +221,7 @@ var pack = {};
     }
 
     var ensureSelectedBlunder = function(onSuccess, onFail) {
-      utils.ensure(200, 5000, function() {
+      utils.ensure(settings.timeout.client.step, settings.timeout.client.normal, function() {
         module.selectAnyIfNot()
         return existCurrentBlunder() // What if pack empty - check!!!
       }, function() {
@@ -241,8 +233,8 @@ var pack = {};
 
     module.getCurrentBlunder = function(args) {
       ensureSelectedBlunder(function() {
-        selectedPack = getPackById(module.selectedPack)
-        currentBlunder = selectedPack.blunders[0].get;
+        var selectedPack = getPackById(module.selectedPack)
+        var currentBlunder = selectedPack.blunders[0].get;
         args.onSuccess({
           status:'ok',
           data: currentBlunder
@@ -262,8 +254,8 @@ var pack = {};
 
     module.getCurrentBlunderInfo = function(args) {
       ensureSelectedBlunder(function() {
-        selectedPack = getPackById(module.selectedPack)
-        currentBlunder = selectedPack.blunders[0].info;
+        var selectedPack = getPackById(module.selectedPack)
+        var currentBlunder = selectedPack.blunders[0].info;
         args.onSuccess({
           status:'ok',
           data: currentBlunder

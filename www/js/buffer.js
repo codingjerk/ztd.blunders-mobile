@@ -1,8 +1,8 @@
+"use strict";
 /*
   The idea is, that direct and pack modules provides completely the same
   functionality from perspective of board module and just can be replaced
 */
-
 
 var direct = {};
 
@@ -56,17 +56,15 @@ var direct = {};
 })(direct)
 
 var cache = function(tag, callback, args, minutes) {
-  cached = lstorage.cacheCollection().where(function(el) {
-    console.log((new Date() - new Date(el['date']))/1000/60)
+  var cached = lstorage.cacheCollection().where(function(el) {
     if(el['tag'] != tag) return false;
     if((new Date() - new Date(el['date']))/1000/60 > minutes) return false // minutes
     return true;
   })
 
   if(cached.length > 0) { // is good to use
-    result = cached[0]['result']
+    var result = cached[0]['result']
     args.onSuccess(result)
-    //console.log('exist')
   }
   else {
     lstorage.cacheCollection().removeWhere({'tag':tag})
@@ -74,7 +72,6 @@ var cache = function(tag, callback, args, minutes) {
       lstorage.cacheCollection().insert({'tag':tag, 'result': result, 'date':new Date()})
     })
     callback(args)
-    //console.log('not exist')
   }
 }
 
@@ -117,13 +114,13 @@ var buffer = {};
     };
     module.user = {
       ratingByDate: function(args) {
-        cache('ratingByDate',api.user.ratingByDate, args, 10)
+        cache('ratingByDate',api.user.ratingByDate, args, settings.timeout.cache.normal)
       },
       blundersByDate: function(args) {
-        cache('blundersByDate',api.user.blundersByDate, args, 10)
+        cache('blundersByDate',api.user.blundersByDate, args, settings.timeout.cache.normal)
       },
       blundersCount: function(args) {
-        cache('blundersCount',api.user.blundersCount, args, 10)
+        cache('blundersCount',api.user.blundersCount, args, settings.timeout.cache.normal)
       }
     }
 })(buffer)

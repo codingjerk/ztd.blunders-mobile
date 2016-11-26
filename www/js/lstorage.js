@@ -1,3 +1,5 @@
+"use strict";
+
 var lstorage = {};
 
 (function(module) {
@@ -9,7 +11,6 @@ var lstorage = {};
     module._cacheCollection = null
 
     module.options = null
-    module.readyFlag = false
 
     module.packsCollection = function() {
       return module._packsCollection
@@ -23,27 +24,12 @@ var lstorage = {};
       return module._cacheCollection
     }
 
-    module.ready = function() {
-      return module.readyFlag == true;
-    }
-
-    module.init = function(options) {
+    module.init = function(options, callback) {
         module.options = options
+        reloadDatabase(callback)
     }
 
-    module.restart = function() {
-      utils.ensure(200, 5000, function() {
-        return module.options != undefined
-      }, function() {
-        reloadDatabase()
-      }, function(){
-        notify.error('Storage engine: local storage error')
-      })
-    }
-
-    var reloadDatabase = function() {
-      module.readyFlag = false;
-
+    var reloadDatabase = function(callback) {
       var idbAdapter = null
       /*
        * When using in browser, IndexedAdapter is great. Hovewer,
@@ -73,7 +59,7 @@ var lstorage = {};
           module._cacheCollection = module.db.addCollection('cache');
         }
 
-        module.readyFlag = true
+        callback()
       }
 
       var saveHandler = function() {
@@ -86,7 +72,7 @@ var lstorage = {};
           autoloadCallback : loadHandler,
           autosave: true,
           autosaveCallback: saveHandler,
-          autosaveInterval: 1000,
+          autosaveInterval: settings.timeout.client.short,
           adapter: idbAdapter
         });
     }

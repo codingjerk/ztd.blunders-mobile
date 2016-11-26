@@ -1,3 +1,5 @@
+"use strict";
+
 app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $timeout) {
     $scope.toggleMenu = function() {
         if (!token.exist()) return;

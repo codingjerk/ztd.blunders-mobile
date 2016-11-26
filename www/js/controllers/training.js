@@ -1,3 +1,5 @@
+"use strict";
+
 app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicPopup, $timeout) {
 
     function updateInfoView(info) {
@@ -10,7 +12,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
         if (!$scope.blunderId) return;
         if ($scope.isTriggered('voteLock')) return;
 
-        blunderId = $scope.blunderId
+        var blunderId = $scope.blunderId
 
         buffer.blunder.vote({
             token: $scope.token(),
@@ -43,7 +45,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
         if (!$scope.blunderId) return;
         if ($scope.isTriggered('favoriteLock')) return;
 
-        blunderId = $scope.blunderId
+        var blunderId = $scope.blunderId
 
         buffer.blunder.favorite({
             token: $scope.token(),
@@ -75,7 +77,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
       if (!$scope.blunderId) return;
       if ($scope.isTriggered('commentLock')) return;
 
-      blunderId = $scope.blunderId
+      var blunderId = $scope.blunderId
 
       $scope.commentData = {};
 
@@ -137,7 +139,8 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
     $scope.successRate = function(info) {
         var result = 0;
 
-        if (info && info.totalTries) result = 100*(info.successTries / info.totalTries);
+        if (info && info.totalTries)
+            result = 100*(info.successTries / info.totalTries);
 
         return result.toFixed(0);
     }
@@ -301,22 +304,12 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
       });
     }
 
-    var initStorage = function() {
-        lstorage.init({
-          token: $scope.token
-        })
-        lstorage.restart()
-    }
-
     $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
         if (to.name === 'training') {
             // cannot get to side menu by swapping left
             $ionicSideMenuDelegate.canDragContent(false);
 
-            initStorage()
-
             $scope.updateUserRating()
-            $scope.startGame();
         }
     });
 });

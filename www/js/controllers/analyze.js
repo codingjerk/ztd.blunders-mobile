@@ -1,3 +1,5 @@
+"use strict";
+
 app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $timeout) {
     $scope.blunderId = undefined
     $scope.pv = undefined
@@ -13,8 +15,8 @@ app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $timeout) {
     var toViewFormat = function(variation) {
       var scoreToString = function(variation) {
         var score = variation.score;
-        mate = score['mate']
-        cp = score['cp']
+        var mate = score['mate']
+        var cp = score['cp']
 
         if(mate != null) {
           if(mate > 0) return "M" + Math.abs(mate)
@@ -37,7 +39,7 @@ app.controller('AnalyzeCtrl', function($rootScope, $scope, $state, $timeout) {
           return "balanced"
         if(status === "wrong")
           return "assertive"
-          return ""
+        return ""
       }
 
       return {

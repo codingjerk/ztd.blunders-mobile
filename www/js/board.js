@@ -1,3 +1,5 @@
+"use strict";
+
 var board = {};
 
 board.init = function(options) {
