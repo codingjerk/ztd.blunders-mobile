@@ -25,6 +25,9 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                     interpolate: "Linear", //http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
                     x: function(d){ return d.x; },
                     y: function(d){ return d.y; },
+                    tooltip: {
+                      enabled: false
+                    },
                     xAxis: {
                         axisLabel: 'Date',
                         showMaxMin: false,
@@ -69,6 +72,9 @@ app.controller('StatisticTabCtrl', function($scope, $state, $ionicSideMenuDelega
                       stacked: true,
                       showControls: true,
                       showLegend: false,
+                      tooltip: {
+                        enabled: false
+                      },
                       xAxis: {
                           axisLabel: 'Date',
                           showMaxMin: false,
