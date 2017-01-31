@@ -12,7 +12,7 @@ var pack = {};
     module.unlockedDynamicView = null
 
     module.remove = function(packId) {
-      args = {
+      var args = {
         token: module.options.token(),
         packId: packId,
         onSuccess: function(result) {
