@@ -16,3 +16,6 @@
 [submodule "www/third-party/loki-cordova-fs-adapter"]
 	path = www/third-party/loki-cordova-fs-adapter
 	url = https://github.com/jackalsh/loki-cordova-fs-adapter.git
+[submodule "www/third-party/socket.io"]
+	path = www/third-party/socket.io
+	url = https://github.com/socketio/socket.io-client.git

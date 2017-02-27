@@ -36,6 +36,7 @@
         <script src="third-party/lokijs/build/lokijs.min.js"></script>
         <script src="third-party/lokijs/build/loki-indexed-adapter.min.js"></script>
         <script src="third-party/loki-cordova-fs-adapter/bin/loki-cordova-fs-adapter.js"></script>
+        <script src="third-party/socket.io/dist/socket.io.min.js"></script>
 
         <!-- Ztd.Team modules as external js -->
         <script src="third-party/ztd.blunders-misc/js/utils.js"></script>
@@ -50,6 +51,7 @@
         <script src="js/controllers/login.js"></script>
         <script src="js/controllers/training.js"></script>
         <script src="js/controllers/analyze.js"></script>
+        <script src="js/controllers/tabs/coach.js"></script>
         <script src="js/controllers/tabs/pack.js"></script>
         <script src="js/controllers/tabs/play.js"></script>
         <script src="js/controllers/tabs/statistic.js"></script>
@@ -63,6 +65,7 @@
         <script src="js/lstorage.js"></script>
         <script src="js/pack.js"></script>
         <script src="js/token.js"></script>
+        <script src="js/message.js"></script>
     </head>
     <body ng-app="Ztd.Blunders Mobile" ng-controller="MainCtrl">
         <div class="bar bar-header bar-positive blue-background">
@@ -328,6 +331,26 @@
                   </content>
               </ion-view>
           </ion-tab>
+
+          <ion-tab title="Coach" icon-on="ion-calendar" icon-off="ion-calendar" on-select="reloadPlayTab()" badge="5" badge-style="badge-assertive" ng-controller="CoachTabCtrl">
+            <ion-view class="white-background">
+                <ion-content>
+                  <ion-list>
+                      <ion-item class="card" ng-repeat="message in coachMessagesInfo track by $index">
+                        <div class="item item-body">
+                          <p>
+                            {{message.body}}
+                          </p>
+                          <p>
+                            <button ng-repeat="option in message.options" ng-click="selectMessage(message.message_id, option)" class="subdued">{{option}}</button>
+                          </p>
+                        </div>
+                      </ion-item>
+                  </ion-list>
+                </content>
+            </ion-view>
+          </ion-tab>
+
           <ion-tab title="Statistic" icon-on="ion-stats-bars" icon-off="ion-stats-bars" on-select="reloadStatisticTab()" ng-controller="StatisticTabCtrl">
             <ion-view class="white-background">
                 <ion-content>

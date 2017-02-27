@@ -120,7 +120,7 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
       token: $scope.token
     },function(){
       $scope.startPacks();
-      $scope.startGame()
+      $scope.startGame();
     })
   })
 

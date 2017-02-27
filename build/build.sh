@@ -49,6 +49,6 @@ echo 'Place app key into build directory. Rename it to ztd.blunders-mobile.keyst
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${KEY} ./build/android-release-unsigned.apk alias_name
 
 echo 'We assume sdk root directory is /opt/android-sdk, as is in Arch linux. Change if needed'
-/opt/android-sdk/build-tools/23.0.2/zipalign -v 4 ./build/android-release-unsigned.apk ./build/blunders-signed.apk
+/home/jackalsh/Tools/AndroidSDK/build-tools/25.0.2/zipalign -v 4 ./build/android-release-unsigned.apk ./build/blunders-signed.apk
 
-telegram-cli --disable-output -W -e "send_document @jackalsh ./build/blunders-signed.apk"
+#telegram-cli --disable-output -W -e "send_document @jackalsh ./build/blunders-signed.apk"
