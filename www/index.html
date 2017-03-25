@@ -338,9 +338,7 @@
                   <ion-list>
                       <ion-item class="card" ng-repeat="message in coachMessagesInfo track by $index">
                         <div class="item item-body">
-                          <p>
-                            {{message.body}}
-                          </p>
+                          <p ng-bind-html="message.body"></p>
                           <p>
                             <button ng-repeat="option in message.options" ng-click="selectMessage(message.message_id, option)" class="subdued">{{option}}</button>
                           </p>
