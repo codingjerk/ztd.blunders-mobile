@@ -48,4 +48,6 @@ RUN rm -rf www/lib/lokijs/docs
 #RUN cordova build --release android
 
 ADD executor.sh /root/executor.sh
-CMD /root/executor.sh
+
+ENTRYPOINT ["/root/executor.sh"]
+CMD ["help"]
