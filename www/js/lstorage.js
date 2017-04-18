@@ -75,6 +75,13 @@ var lstorage = {};
           autosaveInterval: settings.timeout.client.short,
           adapter: idbAdapter
         });
+
+      module.clean = function() {
+        module.db = null
+        module._packsCollection = null
+        module._unlockedCollection = null
+        module._cacheCollection = null
+      }
     }
 
 })(lstorage)

@@ -121,7 +121,30 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
     },function(){
       $scope.startPacks();
       $scope.startGame();
+
+      // From this moment method $scope.$on('$stateChangeSuccess' can reload
+      $scope.triggerSemaphore({
+        cordovaReady: true // Never to turn off
+      })
     })
   })
+
+  // We need this if user log out and re-login, need to reload database
+  $scope.$on('$stateChangeSuccess', function(e, to, toParams, from, fromParams) {
+      if (to.name === 'training') {
+        if (!token.exist())
+          return
+
+        if(!$scope.isTriggered('cordovaReady'))
+          return; // To avoid duplicates with $ionicPlatform.ready
+
+        lstorage.init({
+          token: $scope.token
+        },function(){
+          $scope.startPacks();
+          $scope.startGame();
+        })
+      }
+  });
 
 });

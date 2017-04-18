@@ -56,6 +56,14 @@ var direct = {};
 })(direct)
 
 var cache = function(tag, callback, args, minutes) {
+
+  // If cache is disabled for some reason
+  if(lstorage.cacheCollection() == null) {
+    callback(args)
+    return;
+  }
+
+  // If cache is enabled, use it if possible
   var cached = lstorage.cacheCollection().where(function(el) {
     if(el['tag'] != tag) return false;
     if((new Date() - new Date(el['date']))/1000/60 > minutes) return false // minutes

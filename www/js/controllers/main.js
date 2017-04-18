@@ -9,6 +9,8 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
 
     $scope.logout = function() {
         token.remove()
+        lstorage.clean()
+        pack.clean()
         $state.go('login');
         $ionicSideMenuDelegate.toggleLeft(false);
     };
@@ -24,7 +26,8 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
       commentLock:0,
       loginLock: 0,
       packLock: 0,
-      analyzeBusy: 0
+      analyzeBusy: 0,
+      cordovaReady: 0
     }
 
     $scope.triggerSemaphore = function(status) {
@@ -43,6 +46,8 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
           $scope.lockSemaphore['packLock'] += (status['packLock'] ? 1 : -1)
         if('analyzeBusy' in status)
           $scope.lockSemaphore['analyzeBusy'] += (status['analyzeBusy'] ? 1 : -1)
+        if('cordovaReady' in status)
+          $scope.lockSemaphore['cordovaReady'] += (status['cordovaReady'] ? 1 : -1)
       })
     }
 

@@ -5,7 +5,6 @@ var pack = {};
 (function(module) {
     module.options = null
 
-    module.db = null;
     module.selectedPack = null
 
     module.packsDynamicView = null
@@ -361,6 +360,14 @@ var pack = {};
       updateInfoViewLocalOnSuccess(args)
 
       api.blunder.favorite(args) //TODO: Store into buffer
+    }
+
+    module.clean = function() {
+      module.selectedPack = null
+
+      module.packsDynamicView = null
+      module.unlockedDynamicView = null
+      module.options.onPacksChanged()
     }
 
 })(pack)
