@@ -1,18 +1,32 @@
 "use strict";
 
 var settings = {
-    server: {
-        protocol: 'http',
-        hostname: 'dev2.chessblunders.org',
-        pathToApi: 'api/mobile'
+    api: {
+        protocol: 'https',
+        hostname: 'prod.chessblunders.org',
+        resource: 'api/mobile'
     },
 
-    url: function(command) {
+    coach: {
+        protocol: 'http',
+        hostname: 'dev2.chessblunders.org:8089',
+        resource: 'chat'
+    },
+
+    urlAPI: function(command) {
         return '{0}://{1}/{2}/{3}'.format(
-          settings.server.protocol,
-          settings.server.hostname,
-          settings.server.pathToApi,
+          settings.api.protocol,
+          settings.api.hostname,
+          settings.api.resource,
           command
+        );
+    },
+
+    urlCoach: function() {
+        return '{0}://{1}/{2}'.format(
+          settings.coach.protocol,
+          settings.coach.hostname,
+          settings.coach.resource
         );
     },
 

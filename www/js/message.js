@@ -6,7 +6,7 @@ var message = {};
     module.options = null
     module.messages = []
 
-    module.socket = io.connect('http://dev2.chessblunders.org:8090/chat');
+    module.socket = io.connect(settings.urlCoach());
 
     module.coachMessagesInfo = function() {
       return module.messages;

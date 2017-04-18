@@ -6,7 +6,7 @@ var api = {};
   module.blunder = {
     get: function(args) {
       sync.repeat({
-        url: settings.url('blunder/get'),
+        url: settings.urlAPI('blunder/get'),
         crossDomain: true,
         data: {
           token: args.token,
@@ -20,7 +20,7 @@ var api = {};
     },
     info: function(args) {
       sync.repeat({
-          url: settings.url('blunder/info'),
+          url: settings.urlAPI('blunder/info'),
           crossDomain : true,
           data: {
               token: args.token,
@@ -34,7 +34,7 @@ var api = {};
     },
     validate: function(args) {
       sync.repeat({
-          url: settings.url('blunder/validate'),
+          url: settings.urlAPI('blunder/validate'),
           crossDomain : true,
           data: {
               token: args.token,
@@ -51,7 +51,7 @@ var api = {};
     },
     vote: function(args) {
       sync.ajax({
-          url: settings.url('blunder/vote'),
+          url: settings.urlAPI('blunder/vote'),
           crossDomain : true,
           data: {
               token: args.token,
@@ -66,7 +66,7 @@ var api = {};
     },
     favorite: function(args) {
       sync.ajax({
-          url: settings.url('blunder/favorite'),
+          url: settings.urlAPI('blunder/favorite'),
           crossDomain : true,
           data: {
               token: args.token,
@@ -80,7 +80,7 @@ var api = {};
     },
     analyze: function(args){
       sync.ajax({
-        url: settings.url('blunder/analyze'),
+        url: settings.urlAPI('blunder/analyze'),
         crossDomain: true,
         data: {
           token: args.token,
@@ -97,7 +97,7 @@ var api = {};
   module.comment = {
     send: function(args) {
       sync.ajax({
-        url: settings.url('comment/send'),
+        url: settings.urlAPI('comment/send'),
         crossDomain: true,
         data: {
           token: args.token,
@@ -115,7 +115,7 @@ var api = {};
   module.session = {
     rating: function(args) {
       sync.ajax({
-        url: settings.url('session/rating'),
+        url: settings.urlAPI('session/rating'),
         crossDomain: true,
         data: {
           token: args.token
@@ -128,7 +128,7 @@ var api = {};
     },
     login: function(args) {
       sync.ajax({
-          url: settings.url('session/login'),
+          url: settings.urlAPI('session/login'),
           crossDomain: true,
           data: {
               username: args.username || '',
@@ -142,7 +142,7 @@ var api = {};
     },
     signup: function(args) {
       sync.ajax({
-          url: settings.url('session/signup'),
+          url: settings.urlAPI('session/signup'),
           crossDomain: true,
           data: {
               username: args.username || '',
@@ -159,7 +159,7 @@ var api = {};
   module.pack = {
     info: function(args) {
       sync.ajax({
-          url: settings.url('pack/info'),
+          url: settings.urlAPI('pack/info'),
           crossDomain: true,
           data: {
             token: args.token
@@ -172,7 +172,7 @@ var api = {};
     },
     get: function(args) {
       sync.ajax({
-          url: settings.url('pack/get'),
+          url: settings.urlAPI('pack/get'),
           crossDomain: true,
           data: {
             token: args.token,
@@ -186,7 +186,7 @@ var api = {};
     },
     new: function(args){
       sync.ajax({
-          url: settings.url('pack/new'),
+          url: settings.urlAPI('pack/new'),
           crossDomain: true,
           data: {
             token: args.token,
@@ -201,7 +201,7 @@ var api = {};
     },
     remove: function(args){
       sync.ajax({
-        url: settings.url('pack/remove'),
+        url: settings.urlAPI('pack/remove'),
         crossDomain: true,
         data: {
           token: args.token,
@@ -217,7 +217,7 @@ var api = {};
   module.user = {
     ratingByDate: function(args){
       sync.ajax({
-        url: settings.url('user/rating-by-date'),
+        url: settings.urlAPI('user/rating-by-date'),
         crossDomain: true,
         data: {
           token: args.token,
@@ -231,7 +231,7 @@ var api = {};
     },
     blundersByDate: function(args){
       sync.ajax({
-        url: settings.url('user/blunders-by-date'),
+        url: settings.urlAPI('user/blunders-by-date'),
         crossDomain: true,
         data: {
           token: args.token,
@@ -245,7 +245,7 @@ var api = {};
     },
     blundersCount: function(args){
       sync.ajax({
-        url: settings.url('user/blunders-count'),
+        url: settings.urlAPI('user/blunders-count'),
         crossDomain: true,
         data: {
           token: args.token
