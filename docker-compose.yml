@@ -11,6 +11,5 @@ services:
       args:
         GIT_BRANCH: coach
     command: local
-    volumes:
-      - ./build:/root/build
-
+    ports:
+    - 80:80
