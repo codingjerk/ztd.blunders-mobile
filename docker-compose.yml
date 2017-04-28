@@ -12,4 +12,4 @@ services:
         GIT_BRANCH: coach
     command: local
     ports:
-    - 80:80
+    - 8080:8080

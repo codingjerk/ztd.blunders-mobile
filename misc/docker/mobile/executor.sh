@@ -17,7 +17,7 @@ fi
 if [ ${MODE} = "local" ]; then
   cd ${PROJECT_DIR} && \
   git pull
-  exec sleep 100000
+  echo "Starting local server on port 80"
   exec /usr/sbin/nginx -c ${PROJECT_DIR}/misc/docker/mobile/nginx/nginx.conf -g "daemon off;"
 elif [ ${MODE} = "apk" ]; then
   cd ${PROJECT_DIR} && \

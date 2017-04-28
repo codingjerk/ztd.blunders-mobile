@@ -59,7 +59,7 @@ RUN rm -rf www/lib/lokijs/docs
 USER root
 ADD executor.sh /root/executor.sh
 
-EXPOSE 80
+EXPOSE 8080
 
 ENTRYPOINT ["/root/executor.sh"]
 CMD ["help"]
