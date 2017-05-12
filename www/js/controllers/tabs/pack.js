@@ -104,6 +104,17 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
     })
   };
 
+  var main = function(callback) {
+    lstorage.init({
+      token: $scope.token
+    },function(){
+      $scope.startPacks();
+      $scope.startGame();
+
+      if (callback) callback()
+    })
+  }
+
   /* Here is the entrypoint to all the application.
    * There is huge difference between running in browser and
    * mobile device, because we use different lokijs storage engine.
@@ -112,17 +123,14 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
    * After this we call for pack driver, which use lokijs as dependence.
    * ionic readiness -> pack driver -> application controllers
    */
+
   $ionicPlatform.ready(function() {
     if (!token.exist())
       return
 
-    lstorage.init({
-      token: $scope.token
-    },function(){
-      $scope.startPacks();
-      $scope.startGame();
-
-      // From this moment method $scope.$on('$stateChangeSuccess' can reload
+    main(function() {
+      // After full initialization only we allow method
+      // $scope.$on('$stateChangeSuccess' to reload
       $scope.triggerSemaphore({
         cordovaReady: true // Never to turn off
       })
@@ -138,12 +146,7 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
         if(!$scope.isTriggered('cordovaReady'))
           return; // To avoid duplicates with $ionicPlatform.ready
 
-        lstorage.init({
-          token: $scope.token
-        },function(){
-          $scope.startPacks();
-          $scope.startGame();
-        })
+        main()
       }
   });
 

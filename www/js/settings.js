@@ -9,8 +9,9 @@ var settings = {
 
     coach: {
         protocol: 'http',
-        hostname: 'dev2.chessblunders.org:8089',
-        resource: 'chat'
+        hostname: 'dev2.chessblunders.org:8090',
+        resource: 'chat',
+        enabled: false // Coach is optional feature
     },
 
     urlAPI: function(command) {
