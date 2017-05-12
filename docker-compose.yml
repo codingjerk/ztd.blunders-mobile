@@ -12,4 +12,6 @@ services:
         GIT_BRANCH: coach
     command: local
     ports:
-    - 8080:8080
+      - 8080:8080
+    volumes:
+      - ./build:/tmp/build
