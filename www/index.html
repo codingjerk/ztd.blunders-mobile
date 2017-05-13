@@ -332,7 +332,7 @@
               </ion-view>
           </ion-tab>
 
-          <ion-tab title="Coach" icon-on="ion-calendar" icon-off="ion-calendar" on-select="reloadPlayTab()" badge="5" badge-style="badge-assertive" ng-controller="CoachTabCtrl">
+          <ion-tab title="Coach" icon-on="ion-calendar" icon-off="ion-calendar" on-select="reloadPlayTab()" hidden="{{coachTabHidden}}" ng-controller="CoachTabCtrl">
             <ion-view class="white-background">
                 <ion-content>
                   <ion-list>

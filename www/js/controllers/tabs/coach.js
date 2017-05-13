@@ -1,8 +1,11 @@
 "use strict";
 
 app.controller('CoachTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $ionicLoading, $ionicPopup, $ionicPlatform, $timeout) {
-
+  $scope.coachTabHidden = true; // by default hidden. Will be activared when connecting to coach websocket
   $scope.coachMessagesInfo = []
+
+  if (settings.coach.enabled == false )
+    return;
 
   message.init({
     token: $scope.token,
@@ -11,6 +14,18 @@ app.controller('CoachTabCtrl', function($scope, $state, $ionicSideMenuDelegate, 
         $timeout(function () {
             $scope.coachMessagesInfo = message.coachMessagesInfo()
         });
+    },
+    onConnect: function() {
+      $timeout(function () {
+          $scope.coachTabHidden = false
+          $scope.coachMessagesInfo = []
+      });
+    },
+    onDisconnect: function() {
+      $timeout(function () {
+          $scope.coachTabHidden = true
+          $scope.coachMessagesInfo = []
+      });
     },
     onAnimate: function(state) {
       $scope.triggerSemaphore({
@@ -21,7 +36,6 @@ app.controller('CoachTabCtrl', function($scope, $state, $ionicSideMenuDelegate, 
 
   $scope.reloadPlayTab = function() {
     $timeout(function () {
-      //if ($scope.coachMessagesInfo.length == 0)
         $scope.coachMessagesInfo = message.coachMessagesInfo()
     })
   }
