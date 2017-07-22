@@ -11,18 +11,18 @@ RUN yum install -y \
 RUN yum install -y \
     nginx
 
-WORKDIR /opt/AndroidSDK
-RUN curl https://dl.google.com/android/repository/tools_r25.2.3-linux.zip -o ./tools_r25.2.3-linux.zip && \
-    unzip ./tools_r25.2.3-linux.zip && \
-    ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | \
-    /opt/AndroidSDK/tools/android update sdk --no-ui --all --filter tools,platform-tools,build-tools-25.0.2,android-25
+#WORKDIR /opt/AndroidSDK
+#RUN curl https://dl.google.com/android/repository/tools_r25.2.3-linux.zip -o ./tools_r25.2.3-linux.zip && \
+#    unzip ./tools_r25.2.3-linux.zip && \
+#    ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | \
+#    /opt/AndroidSDK/tools/android update sdk --no-ui --all --filter tools,platform-tools,build-tools-25.0.2,android-25
 
 ENV ANDROID_HOME=/opt/AndroidSDK
 ENV  PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 RUN npm install -g cordova ionic bower gulp
 
-RUN useradd -m blunders 
+RUN useradd -m blunders
 RUN usermod -a -G blunders nginx # nginx must read uwsgi sockets
 
 USER blunders
@@ -32,15 +32,15 @@ WORKDIR /home/blunders/ztd.blunders-mobile
 RUN git submodule init && \
     git submodule update
 
-#ADD ztd.blunders-mobile.keystore /home/blunders/ztd.blunders-mobile/build/ztd.blunders-mobile.keystore 
+#ADD ztd.blunders-mobile.keystore /home/blunders/ztd.blunders-mobile/build/ztd.blunders-mobile.keystore
 
 RUN cordova platform add android || echo "Ok"
 RUN cordova plugin add cordova-plugin-splashscreen --save
-RUN ionic resources --splash
+RUN ionic cordova resources --splash
 
 RUN bower install lokijs --save
 RUN cordova plugin add cordova-plugin-file --save
-RUN ionic plugin add https://github.com/apache/cordova-plugin-whitelist.git
+RUN ionic cordova plugin add https://github.com/apache/cordova-plugin-whitelist.git
 RUN cordova plugin add https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git --save
 
 RUN bower install angular-nvd3 --save

@@ -2,8 +2,10 @@
 
 var settings = {
     api: {
-        protocol: 'https',
-        hostname: 'prod.chessblunders.org',
+        //protocol: 'https',
+        //hostname: 'prod.chessblunders.org',
+        protocol: 'http',
+        hostname: 'dev2.chessblunders.org:8089',
         resource: 'api/mobile'
     },
 

@@ -171,7 +171,7 @@
         <script id="training.html" type="text/ng-template">
           <ion-tabs class="tabs-positive tabs-striped tabs-top tabs-positive tabs-icon-top">
 
-          <ion-tab title="Packs" icon-on="ion-archive" icon-off="ion-archive" ng-controller="PackTabCtrl">
+          <!--<ion-tab title="Packs" icon-on="ion-archive" icon-off="ion-archive" ng-controller="PackTabCtrl">
             <ion-view class="white-background">
                 <ion-content>
                     <ion-list type="card" class="text-center">
@@ -191,7 +191,55 @@
                   </ion-list>
                 </content>
             </ion-view>
-          </ion-tab>
+        </ion-tab>-->
+
+        <ion-tab title="Packs" icon-on="ion-archive" icon-off="ion-archive" ng-controller="PackTabCtrl">
+
+          <ion-view class="white-background">
+              <ion-content>
+                <ion-list>
+                    <ion-item class="card" ng-repeat="pack in packBlundersInfo track by $index">
+                        <div class="item item-avatar">
+                           <img src="img/pieces/bN.svg">
+                           <h2>{{pack.caption}}</h2>
+                           <p>downloaded pack</p>
+                        </div>
+                        <div ng-if="pack.body.length > 0" class="item item-body">
+                            <p>{{pack.body}}</p>
+                        </div>
+                        <div class="item item-footer">
+                            <button class="button button-full button-balanced" ng-click="selectPack(pack.pack_id)">
+                              Play
+                           </button>
+                        </div>
+                    </ion-item>
+
+                    <ion-item class="card" ng-repeat="pack in unlockedInfo track by $index">
+                      <div class="item item-avatar">
+                         <img src="img/pieces/bN.svg">
+                         <h2>{{pack.caption}}</h2>
+                         <p>unlock</p>
+                      </div>
+                      <div class="item item-body">
+                          <p>{{pack.body}}</p>
+                      </div>
+                      <div ng-repeat="select in listArgs(pack) track by $index">
+                          <div class = "item range" ng-if="true">
+                               {{select.property}}
+                               <input type="range" min="{{select.min}}" max="{{select.max}}" value="{{select.default}}" step="{{select.step}}" ng-model="argsSelect[pack.type_name][select.property].value">
+                               {{argsSelect[pack.type_name][select.property].value}}
+                          </div>
+                      </div>
+                      <div class="item item-footer">
+                          <button class="button button-full" ng-click="unlockPack(pack)">
+                            Download
+                         </button>
+                      </div>
+                    </ion-item>
+                </ion-list>
+              </content>
+          </ion-view>
+        </ion-tab>
 
           <ion-tab title="Play" icon-on="ion-play" icon-off="ion-play" on-select="reloadPlayTab()" ng-controller="PlayTabCtrl">
               <ion-view class="white-background">

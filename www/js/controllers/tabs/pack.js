@@ -6,6 +6,8 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
 
   $scope.unlockedSpinning = undefined
 
+  $scope.argsSelect = {}
+
   $scope.removePack = function(packId) {
     if ($scope.isTriggered('packLock')) return;
 
@@ -26,10 +28,23 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
 
   $scope.unlockPack = function(selected) {
     if ($scope.isTriggered('packLock')) return;
-    var meta = {typeName:selected.type_name,args:selected.args}
 
-    $scope.unlockedSpinning = selected.$loki
-    pack.unlock(meta)
+    // Prepare args due to user selects
+    if (selected.args != undefined) {
+        var final_args = {}
+        for (var key in selected.args) {
+            if (selected.args.hasOwnProperty(key)) {
+                final_args[key] = $scope.argsSelect[selected.type_name][key].value
+            }
+        }
+    }
+
+    var meta = {typeName:selected.type_name,args:final_args}
+
+    console.log($scope.argsSelect);
+
+    //$scope.unlockedSpinning = selected.$loki
+    //pack.unlock(meta)
   }
 
   $scope.selectPack = function(packId) {
@@ -42,6 +57,40 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
 
   $scope.canRemovePack = function(packId) {
     return pack.canRemove(packId)
+  }
+
+  /**
+   * Transform data for unlockedPacks, received from server to array,
+   * suitable for ng-repeat.
+   */
+  $scope.listArgs = function(pack) {
+      var args = pack.args
+
+      if(args == undefined)
+        return []
+
+      var keys = Object.keys(args);
+      var values = keys.map(function(key) {
+          var dict = args[key]
+          dict['property'] = key
+          return dict;
+      });
+
+      values.forEach(function(value) {
+          $timeout(function () {
+              if (pack.type_name in $scope.argsSelect == false)
+                  $scope.argsSelect[pack.type_name] = {}
+
+              if (value.property in $scope.argsSelect[pack.type_name] == false)
+                  $scope.argsSelect[pack.type_name][value.property] = {}
+
+              if ('value' in $scope.argsSelect[pack.type_name][value.property] == false) {
+                  $scope.argsSelect[pack.type_name][value.property].value = value.default
+              }
+          })
+      })
+
+      return values;
   }
 
   /*

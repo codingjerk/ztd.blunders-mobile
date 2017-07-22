@@ -180,6 +180,64 @@ var pack = {};
         api.pack.info({
           token: module.options.token(),
           onSuccess: function(result) {
+
+          var resulta = {
+              "data": {
+                "packs": [
+                  "7fca79fc677683187d0bc33b"
+                ],
+                "unlocked": [
+                  {
+                    "args": {
+                      "N": {
+                          "type": "slider",
+                          "min": 1,
+                          "max": 4,
+                          "step": 1,
+                          "default": 2
+                      }
+                    },
+                    "caption": "Mate in N",
+                    "body": "Classical type of chess puzzles. You need to figure out the fastest way to win a game.",
+                    "type_name": "Mate in N"
+                  },
+                  {
+                    "caption": "Opening",
+                    "body": "Sometimes the game ends without even having begun. Those are usually easy puzzles suitable for beginners.",
+                    "type_name": "Opening"
+                  },
+                  {
+                    "caption": "Closed game",
+                    "body": "The game is constrained by a pawn structure. Find a way to break through the enemy's defense.",
+                    "type_name": "Closed game"
+                  },
+                  {
+                    "caption": "Grandmasters",
+                    "body": "Positions taken from games of strong players. They also make mistakes, it is often not so easy to find.",
+                    "type_name": "Grandmasters"
+                  },
+                  {
+                    "caption": "Endgame",
+                    "body": "It's insulting to play the whole game and make a mistake at the end. Crush the enemy!",
+                    "type_name": "Endgame"
+                  },
+                  {
+                    "caption": "Promotion",
+                    "body": "The pawn is so close to reach the promotion. But this is not always the way to victory.",
+                    "type_name": "Promotion"
+                  },
+                  {
+                    "caption": "Random",
+                    "body": "True random puzzles pack.",
+                    "type_name": "Random"
+                  }
+                ]
+              },
+              "status": "ok"
+            }
+
+            console.log(result)
+
             parseUnlocked(result.data.unlocked)
             parsePackBlunders(result.data.packs)
             module.options.onPacksChanged()

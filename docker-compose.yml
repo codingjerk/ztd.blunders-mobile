@@ -10,7 +10,8 @@ services:
       context: misc/docker/mobile
       args:
         GIT_BRANCH: coach
-    command: --mode="apk" --passphrase="***"
+    #command: --mode="apk" --passphrase="***"
+    command: --mode="local"
     ports:
       - 8080:8080
     volumes:
