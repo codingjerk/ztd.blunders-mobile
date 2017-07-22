@@ -77,7 +77,6 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
       });
 
       values.forEach(function(value) {
-          $timeout(function () {
               if (pack.type_name in $scope.argsSelect == false)
                   $scope.argsSelect[pack.type_name] = {}
 
@@ -85,10 +84,11 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
                   $scope.argsSelect[pack.type_name][value.property] = {}
 
               if ('value' in $scope.argsSelect[pack.type_name][value.property] == false) {
-                  $scope.argsSelect[pack.type_name][value.property].value = value.default
+                  $timeout(function () {
+                      $scope.argsSelect[pack.type_name][value.property].value = value.default
+                  })
               }
-          })
-      })
+  })
 
       return values;
   }
