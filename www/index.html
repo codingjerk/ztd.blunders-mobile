@@ -98,7 +98,7 @@
             </ion-side-menu-content>
         </ion-side-menus>
 
-        <script id="login.html" type="text/ng-template">
+        <script id="login.html" type="text/ng-template">\
             <ion-view class="blue-background text-center">
                 <ion-content class="has-header">
                     <ion-slide-box show-pager="false">
@@ -203,6 +203,7 @@
                            <img src="{{pack.avatar}}">
                            <h2>{{pack.caption}}</h2>
                            <p>{{pack.blunders.length}} left</p>
+                           <p class="item-icon-right"><i ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="icon ion-trash-b"></i> </p>
                         </div>
                         <div ng-if="pack.body.length > 0" class="item item-body">
                             <p>{{pack.body}}</p>
@@ -211,7 +212,6 @@
                             <button class="button button-full button-balanced" ng-click="selectPack(pack.pack_id)">
                               Play
                            </button>
-                           <button ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="button button-icon icon ion-android-cancel"></button>
                         </div>
                     </ion-item>
 

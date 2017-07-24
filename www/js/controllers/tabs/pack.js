@@ -206,5 +206,4 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
         main()
       }
   });
-
 });
