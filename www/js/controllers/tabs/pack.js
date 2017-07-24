@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $ionicLoading, $ionicPopup, $ionicPlatform, $timeout) {
+app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $ionicLoading, $ionicPopup, $ionicPlatform, $ionicPopover, $timeout) {
   $scope.unlockedInfo = pack.unlockedInfo()
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
@@ -35,6 +35,14 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
         for (var key in selected.args) {
             if (selected.args.hasOwnProperty(key)) {
                 final_args[key] = $scope.argsSelect[selected.type_name][key].value
+
+                // HACK: range returns a string, so we need to convert it to number
+                // for ranges because it is what is expected by server.
+                //What is better way to update a model to store integers?
+                if(selected.args[key]['type'] == 'slider') {
+                    final_args[key] = parseInt(final_args[key], 10)
+                    console.log(final_args[key])
+                }
             }
         }
     }
@@ -43,8 +51,8 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
 
     console.log($scope.argsSelect);
 
-    //$scope.unlockedSpinning = selected.$loki
-    //pack.unlock(meta)
+    $scope.unlockedSpinning = selected.$loki
+    pack.unlock(meta)
   }
 
   $scope.selectPack = function(packId) {

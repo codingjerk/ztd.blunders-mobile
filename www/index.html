@@ -200,9 +200,9 @@
                 <ion-list>
                     <ion-item class="card" ng-repeat="pack in packBlundersInfo track by $index">
                         <div class="item item-avatar">
-                           <img src="img/pieces/bN.svg">
+                           <img src="{{pack.avatar}}">
                            <h2>{{pack.caption}}</h2>
-                           <p>downloaded pack</p>
+                           <p>{{pack.blunders.length}} left</p>
                         </div>
                         <div ng-if="pack.body.length > 0" class="item item-body">
                             <p>{{pack.body}}</p>
@@ -211,12 +211,13 @@
                             <button class="button button-full button-balanced" ng-click="selectPack(pack.pack_id)">
                               Play
                            </button>
+                           <button ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="button button-icon icon ion-android-cancel"></button>
                         </div>
                     </ion-item>
 
                     <ion-item class="card" ng-repeat="pack in unlockedInfo track by $index">
                       <div class="item item-avatar">
-                         <img src="img/pieces/bN.svg">
+                         <img src="img/interface/question.svg">
                          <h2>{{pack.caption}}</h2>
                          <p>unlock</p>
                       </div>

@@ -156,6 +156,36 @@ var pack = {};
             return false
           }
 
+          // Calculate pack's avatar depending on it's average rating
+          var generatePackAvatar = function(result) {
+              if(result.data.blunders.length == 0) {
+                result.data.avatar = settings.image.question
+                return ;
+              }
+
+              var sum = 0
+              result.data.blunders.forEach(function(blunder) {
+                  sum += blunder.info.elo;
+              })
+              var average = Math.floor(sum / result.data.blunders.length);
+
+              if(average < 1325) {
+                result.data.avatar = settings.image.piece.black.pawn;
+              } else if(average >= 1325 && average < 1425) {
+                result.data.avatar = settings.image.piece.black.knight;
+              } else if(average >= 1425 && average < 1525) {
+                result.data.avatar = settings.image.piece.black.bishop;
+              } else if(average >= 1525 && average < 1725) {
+                result.data.avatar = settings.image.piece.black.rook;
+              } else if(average >= 1725 && average < 2125) {
+                result.data.avatar = settings.image.piece.black.queen;
+              } else if(average >= 2125) {
+                result.data.avatar = settings.image.piece.black.king;
+              } else {
+                result.data.avatar = settings.image.question;
+              }
+          }
+
           // New packs from remote
           packs.forEach(function(packId){
             if(isAlreadyExist(packId))
@@ -167,6 +197,10 @@ var pack = {};
               onSuccess: function(result) {
                   if(isAlreadyExist(packId)) // Long time has passed, need to recheck
                     return;
+
+                  generatePackAvatar(result)
+                  console.log(result)
+
                   lstorage.packsCollection().insert(result.data)
                   module.options.onPacksChanged()
               },
@@ -180,64 +214,6 @@ var pack = {};
         api.pack.info({
           token: module.options.token(),
           onSuccess: function(result) {
-
-          var resulta = {
-              "data": {
-                "packs": [
-                  "7fca79fc677683187d0bc33b"
-                ],
-                "unlocked": [
-                  {
-                    "args": {
-                      "N": {
-                          "type": "slider",
-                          "min": 1,
-                          "max": 4,
-                          "step": 1,
-                          "default": 2
-                      }
-                    },
-                    "caption": "Mate in N",
-                    "body": "Classical type of chess puzzles. You need to figure out the fastest way to win a game.",
-                    "type_name": "Mate in N"
-                  },
-                  {
-                    "caption": "Opening",
-                    "body": "Sometimes the game ends without even having begun. Those are usually easy puzzles suitable for beginners.",
-                    "type_name": "Opening"
-                  },
-                  {
-                    "caption": "Closed game",
-                    "body": "The game is constrained by a pawn structure. Find a way to break through the enemy's defense.",
-                    "type_name": "Closed game"
-                  },
-                  {
-                    "caption": "Grandmasters",
-                    "body": "Positions taken from games of strong players. They also make mistakes, it is often not so easy to find.",
-                    "type_name": "Grandmasters"
-                  },
-                  {
-                    "caption": "Endgame",
-                    "body": "It's insulting to play the whole game and make a mistake at the end. Crush the enemy!",
-                    "type_name": "Endgame"
-                  },
-                  {
-                    "caption": "Promotion",
-                    "body": "The pawn is so close to reach the promotion. But this is not always the way to victory.",
-                    "type_name": "Promotion"
-                  },
-                  {
-                    "caption": "Random",
-                    "body": "True random puzzles pack.",
-                    "type_name": "Random"
-                  }
-                ]
-              },
-              "status": "ok"
-            }
-
-            console.log(result)
-
             parseUnlocked(result.data.unlocked)
             parsePackBlunders(result.data.packs)
             module.options.onPacksChanged()

@@ -47,5 +47,27 @@ var settings = {
         normal: 10
       },
       infinite: 1000000 // Very very long time, relativelly longer, then universe life time :)
+    },
+
+    image: {
+      piece : {
+        black: {
+          pawn: "img/pieces/bP.svg",
+          knight: "img/pieces/bN.svg",
+          bishop: "img/pieces/bB.svg",
+          rook: "img/pieces/bR.svg",
+          queen: "img/pieces/bQ.svg",
+          king: "img/pieces/bK.svg"
+        },
+        white: {
+          pawn: "img/pieces/wP.svg",
+          knight: "img/pieces/wN.svg",
+          bishop: "img/pieces/wB.svg",
+          rook: "img/pieces/wR.svg",
+          queen: "img/pieces/wQ.svg",
+          king: "img/pieces/wK.svg"
+        }
+      },
+      question: "img/interface/question.svg"
     }
 };
