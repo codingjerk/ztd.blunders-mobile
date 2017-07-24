@@ -169,17 +169,17 @@ var pack = {};
               })
               var average = Math.floor(sum / result.data.blunders.length);
 
-              if(average < 1325) {
+              if(average < 1425) {
                 result.data.avatar = settings.image.piece.black.pawn;
-              } else if(average >= 1325 && average < 1425) {
-                result.data.avatar = settings.image.piece.black.knight;
               } else if(average >= 1425 && average < 1525) {
-                result.data.avatar = settings.image.piece.black.bishop;
+                result.data.avatar = settings.image.piece.black.knight;
               } else if(average >= 1525 && average < 1725) {
-                result.data.avatar = settings.image.piece.black.rook;
+                result.data.avatar = settings.image.piece.black.bishop;
               } else if(average >= 1725 && average < 2125) {
+                result.data.avatar = settings.image.piece.black.rook;
+              } else if(average >= 2125 && average < 2525) {
                 result.data.avatar = settings.image.piece.black.queen;
-              } else if(average >= 2125) {
+              } else if(average >= 2525) {
                 result.data.avatar = settings.image.piece.black.king;
               } else {
                 result.data.avatar = settings.image.question;

@@ -2,6 +2,37 @@
 
 app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicPopup, $timeout) {
 
+    $scope.getBlunderInfoHistory = function() {
+        var history = $scope.info.my.history;
+
+        if (history.length == 0) {
+            return "You see this puzzle for a first time"
+        }
+
+        var maximum = history.maximum(function(a,b) {
+            return new Date(a.date) < new Date(b.date)
+        })
+
+        var lastDateString = (new Date(maximum.date)).toLocaleString("en-US", {
+          year: 'numeric', // https://learn.javascript.ru/datetime
+          month: 'long',
+          day: 'numeric'
+        })
+
+        if (history.length == 1) {
+            return "You " + ((maximum.score == 1) ? 'correctly solved' : "failed") +
+                   " this puzzle last time at " + lastDateString;
+        }
+
+        if (history.length >= 2) {
+            return "You was challenged this puzzle " + history.length + " times at the past." +
+                   " Last time was at " + lastDateString +
+                   " when you " + ((maximum.score == 1) ? 'correctly solved' : "failed") + " it";
+        }
+
+        return "Unknown" // Never reach here
+    }
+
     function updateInfoView(info) {
         $timeout(function () {
             $scope.info = info;
