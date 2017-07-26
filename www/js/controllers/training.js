@@ -2,6 +2,16 @@
 
 app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicPopup, $timeout) {
 
+    $scope.dateNiceFormat = function(dateNice) {
+        var result = (new Date(dateNice)).toLocaleString("en-US", {
+          year: 'numeric', // https://learn.javascript.ru/datetime
+          month: 'long',
+          day: 'numeric'
+        })
+
+        return result
+    }
+
     $scope.getBlunderInfoHistory = function() {
         var history = $scope.info.my.history;
 
@@ -13,11 +23,7 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
             return new Date(a.date) < new Date(b.date)
         })
 
-        var lastDateString = (new Date(maximum.date)).toLocaleString("en-US", {
-          year: 'numeric', // https://learn.javascript.ru/datetime
-          month: 'long',
-          day: 'numeric'
-        })
+        var lastDateString = $scope.dateNiceFormat(maximum.date)
 
         if (history.length == 1) {
             return "You " + ((maximum.score == 1) ? 'correctly solved' : "failed") +
@@ -31,6 +37,27 @@ app.controller('TrainingCtrl', function($scope, $state, $ionicSideMenuDelegate, 
         }
 
         return "Unknown" // Never reach here
+    }
+
+    /*$scope.comm = [{
+                "date":"Sat, 25 Mar 2017 01:27:54 GMT",
+                "dislikes":0,
+                "id":90,
+                "likes":0,
+                "parent_id":0,
+                "text":"Got to a position where I suggested Rc1+  leading to analysis 10.63 far better than the suggested 'correct' move Ra3 with analysis of 5\n88 regards Mark",
+                "username":"Goldenspiral"
+            },
+            {   "date":"Tue, 28 Mar 2017 21:27:15 GMT",
+                "dislikes":0,
+                "id":92,
+                "likes":0,
+                "parent_id":90,
+                "text":"My version of Stockfish still thinks about Ra3 as a best move after 5 minutes of analysis. However MultiPV 2 mode of this position show Rc1+ and Ra3 mode are approximatelly even and Rc1+ is preferable. Probably some kind of aggressive optimizations inside Stockfish lead to this behaviour. Quite difficult position for Stockfish.","username":"JackalSh"
+            }]*/
+
+    $scope.getBlunderInfoCommentsOrderBy = function(comment) {
+        return new Date(comment.date).getTime();
     }
 
     function updateInfoView(info) {

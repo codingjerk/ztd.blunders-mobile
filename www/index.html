@@ -203,7 +203,9 @@
                            <img src="{{pack.avatar}}">
                            <h2>{{pack.caption}}</h2>
                            <p>{{pack.blunders.length}} left</p>
-                           <p class="item-icon-right"><i ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="icon ion-trash-b"></i> </p>
+                           <p class="item-icon-right">
+                               <i ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="icon ion-trash-b"></i>
+                           </p>
                         </div>
                         <div ng-if="pack.body.length > 0" class="item item-body">
                             <p>{{pack.body}}</p>
@@ -220,6 +222,9 @@
                          <img src="img/interface/question.svg">
                          <h2>{{pack.caption}}</h2>
                          <p>unlock</p>
+                         <p class="item-icon-right">
+                             <i ng-hide="pack.$loki != unlockedSpinning" class="icon ion-load-c ion-spin-animation" ></i>
+                         </p>
                       </div>
                       <div class="item item-body">
                           <p>{{pack.body}}</p>
@@ -382,7 +387,28 @@
                               History
                           </div>
                           <div class="item item-wrap item-text-wrap">
-                              <p>{{getBlunderInfoHistory()}}</p>
+                              {{getBlunderInfoHistory()}}
+                          </div>
+                      </div>
+                      <div class="card text-center">
+                          <div class="item item-divider">
+                              Comments
+                          </div>
+                          <div class="item item-wrap" ng-if="info.comments.length == 0">
+                              Currently there are no comments
+                          </div>
+                          <div class="item item-wrap item-text-wrap" ng-repeat="comment in info.comments | orderBy : getBlunderInfoCommentsOrderBy track by $index">
+                              <div>
+                                  <div class="row">
+                                    <div class="col">
+                                        <p>{{comment.username}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p>{{dateNiceFormat(comment.date)}}<p>
+                                    </div>
+                                  </div>
+                              </div>
+                              <p style="text-indent: 1em;" class="text-left">{{comment.text}}</p>
                           </div>
                       </div>
                   </content>

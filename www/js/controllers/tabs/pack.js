@@ -1,6 +1,6 @@
 "use strict";
 
-app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicTabsDelegate, $ionicLoading, $ionicPopup, $ionicPlatform, $ionicPopover, $timeout) {
+app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicScrollDelegate, $ionicTabsDelegate, $ionicLoading, $ionicPopup, $ionicPlatform, $ionicPopover, $timeout) {
   $scope.unlockedInfo = pack.unlockedInfo()
   $scope.packBlundersInfo = pack.packBlundersInfo()
 
@@ -32,8 +32,10 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
     // Prepare args due to user selects
     if (selected.args != undefined) {
         var final_args = {}
-        for (var key in selected.args) {
-            if (selected.args.hasOwnProperty(key)) {
+        var keys = Object.keys(selected.args);
+
+        keys.forEach(function(key){
+            if(selected.args[key].hasOwnProperty('type')) {
                 final_args[key] = $scope.argsSelect[selected.type_name][key].value
 
                 // HACK: range returns a string, so we need to convert it to number
@@ -41,18 +43,17 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
                 //What is better way to update a model to store integers?
                 if(selected.args[key]['type'] == 'slider') {
                     final_args[key] = parseInt(final_args[key], 10)
-                    console.log(final_args[key])
                 }
+            } else { // not a select, just simple argument
+                final_args[key] = selected.args[key]
             }
-        }
+        })
     }
 
     var meta = {typeName:selected.type_name,args:final_args}
 
-    console.log($scope.argsSelect);
-
     $scope.unlockedSpinning = selected.$loki
-    pack.unlock(meta)
+    //pack.unlock(meta)
   }
 
   $scope.selectPack = function(packId) {
@@ -78,20 +79,22 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
         return []
 
       var keys = Object.keys(args);
-      var values = keys.map(function(key) {
+      var values = keys.filter(function(key){
+          return args[key].hasOwnProperty('type')
+      }).map(function(key) {
           var dict = args[key]
           dict['property'] = key
           return dict;
       });
 
       values.forEach(function(value) {
-              if (pack.type_name in $scope.argsSelect == false)
+              if ($scope.argsSelect.hasOwnProperty(pack.type_name) == false)
                   $scope.argsSelect[pack.type_name] = {}
 
-              if (value.property in $scope.argsSelect[pack.type_name] == false)
+              if ($scope.argsSelect[pack.type_name].hasOwnProperty(value.property) == false)
                   $scope.argsSelect[pack.type_name][value.property] = {}
 
-              if ('value' in $scope.argsSelect[pack.type_name][value.property] == false) {
+              if ($scope.argsSelect[pack.type_name][value.property].hasOwnProperty('value') == false) {
                   $timeout(function () {
                       $scope.argsSelect[pack.type_name][value.property].value = value.default
                   })
@@ -141,6 +144,8 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
               $scope.unlockedInfo = pack.unlockedInfo()
               $scope.packBlundersInfo = pack.packBlundersInfo()
               $scope.unlockedSpinning = undefined
+
+              $ionicScrollDelegate.scrollTop();
           });
       },
       goChessboardSlide: function() {
