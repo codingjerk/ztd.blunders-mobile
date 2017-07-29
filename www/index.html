@@ -210,8 +210,9 @@
                         <div ng-if="pack.body.length > 0" class="item item-body">
                             <p>{{pack.body}}</p>
                         </div>
-                        <div class="item item-footer">
+                        <div class="item item-footer item-accessory-left">
                             <button class="button button-full button-balanced" ng-click="selectPack(pack.pack_id)">
+                              <i ng-hide="!isSelectedPack(pack.pack_id)" class="icon ion-ios-checkmark" ></i>
                               Play
                            </button>
                         </div>

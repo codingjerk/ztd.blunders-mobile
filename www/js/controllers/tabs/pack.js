@@ -31,29 +31,31 @@ app.controller('PackTabCtrl', function($scope, $state, $ionicSideMenuDelegate, $
 
     // Prepare args due to user selects
     if (selected.args != undefined) {
-        var final_args = {}
+        //var final_args = {}
         var keys = Object.keys(selected.args);
 
-        keys.forEach(function(key){
+        var final_args = keys.reduce(function(obj, key) {
             if(selected.args[key].hasOwnProperty('type')) {
-                final_args[key] = $scope.argsSelect[selected.type_name][key].value
+                obj[key] = $scope.argsSelect[selected.type_name][key].value
 
                 // HACK: range returns a string, so we need to convert it to number
                 // for ranges because it is what is expected by server.
                 //What is better way to update a model to store integers?
                 if(selected.args[key]['type'] == 'slider') {
-                    final_args[key] = parseInt(final_args[key], 10)
+                    obj[key] = parseInt(obj[key], 10)
                 }
             } else { // not a select, just simple argument
-                final_args[key] = selected.args[key]
+                obj[key] = selected.args[key]
             }
-        })
+
+            return obj
+        }, {})
     }
 
     var meta = {typeName:selected.type_name,args:final_args}
 
     $scope.unlockedSpinning = selected.$loki
-    //pack.unlock(meta)
+    pack.unlock(meta)
   }
 
   $scope.selectPack = function(packId) {
