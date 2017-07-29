@@ -199,7 +199,6 @@ var pack = {};
                     return;
 
                   generatePackAvatar(result)
-                  console.log(result)
 
                   lstorage.packsCollection().insert(result.data)
                   module.options.onPacksChanged()

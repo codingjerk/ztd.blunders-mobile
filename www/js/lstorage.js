@@ -66,7 +66,22 @@ var lstorage = {};
         // Empty
       }
 
-      module.db = new loki('blunders-user-' + module.options.token() + '.json',
+      // We do not want filename of cache databases have user's token in it
+      // So we make some obfuscation to this string
+      // TODO: find more reliable hash function and move it to utils module as prototype
+      var hashCode = function(str){
+        var hash = 0;
+        if (str.length == 0) return hash;
+        for (var i = 0; i < str.length; i++) {
+            var char = str.charCodeAt(i);
+            hash = ((hash<<5)-hash)+char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+      }
+
+      var hash = Math.abs(hashCode(module.options.token()))
+      module.db = new loki('blunders-user-' + hash + '.json',
         {
           autoload: true,
           autoloadCallback : loadHandler,
