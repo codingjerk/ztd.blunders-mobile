@@ -66,21 +66,14 @@ var lstorage = {};
         // Empty
       }
 
-      // We do not want filename of cache databases have user's token in it
-      // So we make some obfuscation to this string
-      // TODO: find more reliable hash function and move it to utils module as prototype
-      var hashCode = function(str){
-        var hash = 0;
-        if (str.length == 0) return hash;
-        for (var i = 0; i < str.length; i++) {
-            var char = str.charCodeAt(i);
-            hash = ((hash<<5)-hash)+char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return hash;
-      }
-
-      var hash = Math.abs(hashCode(module.options.token()))
+      /* We do not want filename of cache databases have user's token in it
+         So we make some obfuscation to this string
+         TODO: find more reliable hash function and move it to utils module as prototype
+         In addition, we want make this filename dependent on client version
+         so we will be able to make API changes without negative effect on user.
+         Each new version of client simple will start its new database file
+      */
+      var hash = utils.hash(module.options.token() + settings.version.numeric)
       module.db = new loki('blunders-user-' + hash + '.json',
         {
           autoload: true,

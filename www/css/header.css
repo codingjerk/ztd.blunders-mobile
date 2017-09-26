@@ -29,3 +29,8 @@
     display: table-cell !important;
     vertical-align: middle !important;
 }
+
+#version {
+    width: 100%;
+    color: #dedede;
+}

@@ -4,8 +4,6 @@ var settings = {
     api: {
         protocol: 'https',
         hostname: 'prod.chessblunders.org',
-        //protocol: 'http',
-        //hostname: 'dev2.chessblunders.org:8089',
         resource: 'api/mobile'
     },
 
@@ -14,6 +12,11 @@ var settings = {
         hostname: 'dev2.chessblunders.org:8090',
         resource: 'chat',
         enabled: false // Coach is optional feature
+    },
+
+    version: {
+        text: "1.7.1",
+        numeric: 107010
     },
 
     urlAPI: function(command) {

@@ -17,6 +17,10 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
         $ionicSideMenuDelegate.toggleLeft(false);
     };
 
+    $scope.version = function() {
+        return settings.version.text;
+    }
+
     /*
      * This code is common mechanism handles semaphore(lock) API
      * for various uses in the application

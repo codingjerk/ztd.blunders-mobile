@@ -53,6 +53,9 @@ board.init = function(options) {
           if (result.status !== 'ok') {
             options.processError(result);
           } else {
+            if (result.data.hasOwnProperty('info')) {
+                options.onInfoChanged(result.data.info)
+            }
             options.onUserRatingChanged(result.data.elo);
           }
 

@@ -91,6 +91,11 @@
                         Logout
                     </button>
                 </ion-content>
+                <ion-footer-bar class="blue-background">
+                  <div id="version" class="text-white text-center">
+                    <b>Version: {{version()}}</b>
+                  </div>
+                </ion-footer-bar>
             </ion-side-menu>
 
             <ion-side-menu-content>
@@ -122,7 +127,7 @@
                             </div>
 
                             <div class="padding">
-                                <div class="padding-bottom login-page-text">
+                                <div class="padding-bottom text-white">
                                     Do not have account yet?
                                 </div>
 
@@ -132,7 +137,7 @@
                             </div>
 
                             <div class="padding">
-                              <div class="padding-bottom login-page-text">
+                              <div class="padding-bottom text-white">
                                 <b>Visit us on chessblunders.org</b>
                               </div>
                             </div>
@@ -168,30 +173,8 @@
         </script>
 
 
-        <script id="training.html" type="text/ng-template">
-          <ion-tabs class="tabs-positive tabs-striped tabs-top tabs-positive tabs-icon-top">
-
-          <!--<ion-tab title="Packs" icon-on="ion-archive" icon-off="ion-archive" ng-controller="PackTabCtrl">
-            <ion-view class="white-background">
-                <ion-content>
-                    <ion-list type="card" class="text-center">
-                      <ion-item class="item item-divider" ng-show="packBlundersInfo.length > 0">My Packs</ion-item>
-                      <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in packBlundersInfo track by $index" ng-click="selectPack(pack.pack_id)">
-                        <button ng-hide="!canRemovePack(pack.pack_id)" ng-click="removePack(pack.pack_id);$event.stopPropagation()" class="button button-icon icon ion-backspace-outline"></button>
-                        <h2>{{pack.description}}</h2>
-                        <p>{{pack.blunders.length}} left</p>
-                        <i ng-hide="!isSelectedPack(pack.pack_id)" class="icon ion-ios-checkmark" ></i>
-                      </ion-item>
-                      <ion-item class="item item-divider" ng-show="unlockedInfo.length > 0">Unlocked packs</ion-item>
-                      <ion-item class="enable-pointer-events item-icon-left item-icon-right" ng-repeat="pack in unlockedInfo track by $index" ng-click="unlockPack(pack)">
-                        <i class="icon ion-ios-plus" ></i>
-                        <h2>{{pack.description}}</h2>
-                        <i ng-hide="pack.$loki != unlockedSpinning" class="icon ion-load-c ion-spin-animation" ></i>
-                      </ion-item>
-                  </ion-list>
-                </content>
-            </ion-view>
-        </ion-tab>-->
+    <script id="training.html" type="text/ng-template">
+      <ion-tabs class="tabs-positive tabs-striped tabs-top tabs-positive tabs-icon-top">
 
         <ion-tab title="Packs" icon-on="ion-archive" icon-off="ion-archive" ng-controller="PackTabCtrl">
 
@@ -336,12 +319,12 @@
                               <div class="row">
                                 <div class="col">
                                   <div class="cell-header">Success</div>
-                                  <div class="cell-value">{{info.successTries}}</div>
+                                  <div class="cell-value">{{info.history.success}}</div>
                                   <div class="cell-footer">played</div>
                                 </div>
                                 <div class="col">
                                   <div class="cell-header">Total</div>
-                                  <div class="cell-value">{{info.totalTries}}</div>
+                                  <div class="cell-value">{{info.history.total}}</div>
                                   <div class="cell-footer">played</div>
                                 </div>
                                 <div class="col">
@@ -391,6 +374,27 @@
                               {{getBlunderInfoHistory()}}
                           </div>
                       </div>
+
+                      <div class="card text-center" ng-show="status.terminate === true && info.history.variations.length > 0">
+                          <div class="item item-divider">
+                              Top user choices
+                          </div>
+                          <div class="" ng-repeat="variation in info.history.variations| orderBy: getBlunderInfoDistributionOrderBy | limitTo: 5 track by $index">
+                              <div class="row">
+                                  <div class="col col-20">
+                                      <i class = "icon {{getBlunderInfoDistributionView('icon my history', variation)}}"></i>
+                                      <i class = "icon {{getBlunderInfoDistributionView('icon correct', variation)}}"></i>
+                                  </div>
+                                <div class="col col-60" style="text-align : left;">
+                                    <p>{{getBlunderInfoDistributionView('line', variation)}}</p>
+                                </div>
+                                <div class="col col-20">
+                                    <p>{{getBlunderInfoDistributionView('times', variation)}}<p>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+
                       <div class="card text-center">
                           <div class="item item-divider">
                               Comments
