@@ -15,8 +15,8 @@ var settings = {
     },
 
     version: {
-        text: "1.7.1",
-        numeric: 107010
+        text: "1.7.2",
+        numeric: 107020
     },
 
     urlAPI: function(command) {

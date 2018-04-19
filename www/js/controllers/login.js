@@ -7,6 +7,18 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $io
 
     $scope.authInProgress = false;  //TODO: is needed????
 
+    $scope.goToLogin = function() {
+        $ionicSlideBoxDelegate.slide(0);
+    };
+
+    $scope.goToSignup = function() {
+        $ionicSlideBoxDelegate.slide(1);
+    };
+
+    $scope.goToValidate = function() {
+        $ionicSlideBoxDelegate.slide(2);
+    };
+
     $scope.login = function(username, password) {
         if ($scope.isTriggered('loginLock')) return;
 
@@ -34,13 +46,41 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $io
         });
     };
 
-    $scope.signup = function(username, password, email) {
+    $scope.validate = function(username, password, email) {
+        if ($scope.isTriggered('loginLock')) return;
+
+        buffer.session.validate({
+            username: username,
+            password: password,
+            email: email,
+            onAnimate: function(state) {
+              $scope.triggerSemaphore({
+                networkBusy: state,
+                loginLock: state
+              })
+            },
+            onSuccess: function(result) {
+                if (result.status !== 'ok') {
+                    notify.error(result.message);
+                    return;
+                }
+
+                $scope.goToValidate()
+            },
+            onFail: function(result) {
+                notify.error("Can't connect to server.<br>Check your connection");
+            }
+        });
+    };
+
+    $scope.signup = function(username, password, email, validation_code) {
         if ($scope.isTriggered('loginLock')) return;
 
         buffer.session.signup({
             username: username,
             password: password,
             email: email,
+            validation_code: validation_code,
             onAnimate: function(state) {
               $scope.triggerSemaphore({
                 networkBusy: state,
@@ -68,11 +108,8 @@ app.controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $io
           // cannot get to side menu by swapping left
           $ionicSideMenuDelegate.canDragContent(false);
 
+          $scope.goToLogin()
           $scope.setUserRating('-')
         }
     });
-
-    $scope.goToSignup = function() {
-        $ionicSlideBoxDelegate.next();
-    };
 });

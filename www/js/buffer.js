@@ -33,13 +33,16 @@ var direct = {};
     }
     module.session = {
       rating: function(args) {
-        api.blunder.rating(args)
+        api.session.rating(args)
       },
       login: function(args) {
-        api.blunder.login(args)
+        api.session.login(args)
+      },
+      validate: function(args) {
+        api.session.validate(args)
       },
       signup: function(args) {
-        api.blunder.signup(args)
+        api.session.signup(args)
       }
     };
     module.user = {
@@ -115,6 +118,9 @@ var buffer = {};
       },
       login: function(args) {
         api.session.login(args)
+      },
+      validate: function(args) {
+        api.session.validate(args)
       },
       signup: function(args) {
         api.session.signup(args)

@@ -140,6 +140,21 @@ var api = {};
           timeout: settings.timeout.ajax.normal
       });
     },
+    validate: function(args) {
+      sync.ajax({
+          url: settings.urlAPI('session/validate'),
+          crossDomain: true,
+          data: {
+              username: args.username || '',
+              password: args.password || '',
+              email: args.email || ''
+          },
+          onSuccess: args.onSuccess,
+          onFail: args.onFail,
+          onAnimate: args.onAnimate,
+          timeout: settings.timeout.ajax.normal
+      });
+    },
     signup: function(args) {
       sync.ajax({
           url: settings.urlAPI('session/signup'),
@@ -147,7 +162,8 @@ var api = {};
           data: {
               username: args.username || '',
               password: args.password || '',
-              email: args.email || ''
+              email: args.email || '',
+              validation_code: args.validation_code || ''
           },
           onSuccess: args.onSuccess,
           onFail: args.onFail,

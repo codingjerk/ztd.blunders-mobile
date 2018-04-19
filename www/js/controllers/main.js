@@ -14,6 +14,7 @@ app.controller('MainCtrl', function($scope, $state, $ionicSideMenuDelegate, $tim
         lstorage.clean()
         pack.clean()
         $state.go('login');
+
         $ionicSideMenuDelegate.toggleLeft(false);
     };
 
